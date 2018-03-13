@@ -23,7 +23,7 @@ public class DisplayBoard extends JPanel {
 	private int pixelRowMultiplier;
 	private int pixelColMultiplier;
 	
-	public final static int ROWS = 42;
+	public final static int ROWS = 44;
 	public final static int COLS = 74;
 	
 	private Pixel[][] pixelArr;
