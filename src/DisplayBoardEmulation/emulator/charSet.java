@@ -1,4 +1,4 @@
-package Drawstring;
+package DisplayBoardEmulation.emulator;
 
 public class charSet
 {
