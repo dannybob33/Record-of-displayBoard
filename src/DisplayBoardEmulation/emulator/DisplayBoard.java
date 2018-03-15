@@ -255,7 +255,7 @@ public class DisplayBoard extends JPanel {
 					
 					r++;//increase the row count
 				}
-			} 
+			}  
 			extraSpacing += spacing; //add spacing between letters
 		}
 

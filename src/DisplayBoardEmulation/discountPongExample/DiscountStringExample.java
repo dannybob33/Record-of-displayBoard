@@ -15,4 +15,4 @@ public class DiscountStringExample {
 		board.DrawString(17, 9, 0, 255, 0, 0, "You  Got the Powa?");
 
 	}
-}
+} 
