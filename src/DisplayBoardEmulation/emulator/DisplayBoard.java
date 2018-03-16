@@ -194,7 +194,6 @@ public class DisplayBoard extends JPanel {
 			// TODO Auto-generated method stub
 			
 		}
-		
 	}
 	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); //creating character set
