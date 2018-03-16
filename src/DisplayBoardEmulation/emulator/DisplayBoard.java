@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -32,6 +33,8 @@ public class DisplayBoard extends JPanel {
 	
 	private TreeSet<String> keys;
 	
+	private LinkedList<KeyRunnable> keyCallbacks;
+	
 	public DisplayBoard() {
 		/*ROWS = rows;
 		COLS = cols;*/
@@ -48,6 +51,7 @@ public class DisplayBoard extends JPanel {
 		}
 		keys = new TreeSet<String>();
 		this.addKeyListener(new panelKeyListener());
+		keyCallbacks = new LinkedList<KeyRunnable>();
 		
 		initFrame();
 	}
@@ -109,12 +113,16 @@ public class DisplayBoard extends JPanel {
 		if(finalCol >= COLS) {
 			finalCol = COLS-1;
 		}
-		for(int rw = row;rw<finalRow;rw++) {
-			for(int cl = col;cl<finalCol;cl++) {
+		for(int rw = row;rw<=finalRow;rw++) {
+			for(int cl = col;cl<=finalCol;cl++) {
 				colorPixel(rw,cl,new Color(r,g,b));
 			}
 		}
 		repaint();
+	}
+	
+	public void addKeyCallback(KeyRunnable r) {
+		keyCallbacks.add(r);
 	}
 	
 	public void colorRect(int row, int col, int width, int height, Color c) {
@@ -126,8 +134,8 @@ public class DisplayBoard extends JPanel {
 		if(finalCol >= COLS) {
 			finalCol = COLS-1;
 		}
-		for(int rw = row;rw<finalRow;rw++) {
-			for(int cl = col;cl<finalCol;cl++) {
+		for(int rw = row;rw<=finalRow;rw++) {
+			for(int cl = col;cl<=finalCol;cl++) {
 				colorPixel(rw,cl,c);
 			}
 		}
@@ -143,7 +151,18 @@ public class DisplayBoard extends JPanel {
 	}
 	
 	public void clear() {
-		colorRect(0,0,ROWS,COLS,Color.BLACK);
+		colorRect(0,0,COLS,ROWS,Color.BLACK);
+	}
+	
+	public boolean isCleared() {
+		for(int r = 0;r<ROWS;r++) {
+			for(int c = 0;c<COLS;c++) {
+				if(!getPixel(r,c).equals(Color.BLACK)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	//Key handling
@@ -180,13 +199,17 @@ public class DisplayBoard extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			keys.add("" + arg0.getKeyChar());
-			System.out.println("key pressed!");
+			for(KeyRunnable run : keyCallbacks) {
+				run.run(arg0);
+			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent arg0) {
 			keys.remove("" + arg0.getKeyChar());
-			System.out.println("key released!");
+			for(KeyRunnable run : keyCallbacks) {
+				run.run(arg0);
+			}
 		}
 
 		@Override
