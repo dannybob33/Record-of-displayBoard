@@ -195,10 +195,6 @@ public class DisplayBoard extends JPanel {
 			
 		}
 	}
-<<<<<<< HEAD
-	
-	
-=======
 	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
@@ -263,5 +259,4 @@ public class DisplayBoard extends JPanel {
 		}
 
 	}
->>>>>>> branch 'master' of https://github.com/pumatech/displayBoard.git
 }
