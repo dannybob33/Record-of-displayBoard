@@ -7,5 +7,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="library/jinput.jar"/>
+	<classpathentry kind="lib" path="src/JavaArduinoCommunicator/32Bit/RXTXcomm.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/tdodowd01/workspace/displayBoard/src/JavaArduinoCommunicator/32Bit"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
