@@ -65,30 +65,39 @@ public class ControllerTestRunner {
 					board.colorRect(paddle2, Color.GREEN); // right paddle
 					// Update ball location
 					Component comp = event.getComponent();
-					  if(comp.getName().equals("Button 0")) {
-						  xInc = 1;
-						  ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-									ballLocation.height);
-						  xInc = 0;
-					  }
-					  else if(comp.getName().equals("Button 3")) {
-						  yInc = 1;
-						  ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-									ballLocation.height);
-						  yInc = 0;
-					  }
-					 
-					 
-					ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-							ballLocation.height);
-					// Update ball direction
-					if (ballLocation.x <= 0 || ballLocation.x >= DisplayBoard.COLS - ballSize)
-						xInc *= -1; // x direction
-					if (ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS - ballSize)
-						yInc *= -1; // y direction
-					// Draw ball at new location
-					board.colorRect(ballLocation, Color.YELLOW); // left paddle
+					
+
+					if (comp.getName().equals("X Rotation")) {
+						xInc += event.getValue()/10;
+						yInc = ((xInc/Math.abs(xInc))*(1-Math.abs(xInc)));
+						
+						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
+								ballLocation.height);
+						System.out.println("xInc: " + xInc);
+						System.out.println("yInc: " + yInc);
+						xInc = 0;
+						
+
+					} else if (comp.getName().equals("Y Rotation")) {
+						
+						yInc += (event.getValue())/10;
+						xInc = ((yInc/Math.abs(yInc))*(1-Math.abs(yInc)));
+						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
+								ballLocation.height);
+						System.out.println("xInc: " + xInc);
+						System.out.println("yInc: " + yInc);
+						yInc = 0;
+					}
 				}
+				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
+						ballLocation.height);
+				// Update ball direction
+				if (ballLocation.x <= 0 || ballLocation.x >= DisplayBoard.COLS - ballSize)
+					xInc *= -1; // x direction
+				if (ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS - ballSize)
+					yInc *= -1; // y direction
+				// Draw ball at new location
+				board.colorRect(ballLocation, Color.YELLOW); // left paddle
 			}
 		}
 	};
