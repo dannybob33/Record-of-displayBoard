@@ -18,10 +18,6 @@ import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 
 public class ControllerTestRunner {
-	// Paddle stuff
-	private Rectangle paddle1 = new Rectangle(4, 10, 3, DisplayBoard.ROWS - 20); // left paddle
-	private Rectangle paddle2 = new Rectangle(DisplayBoard.COLS - 6, 10, 3, DisplayBoard.ROWS - 20); // right paddle
-
 	// ball stuff
 	private int ballSize = 3;
 	private Rectangle ballLocation = new Rectangle(0, 0, ballSize, ballSize);
@@ -61,33 +57,11 @@ public class ControllerTestRunner {
 					// Erase ball
 					board.colorRect(ballLocation.y, ballLocation.x, ballSize, ballSize, Color.BLACK);
 					// Draw paddles
-					board.colorRect(paddle1, Color.RED); // left paddle
-					board.colorRect(paddle2, Color.GREEN); // right paddle
+
 					// Update ball location
 					Component comp = event.getComponent();
 					
 
-					if (comp.getName().equals("X Rotation")) {
-						xInc += event.getValue()/10;
-						yInc = ((xInc/Math.abs(xInc))*(1-Math.abs(xInc)));
-						
-						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-								ballLocation.height);
-						System.out.println("xInc: " + xInc);
-						System.out.println("yInc: " + yInc);
-						xInc = 0;
-						
-
-					} else if (comp.getName().equals("Y Rotation")) {
-						
-						yInc += (event.getValue())/10;
-						xInc = ((yInc/Math.abs(yInc))*(1-Math.abs(yInc)));
-						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-								ballLocation.height);
-						System.out.println("xInc: " + xInc);
-						System.out.println("yInc: " + yInc);
-						yInc = 0;
-					}
 				}
 				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
 						ballLocation.height);
