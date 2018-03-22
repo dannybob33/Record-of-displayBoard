@@ -59,9 +59,9 @@ public class ControllerTestRunner {
 					// Draw paddles
 
 					// Update ball location
-					Component comp = event.getComponent();
+					Component comp = event.getComponent();// every button is a component
 					
-
+					
 				}
 				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
 						ballLocation.height);
@@ -75,7 +75,6 @@ public class ControllerTestRunner {
 			}
 		}
 	};
-
 	public static void main(String[] args) {
 		// I just did this since I don't like static variables
 		ControllerTestRunner application = new ControllerTestRunner();

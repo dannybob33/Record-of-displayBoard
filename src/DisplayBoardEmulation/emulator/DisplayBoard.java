@@ -218,6 +218,57 @@ public class DisplayBoard extends JPanel {
 			
 		}
 	}
+/**
+ * DrawString without n (for easier Java testing)
+ * @param row
+ * @param col
+ * @param red
+ * @param green
+ * @param blue
+ * @param chars
+ */
+	public void DrawString(int row, int col, int red, int green, int blue, String chars) {
+		char[][] charset = charSet.Cset(); //creating character set
+		
+		int extraSpacing = 0; // extra spacing between letters
+		
+		for (int i = 0; i < chars.length(); i++) { // for each character in "chars"...
+			String letter = chars.substring(i, i + 1); // get corresponding letter
+
+			char[] locs = charset[letter.hashCode()]; //array of hex codes for each row of pixels in the letter
+			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+			if (letter.hashCode()== 32)//if the character is a space (" ")...
+			{
+				extraSpacing -= 3;//reduce the spacing
+			}
+			for (int c = 0; c < locs.length; c++) // for each column...
+			{
+				int r = 0; // intialized row count
+				for (int j = 1; j <= 256; j *= 2) // for each pixel/binary in the row...
+				{
+					if (((locs[c]) & j) != 0) //if the pixel should be on...
+					{
+						
+						setPixel(r + row, c + col + extraSpacing, red, green, blue);//turn the pixel on
+					}
+					
+					r++;//increase the row count
+				}
+			}
+			extraSpacing += 6; //add spacing between letters
+		}
+
+	}
+	/**
+	 * 
+	 * @param n - The number of characters in chars
+	 * @param row
+	 * @param col
+	 * @param red
+	 * @param green
+	 * @param blue
+	 * @param chars
+	 */
 	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
@@ -250,6 +301,17 @@ public class DisplayBoard extends JPanel {
 		}
 
 	}
+	/**
+	 * 
+	 * @param n - The number of Characters in chars
+	 * @param row
+	 * @param col
+	 * @param red
+	 * @param green
+	 * @param blue
+	 * @param chars
+	 * @param spacing - Integer to customize spacing between characters
+	 */
 	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
