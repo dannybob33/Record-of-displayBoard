@@ -40,6 +40,12 @@ public class JinputTestRunner {
 	                buffer.append(" at ");
 	                buffer.append(event.getNanos()).append(", ");
 	                Component comp = event.getComponent();
+	                
+	                
+	                
+	                if(comp.getName().equals("Button 0")) {
+	                	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	                }
 	                buffer.append(comp.getName()).append(" changed to ");
 	                float value = event.getValue(); 
 	                if(comp.isAnalog()) {

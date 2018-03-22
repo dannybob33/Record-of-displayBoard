@@ -211,7 +211,7 @@ public class DisplayBoard extends JPanel implements Display {
 					run.run(arg0);
 				}
 			} catch(ConcurrentModificationException e) {
-				System.out.println("Concurrent Modification Exception in key press listener!");
+				System.out.println("Concurrent Modification Exception in key press listeners!");
 			}
 		}
 
@@ -223,7 +223,7 @@ public class DisplayBoard extends JPanel implements Display {
 					run.run(arg0);
 				}
 			} catch(ConcurrentModificationException e) {
-				System.out.println("Concurrent Modification Exception in key press listener!");
+				System.out.println("Concurrent Modification Exception in key press listeners!");
 			}
 		}
 
