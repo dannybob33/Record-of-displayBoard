@@ -55,19 +55,23 @@ public class ControllerTestRunner {
 					// Erase ball
 					board.colorRect(ballLocation.y, ballLocation.x, ballSize, ballSize, Color.BLACK);
 
-
 					// Update ball location
 
-					updatePos = (int) (event.getValue()*10);
-
-					Component.Identifier ident = event.getComponent().getIdentifier();
-					if(ident instanceof Component.Identifier.Axis) {
-						Component.Identifier.Axis axis = (Component.Identifier.Axis) ident;
-					}
+					updatePos = (int) (event.getValue() * 10);
 					Component comp = event.getComponent();// every button is a component
+					if (comp.getName().equals("X Rotation")) {
+							xInc = (int) updatePos;
+						System.out.println("X Axis Dominant. xInc: " + xInc + " yInc: " + yInc);
+						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
+								ballLocation.height);
+					} else if (comp.getName().equals("Y Rotation")) {
+							yInc = (int) updatePos;
+	
+						System.out.println("Y Axis Dominant. xInc: " + xInc + " yInc: " + yInc);
+						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
+								ballLocation.height);
+					}
 
-					
-					
 				}
 				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
 						ballLocation.height);
@@ -81,6 +85,7 @@ public class ControllerTestRunner {
 			}
 		}
 	};
+
 	public static void main(String[] args) {
 		// I just did this since I don't like static variables
 		ControllerTestRunner application = new ControllerTestRunner();
