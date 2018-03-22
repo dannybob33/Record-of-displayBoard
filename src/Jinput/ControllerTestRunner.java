@@ -21,7 +21,7 @@ public class ControllerTestRunner {
 	private Rectangle ballLocation = new Rectangle(0, 0, ballSize, ballSize);
 	private int xInc = 0;
 	private int yInc = 0;
-	public static int updatePos = 1;
+	public static float updatePos = 1;
 	// Time stuff
 	private int timeSpeed = 25;
 	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
@@ -48,19 +48,21 @@ public class ControllerTestRunner {
 				System.exit(0);
 			}
 			for (int i = 0; i < controllers.length; i++) {
-				controllers[i].poll();
-				EventQueue queue = controllers[i].getEventQueue();
-				Event event = new Event();
-				while (queue.getNextEvent(event) && updatePos != 0) {
+				controllers[i].poll();//unsure of what this does
+				EventQueue queue = controllers[i].getEventQueue();//the things that are happening on the controller
+				Event event = new Event();//Create and event. This means that we can use this later to make things move ????
+				while (queue.getNextEvent(event) && updatePos != 0) {//while there are events in the controller, and updatePos is not null..
 					// Erase ball
 					board.colorRect(ballLocation.y, ballLocation.x, ballSize, ballSize, Color.BLACK);
 
 					// Update ball location
 
-					updatePos = (int) (event.getValue() * 10);
+					updatePos = event.getValue();//when buttons are being pushed, this is not zero (!= 0)
 					Component comp = event.getComponent();// every button is a component
-					if (comp.getName().equals("X Rotation")) {
-							xInc = (int) updatePos;
+					System.out.println(comp.getName());
+					if (comp.getName().equals("X Rotation")) {//if the thing that updated "updatePos" to a nonzero is "X Rotation"
+							if(updatePos > 0) xInc = 1;
+							if(updatePos < 0) xInc = -1;
 						System.out.println("X Axis Dominant. xInc: " + xInc + " yInc: " + yInc);
 						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
 								ballLocation.height);
