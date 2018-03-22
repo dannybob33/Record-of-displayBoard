@@ -21,7 +21,7 @@ public class ControllerTestRunner {
 	private Rectangle ballLocation = new Rectangle(0, 0, ballSize, ballSize);
 	private int xInc = 0;
 	private int yInc = 0;
-
+	public static int updatePos = 1;
 	// Time stuff
 	private int timeSpeed = 25;
 	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
@@ -51,17 +51,21 @@ public class ControllerTestRunner {
 				controllers[i].poll();
 				EventQueue queue = controllers[i].getEventQueue();
 				Event event = new Event();
-				while (queue.getNextEvent(event)) {
+				while (queue.getNextEvent(event) && updatePos != 0) {
 					// Erase ball
 					board.colorRect(ballLocation.y, ballLocation.x, ballSize, ballSize, Color.BLACK);
-					// Draw paddles
+
 
 					// Update ball location
+
+					updatePos = (int) (event.getValue()*10);
+
 					Component.Identifier ident = event.getComponent().getIdentifier();
 					if(ident instanceof Component.Identifier.Axis) {
 						Component.Identifier.Axis axis = (Component.Identifier.Axis) ident;
 					}
 					Component comp = event.getComponent();// every button is a component
+
 					
 					
 				}
