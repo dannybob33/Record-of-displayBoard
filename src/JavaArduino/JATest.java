@@ -1,5 +1,7 @@
 package JavaArduino;
 
+// see https://sourceforge.net/projects/javaarduinolibrary/files/?source=navbar
+
 import java.util.Scanner;
 
 import arduino.*;
