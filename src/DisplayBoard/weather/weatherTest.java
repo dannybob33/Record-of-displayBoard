@@ -16,8 +16,8 @@ public class weatherTest {
 	public static void main(String[] args) {
 		DisplayBoard board = new DisplayBoard();
 		board.show();
-		board.DrawString(10, 0, 0, 255, 0, 0, "You Touch!", 10);
-		board.DrawString(17, 9, 0, 255, 0, 0, "You  Got the Powa?");
+		board.drawString(10, 0, 0, 255, 0, 0, "You Touch!", 10);
+		board.drawString(17, 9, 0, 255, 0, 0, "You  Got the Powa?");
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
