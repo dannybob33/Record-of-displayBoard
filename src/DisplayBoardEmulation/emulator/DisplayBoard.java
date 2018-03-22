@@ -227,7 +227,7 @@ public class DisplayBoard extends JPanel {
  * @param blue
  * @param chars
  */
-	public void DrawString(int row, int col, int red, int green, int blue, String chars) {
+	public void drawString(int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
 		int extraSpacing = 0; // extra spacing between letters
@@ -269,7 +269,7 @@ public class DisplayBoard extends JPanel {
 	 * @param blue
 	 * @param chars
 	 */
-	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars) {
+	public void drawString(int n, int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
 		int extraSpacing = 0; // extra spacing between letters
@@ -312,7 +312,7 @@ public class DisplayBoard extends JPanel {
 	 * @param chars
 	 * @param spacing - Integer to customize spacing between characters
 	 */
-	public void DrawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing) {
+	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing) {
 		char[][] charset = charSet.Cset(); //creating character set
 		
 		int extraSpacing = 0; // extra spacing between letters
