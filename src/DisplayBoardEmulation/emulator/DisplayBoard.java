@@ -105,7 +105,40 @@ public class DisplayBoard extends JPanel implements Display {
 		}
 		pixelArr[row][col].setPixelColor(c);
 	}
+	
+	
+	public void drawCircle(int x, int y, int r) {
+	    double PI = 3.1415926535;
+	    double i, angle, x1, y1;
 
+	    for (i = 0; i < 360; i += 1) {
+	        angle = i;
+	        x1 = r * Math.cos(angle * PI / 180);
+	        y1 = r * Math.sin(angle * PI / 180);
+
+	        int ElX = (int) Math.round(x + x1);
+	        int ElY = (int) Math.round(y + y1);
+	        
+	        setPixel(ElX, ElY, new Color(200, 200, 200));
+	    }
+	}
+	
+	public void drawCircle(int x, int y, int r, int red, int green, int blue) {
+	    double PI = 3.1415926535;
+	    double i, angle, x1, y1;
+
+	    for (i = 0; i < 360; i += 1) {
+	        angle = i;
+	        x1 = r * Math.cos(angle * PI / 180);
+	        y1 = r * Math.sin(angle * PI / 180);
+
+	        int ElX = (int) Math.round(x + x1);
+	        int ElY = (int) Math.round(y + y1);
+	        
+	        setPixel(ElX, ElY, new Color(red, green, blue));
+	    }
+	}
+	
 	public void colorRect(int row, int col, int width, int height, int r, int g, int b) {
 		int finalRow = row + height;
 		if (finalRow >= ROWS) {
