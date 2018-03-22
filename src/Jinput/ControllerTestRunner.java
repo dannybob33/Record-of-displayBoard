@@ -3,11 +3,9 @@
 package Jinput;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
@@ -59,10 +57,17 @@ public class ControllerTestRunner {
 
 
 					// Update ball location
-					updatePos = (int) (event.getValue()*10);
-					Component comp = event.getComponent();
-					
 
+					updatePos = (int) (event.getValue()*10);
+
+					Component.Identifier ident = event.getComponent().getIdentifier();
+					if(ident instanceof Component.Identifier.Axis) {
+						Component.Identifier.Axis axis = (Component.Identifier.Axis) ident;
+					}
+					Component comp = event.getComponent();// every button is a component
+
+					
+					
 				}
 				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
 						ballLocation.height);
@@ -76,7 +81,6 @@ public class ControllerTestRunner {
 			}
 		}
 	};
-
 	public static void main(String[] args) {
 		// I just did this since I don't like static variables
 		ControllerTestRunner application = new ControllerTestRunner();
