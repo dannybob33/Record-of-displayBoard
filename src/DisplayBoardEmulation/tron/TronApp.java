@@ -2,8 +2,6 @@ package DisplayBoardEmulation.tron;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -11,16 +9,18 @@ import java.util.concurrent.TimeUnit;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.emulator.KeyRunnable;
+import DisplayBoardEmulation.nativeApp.Application;
 
-public class TronRunner {
+public class TronApp extends Application {
+	private static final String NAME = "Tron";
+	
 	private Player p1;
 	private Player p2;
 	
 	//Time stuff
-	private int timeSpeed = 50;
-	private int clearMultiplier = 20;
-	private int endMultiplier = 20;
-	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+	private final int timeSpeed = 50;
+	private final int endMultiplier = 20;
+	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	
 	//The board object
 	private DisplayBoard board;
@@ -31,11 +31,14 @@ public class TronRunner {
 	private ScheduledFuture<?> future;
 	
 	private boolean gameEnd;
+	
+	private boolean isRunning = false;
 		
-	public void start() {
-		//Create and show board
-		board = new DisplayBoard();
-		board.show();
+	public void start(DisplayBoard board) {
+		isRunning = true;
+		
+		//Set board variable
+		this.board = board;
 		
 		gameEnd = false;
 		
@@ -46,25 +49,29 @@ public class TronRunner {
 		p1.addDirection("w", 8); p1.addDirection("a", 4); p1.addDirection("s", 2); p1.addDirection("d", 6);
 		p2.addDirection("i", 8); p2.addDirection("j", 4); p2.addDirection("k", 2); p2.addDirection("l", 6);
 		
-		board.addKeyCallback(keyUpdate);
+		if(!board.hasKeyCallback(keyUpdate)) {
+			board.addKeyCallback(keyUpdate);
+		}
 		
 		//Setup timer
 		future = scheduler.scheduleAtFixedRate(gameUpdate, timeSpeed, timeSpeed, timeUnit);
+		printLine("Game Started!");
 	}
 	
 	public final Runnable gameUpdate = new Runnable() {
 		public void run() {
 			p1.changedDir = false;
 			p2.changedDir = false;
-			if(!gameEnd) {
+			if(!gameEnd && isRunning) {
 				movePlayer(p1);
 			}
-			if(!gameEnd) {
+			if(!gameEnd && isRunning) {
 				movePlayer(p2);
 			}
 		}
 	};
-	public final Runnable reset = new Runnable() {
+
+	private final Runnable reset = new Runnable() {
 		public void run() {
 			initializePlayers();
 			gameEnd = false;
@@ -72,19 +79,21 @@ public class TronRunner {
 				board.clear();
 			}
 			future = scheduler.scheduleAtFixedRate(gameUpdate, timeSpeed, timeSpeed, timeUnit);
-			System.out.println("Game Started!");
+			printLine("Game Started!");
 		}
 	};
 	
 	public final KeyRunnable keyUpdate = new KeyRunnable() {
 		public void run(KeyEvent e) {
-			p1.changeDirection("" + e.getKeyChar());
-			p2.changeDirection("" + e.getKeyChar());
+			if(isRunning) {
+				p1.changeDirection("" + e.getKeyChar());
+				p2.changeDirection("" + e.getKeyChar());
+			}
 		}
 	};
 	
-	public void movePlayer(Player p) {
-		if(gameEnd) {
+	private void movePlayer(Player p) {
+		if(gameEnd || !isRunning) {
 			return;
 		}
 		int r,c;
@@ -103,15 +112,20 @@ public class TronRunner {
 			p.setRow(r);
 			p.setCol(c);
 		} else {
-			if(!gameEnd) {
+			if(!gameEnd && isRunning) {
 				gameEnd = true;
-				board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p.PLAYER_COLOR);
+				if(p.equals(p1)) {
+					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p2.PLAYER_COLOR);
+				} else {
+					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p1.PLAYER_COLOR);
+				}
 				future.cancel(true);
 				scheduler.schedule(reset, timeSpeed * endMultiplier, timeUnit);
-				System.out.println("Game Ended!");
+				printLine("Game Ended!");
 			}
 		}
 	}
+	
 	private void initializePlayers() {
 		p1.setRow(22);
 		p1.setCol(9);
@@ -131,11 +145,15 @@ public class TronRunner {
 		}
 		return false;
 	}
-	
-	public static void main(String[] args) {
-		//I just did this since I don't like static variables
-		TronRunner application = new TronRunner();
-		application.start();
+
+	@Override
+	public void terminate() {
+		isRunning = false;
+		future.cancel(true);
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
 }

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class DisplayBoard extends JPanel {
+public class DisplayBoard extends JPanel implements Display {
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
 	private final static int PIXEL_SPACING = 2;
@@ -53,7 +54,7 @@ public class DisplayBoard extends JPanel {
 		keys = new TreeSet<String>();
 		this.addKeyListener(new panelKeyListener());
 		keyCallbacks = new LinkedList<KeyRunnable>();
-
+		setBackground(Color.GRAY);
 		initFrame();
 	}
 
@@ -125,7 +126,10 @@ public class DisplayBoard extends JPanel {
 	public void addKeyCallback(KeyRunnable r) {
 		keyCallbacks.add(r);
 	}
-
+	
+	public boolean hasKeyCallback(KeyRunnable r) {
+		return keyCallbacks.contains(r);
+	}
 	public void colorRect(int row, int col, int width, int height, Color c) {
 		int finalRow = row + height;
 		if (finalRow >= ROWS) {
@@ -199,16 +203,25 @@ public class DisplayBoard extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent arg0) {
 			keys.add("" + arg0.getKeyChar());
-			for (KeyRunnable run : keyCallbacks) {
-				run.run(arg0);
+			try {
+				for(KeyRunnable run : keyCallbacks) {
+					run.run(arg0);
+				}
+			} catch(ConcurrentModificationException e) {
+				System.out.println("Concurrent Modification Exception in key press listeners!");
+			
 			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent arg0) {
 			keys.remove("" + arg0.getKeyChar());
-			for (KeyRunnable run : keyCallbacks) {
-				run.run(arg0);
+			try {
+				for(KeyRunnable run : keyCallbacks) {
+					run.run(arg0);
+				}
+			} catch(ConcurrentModificationException e) {
+				System.out.println("Concurrent Modification Exception in key press listeners!");
 			}
 		}
 
@@ -219,8 +232,9 @@ public class DisplayBoard extends JPanel {
 		}
 	}
 
+	@Override
 	/**
-	 * DrawString without n (for easier Java testing)
+	 * drawString without n (for easier Java testing)
 	 * 
 	 * @param row
 	 * @param col
@@ -262,6 +276,7 @@ public class DisplayBoard extends JPanel {
 
 	}
 
+	@Override
 	/**
 	 * 
 	 * @param n
@@ -275,7 +290,6 @@ public class DisplayBoard extends JPanel {
 	 */
 	public void drawString(int n, int row, int col, int red, int green, int blue, String chars) {
 		char[][] charset = charSet.Cset(); // creating character set
-
 		int extraSpacing = 0; // extra spacing between letters
 
 		for (int i = 0; i < n; i++) { // for each character in "chars"...
@@ -306,6 +320,7 @@ public class DisplayBoard extends JPanel {
 
 	}
 
+	@Override
 	/**
 	 * 
 	 * @param n
@@ -321,7 +336,7 @@ public class DisplayBoard extends JPanel {
 	 */
 	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing) {
 		char[][] charset = charSet.Cset(); // creating character set
-
+		
 		int extraSpacing = 0; // extra spacing between letters
 
 		for (int i = 0; i < n; i++) { // for each character in "chars"...
@@ -350,5 +365,56 @@ public class DisplayBoard extends JPanel {
 			extraSpacing += spacing; // add spacing between letters
 		}
 
+	}
+	
+	@Override
+	public void drawString(int row, int col, Color c, String chars) {
+		drawString(row,col,c.getRed(),c.getGreen(),c.getBlue(),chars);
+	}
+	
+	@Override
+	public void drawString(int row, int col, Color c, String chars, int spacing) {
+		drawString(row,col,c.getRed(),c.getGreen(),c.getBlue(),chars,spacing);
+	}
+	
+	public int StringWidth(String chars) {
+		char[] chararr = chars.toCharArray();
+		int pixels = 0;
+		for(char c : chararr) {
+			if(("" + c).equals(" ")) {
+				pixels += 3;
+			} else {
+				pixels += 6;
+			}
+		}
+		return pixels;
+	}
+	
+	public int StringWidth(String chars, int spacing) {
+		char[] chararr = chars.toCharArray();
+		int pixels = 0;
+		for(char c : chararr) {
+			if(("" + c).equals(" ")) {
+				pixels += spacing/2;
+			} else {
+				pixels += spacing;
+			}
+		}
+		return pixels;
+	}
+
+	@Override
+	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing) {
+		drawString(chars.length(),row,col,red,green,blue,chars,spacing);
+	}
+
+	@Override
+	public void drawString(int n, int row, int col, Color c, String chars) {
+		drawString(n,row,col,c.getRed(),c.getGreen(),c.getBlue(),chars);
+	}
+
+	@Override
+	public void drawString(int n, int row, int col, Color c, String chars, int spacing) {
+		drawString(n,row,col,c.getRed(),c.getGreen(),c.getBlue(),chars,spacing);
 	}
 }
