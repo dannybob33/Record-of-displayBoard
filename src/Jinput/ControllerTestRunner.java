@@ -3,11 +3,9 @@
 package Jinput;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
@@ -59,6 +57,10 @@ public class ControllerTestRunner {
 					// Draw paddles
 
 					// Update ball location
+					Component.Identifier ident = event.getComponent().getIdentifier();
+					if(ident instanceof Component.Identifier.Axis) {
+						Component.Identifier.Axis axis = (Component.Identifier.Axis) ident;
+					}
 					Component comp = event.getComponent();// every button is a component
 					
 					
