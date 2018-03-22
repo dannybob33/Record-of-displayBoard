@@ -49,7 +49,9 @@ public class JinputTestRunner {
 	                buffer.append(comp.getName()).append(" changed to ");
 	                float value = event.getValue(); 
 	                if(comp.isAnalog()) {
+	                	System.out.println("X: " + comp);
 	                   buffer.append(value);
+	                   
 	                } else {
 	                   if(value==1.0f) {
 	                      buffer.append("On");
