@@ -1,6 +1,8 @@
 package DisplayBoardEmulation.emulator;
 
 public class YouAreAnIdiotException extends RuntimeException {
+	//This is used for conveying that the user is an idiot or has done something idiotic for any reason.
+	//Love, John
 	public YouAreAnIdiotException() {
 		super();
 	}
