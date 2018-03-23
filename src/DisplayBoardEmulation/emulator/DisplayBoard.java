@@ -18,7 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class DisplayBoard extends JPanel implements Display {
+public class DisplayBoard extends JPanel implements Display
+{
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
 	private final static int PIXEL_SPACING = 2;
@@ -36,15 +37,18 @@ public class DisplayBoard extends JPanel implements Display {
 
 	private LinkedList<KeyRunnable> keyCallbacks;
 
-	public DisplayBoard() {
+	public DisplayBoard()
+	{
 		/*
 		 * ROWS = rows; COLS = cols;
 		 */
 		pixelRowMultiplier = PIXEL_HEIGHT + PIXEL_SPACING;
 		pixelColMultiplier = PIXEL_WIDTH + PIXEL_SPACING;
 		pixelArr = new Pixel[ROWS][COLS];
-		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
+		for (int r = 0; r < ROWS; r++)
+		{
+			for (int c = 0; c < COLS; c++)
+			{
 				int pixelX = c * pixelColMultiplier;
 				int pixelY = r * pixelRowMultiplier;
 				Rectangle pixelRect = new Rectangle(pixelX, pixelY, PIXEL_WIDTH, PIXEL_HEIGHT);
@@ -61,18 +65,22 @@ public class DisplayBoard extends JPanel implements Display {
 	/**
 	 * Ignore this method. It sets the size of the JPanel. You won't be using it.
 	 */
-	public Dimension getPreferredSize() {
+	public Dimension getPreferredSize()
+	{
 		return new Dimension((pixelColMultiplier * COLS) - PIXEL_SPACING, (pixelRowMultiplier * ROWS) - PIXEL_SPACING);
 	}
 
 	/**
 	 * Ignore this method. It paints the JPanel. You won't be using it.
 	 */
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g)
+	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
+		for (int r = 0; r < ROWS; r++)
+		{
+			for (int c = 0; c < COLS; c++)
+			{
 				Pixel currentPixel = pixelArr[r][c];
 				g2.setColor(currentPixel.getPixelColor());
 				g2.fill(currentPixel.getPixelRect());
@@ -81,7 +89,8 @@ public class DisplayBoard extends JPanel implements Display {
 	}
 
 	// Methods to use
-	public void setPixel(int row, int col, int red, int green, int blue) {
+	public void setPixel(int row, int col, int red, int green, int blue)
+	{
 		/*
 		 * int rgb = red; rgb = (rgb<<8) + green; rgb = (rgb<<8) + blue;
 		 */
@@ -89,80 +98,232 @@ public class DisplayBoard extends JPanel implements Display {
 		repaint();
 	}
 
-	public void setPixel(int row, int col, Color c) {
+	public void setPixel(int row, int col, Color c)
+	{
 		colorPixel(row, col, c);
 		repaint();
 	}
 
-	public Color getPixel(int row, int col) {
+	public Color getPixel(int row, int col)
+	{
 		return pixelArr[row][col].getPixelColor();
 	}
 
-	private void colorPixel(int row, int col, Color c) {
-		if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
-			System.out.println("DisplayBoard: Invalid pixel coordinates " + row + ", " + col + " were inputted.");
+	private void colorPixel(int row, int col, Color c)
+	{
+		if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
+		{
+			System.out.println("Invalid pixel coordinates " + row + ", " + col + " were inputted.");
 			return;
 		}
 		pixelArr[row][col].setPixelColor(c);
 	}
 
-	public void colorRect(int row, int col, int width, int height, int r, int g, int b) {
+	public void drawCircle(int x, int y, int r)
+	{
+		double PI = 3.1415926535;
+		double i, angle, x1, y1;
+
+		for (i = 0; i < 360; i += 1)
+		{
+			angle = i;
+			x1 = r * Math.cos(angle * PI / 180);
+			y1 = r * Math.sin(angle * PI / 180);
+
+			int ElX = (int) Math.round(x + x1);
+			int ElY = (int) Math.round(y + y1);
+
+			setPixel(ElX, ElY, new Color(200, 200, 200));
+		}
+	}
+
+	public void drawCircle(int x, int y, int r, int red, int green, int blue)
+	{
+		double PI = 3.1415926535;
+		double i, angle, x1, y1;
+
+		for (i = 0; i < 360; i += 1)
+		{
+			angle = i;
+			x1 = r * Math.cos(angle * PI / 180);
+			y1 = r * Math.sin(angle * PI / 180);
+
+			int ElX = (int) Math.round(x + x1);
+			int ElY = (int) Math.round(y + y1);
+
+			setPixel(ElX, ElY, new Color(red, green, blue));
+		}
+	}
+
+	public void drawCircle(int x, int y, int r, Color col)
+	{
+		double PI = 3.1415926535;
+		double i, angle, x1, y1;
+
+		for (i = 0; i < 360; i += 1)
+		{
+			angle = i;
+			x1 = r * Math.cos(angle * PI / 180);
+			y1 = r * Math.sin(angle * PI / 180);
+
+			int ElX = (int) Math.round(x + x1);
+			int ElY = (int) Math.round(y + y1);
+
+			setPixel(ElX, ElY, col);
+		}
+	}
+
+	public void drawCircle(int x, int y, int r, int red, int green, int blue, boolean fill)
+	{
+		double PI = 3.1415926535;
+		double i, angle, x1, y1;
+		if (fill == false)
+		{
+			for (i = 0; i < 360; i += 1)
+			{
+				angle = i;
+				x1 = r * Math.cos(angle * PI / 180);
+				y1 = r * Math.sin(angle * PI / 180);
+
+				int ElX = (int) Math.round(x + x1);
+				int ElY = (int) Math.round(y + y1);
+
+				setPixel(ElX, ElY, new Color(red, green, blue));
+			}
+		}
+		else
+		{
+			for (int j = r; j >= 0; j--)
+			{
+				for (i = 0; i < 360; i += 1)
+				{
+					angle = i;
+					x1 = j * Math.cos(angle * PI / 180);
+					y1 = j * Math.sin(angle * PI / 180);
+
+					int ElX = (int) Math.round(x + x1);
+					int ElY = (int) Math.round(y + y1);
+
+					setPixel(ElX, ElY, new Color(red, green, blue));
+				}
+			}
+		}
+	}
+
+	public void drawCircle(int x, int y, int r, Color col, boolean fill)
+	{
+		double PI = 3.1415926535;
+		double i, angle, x1, y1;
+		if (fill == false)
+		{
+			for (i = 0; i < 360; i += 1)
+			{
+				angle = i;
+				x1 = r * Math.cos(angle * PI / 180);
+				y1 = r * Math.sin(angle * PI / 180);
+
+				int ElX = (int) Math.round(x + x1);
+				int ElY = (int) Math.round(y + y1);
+
+				setPixel(ElX, ElY, col);
+			}
+		}
+		else
+		{
+			for (int j = r; j >= 0; j--)
+			{
+				for (i = 0; i < 360; i += 1)
+				{
+					angle = i;
+					x1 = j * Math.cos(angle * PI / 180);
+					y1 = j * Math.sin(angle * PI / 180);
+
+					int ElX = (int) Math.round(x + x1);
+					int ElY = (int) Math.round(y + y1);
+
+					setPixel(ElX, ElY, col);
+				}
+			}
+		}
+	}
+
+	public void colorRect(int row, int col, int width, int height, int r, int g, int b)
+	{
 		int finalRow = row + height;
-		if (finalRow >= ROWS) {
+		if (finalRow >= ROWS)
+		{
 			finalRow = ROWS - 1;
 		}
 		int finalCol = col + width;
-		if (finalCol >= COLS) {
+		if (finalCol >= COLS)
+		{
 			finalCol = COLS - 1;
 		}
-		for (int rw = row; rw <= finalRow; rw++) {
-			for (int cl = col; cl <= finalCol; cl++) {
+		for (int rw = row; rw <= finalRow; rw++)
+		{
+			for (int cl = col; cl <= finalCol; cl++)
+			{
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
 		repaint();
 	}
 
-	public void addKeyCallback(KeyRunnable r) {
+	public void addKeyCallback(KeyRunnable r)
+	{
 		keyCallbacks.add(r);
 	}
-	
-	public boolean hasKeyCallback(KeyRunnable r) {
+
+	public boolean hasKeyCallback(KeyRunnable r)
+	{
 		return keyCallbacks.contains(r);
 	}
-	public void colorRect(int row, int col, int width, int height, Color c) {
+
+	public void colorRect(int row, int col, int width, int height, Color c)
+	{
 		int finalRow = row + height;
-		if (finalRow >= ROWS) {
+		if (finalRow >= ROWS)
+		{
 			finalRow = ROWS - 1;
 		}
 		int finalCol = col + width;
-		if (finalCol >= COLS) {
+		if (finalCol >= COLS)
+		{
 			finalCol = COLS - 1;
 		}
-		for (int rw = row; rw <= finalRow; rw++) {
-			for (int cl = col; cl <= finalCol; cl++) {
+		for (int rw = row; rw <= finalRow; rw++)
+		{
+			for (int cl = col; cl <= finalCol; cl++)
+			{
 				colorPixel(rw, cl, c);
 			}
 		}
 		repaint();
 	}
 
-	public void colorRect(Rectangle rect, Color c) {
+	public void colorRect(Rectangle rect, Color c)
+	{
 		colorRect(rect.y, rect.x, rect.width, rect.height, c);
 	}
 
-	public void colorRect(Rectangle rect, int r, int g, int b) {
+	public void colorRect(Rectangle rect, int r, int g, int b)
+	{
 		colorRect(rect.y, rect.x, rect.width, rect.height, r, g, b);
 	}
 
-	public void clear() {
+	public void clear()
+	{
 		colorRect(0, 0, COLS, ROWS, Color.BLACK);
 	}
 
-	public boolean isCleared() {
-		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
-				if (!getPixel(r, c).equals(Color.BLACK)) {
+	public boolean isCleared()
+	{
+		for (int r = 0; r < ROWS; r++)
+		{
+			for (int c = 0; c < COLS; c++)
+			{
+				if (!getPixel(r, c).equals(Color.BLACK))
+				{
 					return false;
 				}
 			}
@@ -171,18 +332,22 @@ public class DisplayBoard extends JPanel implements Display {
 	}
 
 	// Key handling
-	public Set<String> getKeys() {
+	public Set<String> getKeys()
+	{
 		return keys;
 	}
 
 	// JFrame Handling
-	public void show() {
+	public void show()
+	{
 		containerFrame.setVisible(true);
 		this.setFocusable(true);
 		this.requestFocus();
 	}
 
-	private void initFrame() {
+	private void initFrame()
+	{
+		System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
 		containerFrame = new JFrame();
 		// f.setUndecorated(true);
 		// f.setBackground(new Color(0, 0, 0, 0));
@@ -192,40 +357,53 @@ public class DisplayBoard extends JPanel implements Display {
 		containerFrame.pack();
 	}
 
-	public void close() {
+	public void close()
+	{
 		containerFrame.setVisible(false);
 		containerFrame.dispose();
 	}
 
-	private class panelKeyListener implements KeyListener {
+	private class panelKeyListener implements KeyListener
+	{
 
 		@Override
-		public void keyPressed(KeyEvent arg0) {
+		public void keyPressed(KeyEvent arg0)
+		{
 			keys.add("" + arg0.getKeyChar());
-			try {
-				for(KeyRunnable run : keyCallbacks) {
+			try
+			{
+				for (KeyRunnable run : keyCallbacks)
+				{
 					run.run(arg0);
 				}
-			} catch(ConcurrentModificationException e) {
-				System.out.println("DisplayBoard: Concurrent Modification Exception in key press listeners!");
-			
+			}
+			catch (ConcurrentModificationException e)
+			{
+				System.out.println("Concurrent Modification Exception in key press listeners!");
+
 			}
 		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {
+		public void keyReleased(KeyEvent arg0)
+		{
 			keys.remove("" + arg0.getKeyChar());
-			try {
-				for(KeyRunnable run : keyCallbacks) {
+			try
+			{
+				for (KeyRunnable run : keyCallbacks)
+				{
 					run.run(arg0);
 				}
-			} catch(ConcurrentModificationException e) {
-				System.out.println("DisplayBoard: Concurrent Modification Exception in key press listeners!");
+			}
+			catch (ConcurrentModificationException e)
+			{
+				System.out.println("Concurrent Modification Exception in key press listeners!");
 			}
 		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {
+		public void keyTyped(KeyEvent arg0)
+		{
 			// TODO Auto-generated method stub
 
 		}
@@ -242,16 +420,18 @@ public class DisplayBoard extends JPanel implements Display {
 	 * @param blue
 	 * @param chars
 	 */
-	public void drawString(int row, int col, int red, int green, int blue, String chars) {
+	public void drawString(int row, int col, int red, int green, int blue, String chars)
+	{
 		char[][] charset = charSet.Cset(); // creating character set
 
 		int extraSpacing = 0; // extra spacing between letters
 
-		for (int i = 0; i < chars.length(); i++) { // for each character in "chars"...
+		for (int i = 0; i < chars.length(); i++)
+		{ // for each character in "chars"...
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= 3;// reduce the spacing
@@ -287,15 +467,17 @@ public class DisplayBoard extends JPanel implements Display {
 	 * @param blue
 	 * @param chars
 	 */
-	public void drawString(int n, int row, int col, int red, int green, int blue, String chars) {
+	public void drawString(int n, int row, int col, int red, int green, int blue, String chars)
+	{
 		char[][] charset = charSet.Cset(); // creating character set
 		int extraSpacing = 0; // extra spacing between letters
 
-		for (int i = 0; i < n; i++) { // for each character in "chars"...
+		for (int i = 0; i < n; i++)
+		{ // for each character in "chars"...
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= 3;// reduce the spacing
@@ -333,16 +515,18 @@ public class DisplayBoard extends JPanel implements Display {
 	 * @param spacing
 	 *            - Integer to customize spacing between characters
 	 */
-	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing) {
+	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing)
+	{
 		char[][] charset = charSet.Cset(); // creating character set
-		
+
 		int extraSpacing = 0; // extra spacing between letters
 
-		for (int i = 0; i < n; i++) { // for each character in "chars"...
+		for (int i = 0; i < n; i++)
+		{ // for each character in "chars"...
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= spacing / 2;// reduce the spacing
@@ -365,37 +549,49 @@ public class DisplayBoard extends JPanel implements Display {
 		}
 
 	}
-	
+
 	@Override
-	public void drawString(int row, int col, Color c, String chars) {
-		drawString(row,col,c.getRed(),c.getGreen(),c.getBlue(),chars);
+	public void drawString(int row, int col, Color c, String chars)
+	{
+		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
-	
+
 	@Override
-	public void drawString(int row, int col, Color c, String chars, int spacing) {
-		drawString(row,col,c.getRed(),c.getGreen(),c.getBlue(),chars,spacing);
+	public void drawString(int row, int col, Color c, String chars, int spacing)
+	{
+		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
 	}
-	
-	public int StringWidth(String chars) {
+
+	public int StringWidth(String chars)
+	{
 		char[] chararr = chars.toCharArray();
 		int pixels = 0;
-		for(char c : chararr) {
-			if(("" + c).equals(" ")) {
+		for (char c : chararr)
+		{
+			if (("" + c).equals(" "))
+			{
 				pixels += 3;
-			} else {
+			}
+			else
+			{
 				pixels += 6;
 			}
 		}
 		return pixels;
 	}
-	
-	public int StringWidth(String chars, int spacing) {
+
+	public int StringWidth(String chars, int spacing)
+	{
 		char[] chararr = chars.toCharArray();
 		int pixels = 0;
-		for(char c : chararr) {
-			if(("" + c).equals(" ")) {
-				pixels += spacing/2;
-			} else {
+		for (char c : chararr)
+		{
+			if (("" + c).equals(" "))
+			{
+				pixels += spacing / 2;
+			}
+			else
+			{
 				pixels += spacing;
 			}
 		}
@@ -403,17 +599,20 @@ public class DisplayBoard extends JPanel implements Display {
 	}
 
 	@Override
-	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing) {
-		drawString(chars.length(),row,col,red,green,blue,chars,spacing);
+	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing)
+	{
+		drawString(chars.length(), row, col, red, green, blue, chars, spacing);
 	}
 
 	@Override
-	public void drawString(int n, int row, int col, Color c, String chars) {
-		drawString(n,row,col,c.getRed(),c.getGreen(),c.getBlue(),chars);
+	public void drawString(int n, int row, int col, Color c, String chars)
+	{
+		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
 
 	@Override
-	public void drawString(int n, int row, int col, Color c, String chars, int spacing) {
-		drawString(n,row,col,c.getRed(),c.getGreen(),c.getBlue(),chars,spacing);
+	public void drawString(int n, int row, int col, Color c, String chars, int spacing)
+	{
+		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
 	}
 }
