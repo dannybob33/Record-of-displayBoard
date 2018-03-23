@@ -10,6 +10,7 @@ public class drawCircleTest {
 		
 		board.drawCircle(20, 20, 10);
 		
+		board.drawCircle(40, , 10);
 	}
 
 }

@@ -193,7 +193,7 @@ public class DisplayBoard extends JPanel implements Display
 		}
 		else
 		{
-			for (int j = r; j > 0; j--)
+			for (int j = r; j >= 0; j--)
 			{
 				for (i = 0; i < 360; i += 1)
 				{
@@ -230,7 +230,7 @@ public class DisplayBoard extends JPanel implements Display
 		}
 		else
 		{
-			for (int j = r; j > 0; j--)
+			for (int j = r; j >= 0; j--)
 			{
 				for (i = 0; i < 360; i += 1)
 				{
