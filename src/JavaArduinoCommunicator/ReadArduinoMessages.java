@@ -13,7 +13,7 @@ import java.util.Enumeration;
 public class ReadArduinoMessages implements SerialPortEventListener {
 	SerialPort serialPort;
         /** The port we're normally going to use. */
-	private static final String PORT_NAMES[]={"COM5"};
+	private static final String PORT_NAMES[]={"COM5", "COM6", "COM3"};
 	/**
 	* A BufferedReader which will be fed by a InputStreamReader 
 	* converting the bytes into characters 
