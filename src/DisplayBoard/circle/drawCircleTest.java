@@ -9,6 +9,7 @@ public class drawCircleTest {
 		board.show();
 		
 		board.drawCircle(20, 20, 10);
+		
 	}
 
 }
