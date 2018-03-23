@@ -100,7 +100,7 @@ public class DisplayBoard extends JPanel implements Display {
 
 	private void colorPixel(int row, int col, Color c) {
 		if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
-			System.out.println("Invalid pixel coordinates " + row + ", " + col + " were inputted.");
+			System.out.println("DisplayBoard: Invalid pixel coordinates " + row + ", " + col + " were inputted.");
 			return;
 		}
 		pixelArr[row][col].setPixelColor(c);
@@ -183,7 +183,6 @@ public class DisplayBoard extends JPanel implements Display {
 	}
 
 	private void initFrame() {
-		System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
 		containerFrame = new JFrame();
 		// f.setUndecorated(true);
 		// f.setBackground(new Color(0, 0, 0, 0));
@@ -208,7 +207,7 @@ public class DisplayBoard extends JPanel implements Display {
 					run.run(arg0);
 				}
 			} catch(ConcurrentModificationException e) {
-				System.out.println("Concurrent Modification Exception in key press listeners!");
+				System.out.println("DisplayBoard: Concurrent Modification Exception in key press listeners!");
 			
 			}
 		}
@@ -221,7 +220,7 @@ public class DisplayBoard extends JPanel implements Display {
 					run.run(arg0);
 				}
 			} catch(ConcurrentModificationException e) {
-				System.out.println("Concurrent Modification Exception in key press listeners!");
+				System.out.println("DisplayBoard: Concurrent Modification Exception in key press listeners!");
 			}
 		}
 
@@ -252,7 +251,7 @@ public class DisplayBoard extends JPanel implements Display {
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= 3;// reduce the spacing
@@ -296,7 +295,7 @@ public class DisplayBoard extends JPanel implements Display {
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= 3;// reduce the spacing
@@ -343,7 +342,7 @@ public class DisplayBoard extends JPanel implements Display {
 			String letter = chars.substring(i, i + 1); // get corresponding letter
 
 			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+			System.out.println("DisplayBoard: L: " + letter + "; HC: " + letter.hashCode());
 			if (letter.hashCode() == 32)// if the character is a space (" ")...
 			{
 				extraSpacing -= spacing / 2;// reduce the spacing

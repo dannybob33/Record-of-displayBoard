@@ -1,5 +1,6 @@
 package DisplayBoardEmulation.nativeApp;
 
+import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
 import DisplayBoardEmulation.tron.TronApp;
 
 public class simpleNavRunner {
@@ -7,6 +8,7 @@ public class simpleNavRunner {
 		ApplicationManager manager = new ApplicationManager();
 		manager.addNavigatingApplication(new simpleNavApp());
 		manager.addApplication(new TronApp());
+		manager.addApplication(new DiscountPongApp());
 		manager.initialize();
 	}
 }
