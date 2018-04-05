@@ -18,10 +18,9 @@ import net.java.games.input.EventQueue;
 public class ControllerTestRunner {
 	// ball stuff
 	private int ballSize = 3;
-	private Rectangle ballLocation = new Rectangle(0, 0, ballSize, ballSize);
-	private int xInc = 0;
-	private int yInc = 0;
-	public static float updatePos = 1;
+	private Rectangle ballLocation = new Rectangle(40, 20, ballSize, ballSize);
+	private int xInc = 1;
+	private int yInc = 1;
 	// Time stuff
 	private int timeSpeed = 25;
 	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
@@ -52,10 +51,14 @@ public class ControllerTestRunner {
 				// Do some stuff.
 			}
 			Event event = new Event();
-			ballLocation = new Rectangle(ballLocation.x + xInc,ballLocation.y + yInc,ballLocation.width,ballLocation.height);
-			board.colorRect(ballLocation, Color.YELLOW); 
+			board.colorRect(ballLocation, Color.YELLOW);
 			while (queue.getNextEvent(event)) {
-
+try {
+	Thread.sleep(timeSpeed);
+} catch (InterruptedException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
 
 				// Get current state of joystick! And check, if joystick is disconnected.
 				if (!joystick.pollController()) {
@@ -64,24 +67,45 @@ public class ControllerTestRunner {
 				}
 
 				// Right controller joystick
-				int xValuePercentageRightJoystick = joystick.getX_RightJoystick_Percentage()/joystick.getX_RightJoystick_Percentage();
-				int yValuePercentageRightJoystick = joystick.getY_RightJoystick_Percentage()/joystick.getY_RightJoystick_Percentage();
+				int xValuePercentageRightJoystick = joystick.getX_RightJoystick_Percentage();
+				int yValuePercentageRightJoystick = joystick.getY_RightJoystick_Percentage();
 
-				xInc = xValuePercentageRightJoystick;
-				yInc = yValuePercentageRightJoystick;
-				System.out.println("xInc: " + xInc);
-				System.out.println("yInc: " + yInc);
-				board.colorRect(ballLocation, Color.BLACK); 
-				ballLocation = new Rectangle(ballLocation.x + xInc,ballLocation.y + yInc,ballLocation.width,ballLocation.height);
-				board.colorRect(ballLocation, Color.YELLOW); 
-				System.out.println("Ball Location X: " + ballLocation.x);
-				System.out.println("Ball Location y: " + ballLocation.y);
-				System.out.println("yInc: " + yInc);
-				//Update ball direction
-				if(ballLocation.x <= 0 || ballLocation.x >= DisplayBoard.COLS-ballSize) xInc *= -1; //x direction
-				if(ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS-ballSize) yInc *= -1; //y direction
-				//Draw ball at new location
-				board.colorRect(ballLocation, Color.YELLOW);
+				
+				if(xValuePercentageRightJoystick > 60 ) {
+					xInc = 1;
+				}
+				else if(xValuePercentageRightJoystick < 40) {
+					xInc = -1;
+				}
+				else {
+					xInc = 0;
+				if(yValuePercentageRightJoystick > 60) {
+					yInc = 1;
+				}
+				else if(yValuePercentageRightJoystick  < 40) {
+					yInc = -1;
+				}
+				else {
+					yInc = 0;
+				}
+				} 
+				System.out.println(xValuePercentageRightJoystick + ", " + yValuePercentageRightJoystick);
+				board.colorRect(ballLocation, Color.BLACK); //Erase old ball
+				
+				if(ballLocation.x+xInc < board.COLS-ballLocation.width && ballLocation.x+xInc >= 0) {
+//					System.out.println("Move in X by: " + xInc);
+					ballLocation.x = ballLocation.x+xInc;
+				}
+	
+				if(ballLocation.y+yInc < board.ROWS-ballLocation.height && ballLocation.y+yInc >= 0) {
+//					System.out.println("Move in Y by: " + yInc);
+					ballLocation.y = ballLocation.y+yInc;
+				}
+				board.colorRect(ballLocation, Color.YELLOW); //redraw
+				
+//				System.out.println("Ball Location X: " + ballLocation.x);
+//				System.out.println("Ball Location y: " + ballLocation.y);
+//				System.out.println("yInc: " + yInc);
 				
 				
 			}
