@@ -18,7 +18,7 @@ public class TronApp extends Application {
 	private Player p2;
 	
 	//Time stuff
-	private final int timeSpeed = 50;
+	private final int timeSpeed = 100;
 	private final int endMultiplier = 20;
 	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	

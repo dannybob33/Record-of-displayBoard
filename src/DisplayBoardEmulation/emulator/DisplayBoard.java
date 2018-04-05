@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
@@ -614,5 +616,27 @@ public class DisplayBoard extends JPanel implements Display
 	public void drawString(int n, int row, int col, Color c, String chars, int spacing)
 	{
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
+	}
+	
+	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
+		BufferedImage newImage = resize(img,width,height);
+		for(int r = row;r<newImage.getHeight()+row;r++) {
+			for(int c = col;c<newImage.getWidth()+col;c++) {
+				this.colorPixel(r,c,new Color(newImage.getRGB(c, r)));
+			}
+		}
+		repaint();
+	}
+	
+	private BufferedImage resize(BufferedImage img, int width, int height) {
+		int w = img.getWidth();
+	    int h = img.getHeight();
+	    BufferedImage dimg = new BufferedImage(width, height, img.getType());
+	    Graphics2D g = dimg.createGraphics();
+	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+	            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g.drawImage(img, 0, 0, width, height, 0, 0, w, h, null);
+	    g.dispose();
+	    return dimg;  
 	}
 }
