@@ -23,7 +23,7 @@ public class ControllerTestRunner {
 	private int yInc = 0;
 	public static float updatePos = 1;
 	// Time stuff
-	private int timeSpeed = 250;
+	private int timeSpeed = 25;
 	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 
 	// The board object
@@ -42,56 +42,48 @@ public class ControllerTestRunner {
 
 	public final Runnable update = new Runnable() {
 		public void run() {
-			Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-			if (controllers.length == 0) {
-				System.out.println("Found no controllers.");
-				System.exit(0);
+			
+			// First you need to create controller.
+			JInputJoystick joystick = new JInputJoystick(Controller.Type.STICK, Controller.Type.GAMEPAD);
+			EventQueue queue = joystick.getController().getEventQueue();
+			// Check if the controller was found.
+			if (!joystick.isControllerConnected()) {
+				System.out.println("No controller found!");
+				// Do some stuff.
 			}
-			for (int i = 0; i < controllers.length; i++) {
-				controllers[i].poll();// unsure of what this does
-				EventQueue queue = controllers[i].getEventQueue();// the things that are happening on the controller
-				Event event = new Event();// Create and event. This means that we can use this later to make things move
-											// ????
-				while (queue.getNextEvent(event) && updatePos != 0) {// while there are events in the controller, and
-																		// updatePos is not null..
-					// Erase ball
-					board.colorRect(ballLocation.y, ballLocation.x, ballSize, ballSize, Color.BLACK);
+			Event event = new Event();
+			ballLocation = new Rectangle(ballLocation.x + xInc,ballLocation.y + yInc,ballLocation.width,ballLocation.height);
+			board.colorRect(ballLocation, Color.YELLOW); 
+			while (queue.getNextEvent(event)) {
 
-					// Update ball location
 
-					updatePos = event.getValue();// when buttons are being pushed, this is not zero (!= 0)
-					Component comp = event.getComponent();// every button is a component
-					System.out.println(comp.getName());
-					if (comp.getName().equals("X Rotation")) {// if the thing that updated "updatePos" to a nonzero is
-																// "X Rotation"
-						if (updatePos > 0)
-							xInc = 1;
-						if (updatePos < 0)
-							xInc = -1;
-						System.out.println("X Axis Dominant. xInc: " + xInc + " yInc: " + yInc);
-						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-								ballLocation.height);
-					} else if (comp.getName().equals("Y Rotation")) {
-						if (updatePos > 0)
-							yInc = 1;
-						if (updatePos < 0)
-							yInc = -1;
-
-						System.out.println("Y Axis Dominant. xInc: " + xInc + " yInc: " + yInc);
-						ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-								ballLocation.height);
-					}
-
+				// Get current state of joystick! And check, if joystick is disconnected.
+				if (!joystick.pollController()) {
+					System.out.println("Controller disconnected!");
+					// Do some stuff.
 				}
-				ballLocation = new Rectangle(ballLocation.x + xInc, ballLocation.y + yInc, ballLocation.width,
-						ballLocation.height);
-				// Update ball direction
-				if (ballLocation.x <= 0 || ballLocation.x >= DisplayBoard.COLS - ballSize)
-					xInc *= -1; // x direction
-				if (ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS - ballSize)
-					yInc *= -1; // y direction
-				// Draw ball at new location
-				board.colorRect(ballLocation, Color.YELLOW); // left paddle
+
+				// Right controller joystick
+				int xValuePercentageRightJoystick = joystick.getX_RightJoystick_Percentage()/joystick.getX_RightJoystick_Percentage();
+				int yValuePercentageRightJoystick = joystick.getY_RightJoystick_Percentage()/joystick.getY_RightJoystick_Percentage();
+
+				xInc = xValuePercentageRightJoystick;
+				yInc = yValuePercentageRightJoystick;
+				System.out.println("xInc: " + xInc);
+				System.out.println("yInc: " + yInc);
+				board.colorRect(ballLocation, Color.BLACK); 
+				ballLocation = new Rectangle(ballLocation.x + xInc,ballLocation.y + yInc,ballLocation.width,ballLocation.height);
+				board.colorRect(ballLocation, Color.YELLOW); 
+				System.out.println("Ball Location X: " + ballLocation.x);
+				System.out.println("Ball Location y: " + ballLocation.y);
+				System.out.println("yInc: " + yInc);
+				//Update ball direction
+				if(ballLocation.x <= 0 || ballLocation.x >= DisplayBoard.COLS-ballSize) xInc *= -1; //x direction
+				if(ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS-ballSize) yInc *= -1; //y direction
+				//Draw ball at new location
+				board.colorRect(ballLocation, Color.YELLOW);
+				
+				
 			}
 		}
 	};
