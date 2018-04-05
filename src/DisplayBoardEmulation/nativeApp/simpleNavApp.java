@@ -1,5 +1,6 @@
 package DisplayBoardEmulation.nativeApp;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -17,12 +18,22 @@ public class simpleNavApp extends Application {
 	private final int LEFT_CODE = 68;
 	private final int GO_CODE = 10;
 	
+	private final int MIDDLE_TEXT = (DisplayBoard.ROWS/2)-4;
+	
 	@Override
 	public void start(DisplayBoard board) {
 		isRunning = true;
 		this.board = board;
 		if(!board.hasKeyCallback(keyUpdate)) {
 			board.addKeyCallback(keyUpdate);
+		}
+		if(apps.size() > 1) {
+			board.drawString(0, centering("Select App"), Color.RED, "Select App");
+			board.drawString(8, centering("With WASD"), Color.RED, "With WASD");
+			board.drawString(16, centering("Keys"), Color.RED, "Keys");
+		} else {
+			board.drawString(0, centering("No Apps"), Color.RED, "No Apps");
+			board.drawString(8, centering("To Select!"), Color.RED, "To Select!");
 		}
 	}
 
@@ -33,34 +44,47 @@ public class simpleNavApp extends Application {
 	
 	public final KeyRunnable keyUpdate = new KeyRunnable() {
 		public void run(KeyEvent e) {
-			if(isRunning) {
+			if(isRunning && apps.size() > 1) {
 				if(e.getID() != KeyEvent.KEY_PRESSED) {
 					return;
 				}
 				if(e.getKeyCode() == RIGHT_CODE) {
 					currentIndex += 1;
-					if(currentIndex >= apps.size()) currentIndex = 0;
-					printLine("Selected app is: " + apps.get(currentIndex).getName());
+					if(currentIndex >= apps.size()) currentIndex = 1;
+					selectApp(currentIndex);
 				} else if(e.getKeyCode() == LEFT_CODE) {
 					currentIndex -= 1;
-					if(currentIndex < 0) currentIndex = apps.size()-1;
-					printLine("Selected app is: " + apps.get(currentIndex).getName());
+					if(currentIndex < 1) currentIndex = apps.size()-1;
+					selectApp(currentIndex);
 				} else if (e.getKeyCode() == GO_CODE) {
 					manager.changeApplication(currentIndex);
 				}
 			}
 		}
 	};
+	
+	private void selectApp(int index) {
+		Application app = apps.get(index);
+		board.clear();
+		printLine("Selected app is: " + app.getName());
+		board.drawString(MIDDLE_TEXT, centering(app.getName()), Color.RED, app.getName());
+	}
+	
+	private int centering(String text) {
+		int width = board.StringWidth(text);
+		System.out.println(width);
+		return (DisplayBoard.COLS-width)/2;
+	}
 
 	@Override
 	public String getName() {
-		return"SimpleNavigator";
+		return"Navigator";
 	}
 	
 	public void setManager(ApplicationManager m) {
 		manager = m;
 		apps = m.getApps();
-		currentIndex = m.currentApplicationIndex();
+		currentIndex = 1;
 	}
 
 }

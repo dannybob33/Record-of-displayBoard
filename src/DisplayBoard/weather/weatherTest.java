@@ -49,6 +49,14 @@ public class weatherTest {
 					Element statElement = (Element) statList.item(0);
 					NodeList textStatList = statElement.getChildNodes();
 					output = ((Node) textStatList.item(0)).getNodeValue().trim();
+					if(output.equals("Clear")) {
+						board.drawCircle(25, 50, 10, 255, 255, 0, true);
+						board.drawCircle(35, 40, 5, 255, 255, 255, true);
+						board.drawCircle(35, 44, 5, 255, 255, 255, true);
+						board.drawCircle(35, 48, 5, 255, 255, 255, true);
+						board.drawCircle(37, 47, 5, 255, 255, 255, true);
+						board.drawCircle(32, 41, 5, 255, 255, 255, true);
+					}
 					board.drawString(16, -1, 144, 144, 144, output);
 					output = "";
 				} // end of if clause
