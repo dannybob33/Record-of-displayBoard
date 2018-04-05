@@ -503,54 +503,6 @@ public class DisplayBoard extends JPanel implements Display
 
 	}
 
-	@Override
-	/**
-	 * 
-	 * @param n
-	 *            - The number of Characters in chars
-	 * @param row
-	 * @param col
-	 * @param red
-	 * @param green
-	 * @param blue
-	 * @param chars
-	 * @param spacing
-	 *            - Integer to customize spacing between characters
-	 */
-	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing)
-	{
-		char[][] charset = charSet.Cset(); // creating character set
-
-		int extraSpacing = 0; // extra spacing between letters
-
-		for (int i = 0; i < n; i++)
-		{ // for each character in "chars"...
-			String letter = chars.substring(i, i + 1); // get corresponding letter
-
-			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
-			if (letter.hashCode() == 32)// if the character is a space (" ")...
-			{
-				extraSpacing -= spacing / 2;// reduce the spacing
-			}
-			for (int c = 0; c < locs.length; c++) // for each column...
-			{
-				int r = 0; // intialized row count
-				for (int j = 1; j <= 256; j *= 2) // for each pixel/binary in the row...
-				{
-					if (((locs[c]) & j) != 0) // if the pixel should be on...
-					{
-
-						setPixel(r + row, c + col + extraSpacing, red, green, blue);// turn the pixel on
-					}
-
-					r++;// increase the row count
-				}
-			}
-			extraSpacing += spacing; // add spacing between letters
-		}
-
-	}
 
 	@Override
 	public void drawString(int row, int col, Color c, String chars)
@@ -558,11 +510,6 @@ public class DisplayBoard extends JPanel implements Display
 		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
 
-	@Override
-	public void drawString(int row, int col, Color c, String chars, int spacing)
-	{
-		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
-	}
 
 	public int StringWidth(String chars)
 	{
@@ -582,40 +529,10 @@ public class DisplayBoard extends JPanel implements Display
 		return pixels;
 	}
 
-	public int StringWidth(String chars, int spacing)
-	{
-		char[] chararr = chars.toCharArray();
-		int pixels = 0;
-		for (char c : chararr)
-		{
-			if (("" + c).equals(" "))
-			{
-				pixels += spacing / 2;
-			}
-			else
-			{
-				pixels += spacing;
-			}
-		}
-		return pixels;
-	}
-
-	@Override
-	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing)
-	{
-		drawString(chars.length(), row, col, red, green, blue, chars, spacing);
-	}
-
 	@Override
 	public void drawString(int n, int row, int col, Color c, String chars)
 	{
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
-	}
-
-	@Override
-	public void drawString(int n, int row, int col, Color c, String chars, int spacing)
-	{
-		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
 	}
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
