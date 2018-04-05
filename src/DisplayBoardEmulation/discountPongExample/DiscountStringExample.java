@@ -11,7 +11,6 @@ public class DiscountStringExample {
 	public static void main(String[] args) {
 		DisplayBoard board = new DisplayBoard();
 		board.show();
-		board.drawString(10, 0, 0, 255, 0, 0, "You Touch!", 10);
 		board.drawString(17, 9, 0, 255, 0, 0, "You  Got the Powa?");
 
 	}
