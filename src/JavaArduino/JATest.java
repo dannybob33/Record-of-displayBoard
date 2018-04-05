@@ -11,7 +11,7 @@ public class JATest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Arduino a = new Arduino ("COM5", 9600);
+		Arduino a = new Arduino ("COM7", 9600);
 		a.openConnection();
 		
 		Scanner s = new Scanner (System.in);
@@ -19,9 +19,13 @@ public class JATest {
 		String str="";
 		while (str.equals("q") == false) {
 			str = s.next();
-			a.serialWrite(str + "*", str.length()+1, 0);
+			a.serialWrite(str+'\0');
 			System.out.println("Sent: " + str);
-			String r = a.serialRead();
+			String r = "";
+			while (r.equals("")) {
+				System.out.println("trying");
+				r = a.serialRead();
+			}
 			System.out.println("Received: " + r);				
 		}		
 		a.closeConnection();
