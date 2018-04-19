@@ -620,9 +620,13 @@ public class DisplayBoard extends JPanel implements Display
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
 		BufferedImage newImage = resize(img,width,height);
-		for(int r = row;r<newImage.getHeight()+row;r++) {
-			for(int c = col;c<newImage.getWidth()+col;c++) {
-				this.colorPixel(r,c,new Color(newImage.getRGB(c, r)));
+		System.out.println("Resized Image has Alpha? " + newImage.getColorModel().hasAlpha());
+		for(int r = 0;r<newImage.getHeight();r++) {
+			for(int c = 0;c<newImage.getWidth();c++) {
+				Color color = new Color(newImage.getRGB(c,r),true);
+				Color oldColor = this.getPixel(r,c);
+				Color newColor = overlayAlphaColor(color,oldColor);
+				this.colorPixel(r+row,c+col,newColor);
 			}
 		}
 		repaint();
@@ -639,4 +643,33 @@ public class DisplayBoard extends JPanel implements Display
 	    g.dispose();
 	    return dimg;  
 	}
+	
+	private Color overlayAlphaColor(Color c1, Color c2) {
+		double a1 = c1.getAlpha()/255.0;
+		double a2 = c1.getAlpha()/255.0;
+		double r1 = c1.getRed()/255.0;
+		double r2 = c1.getRed()/255.0;
+		double g1 = c1.getGreen()/255.0;
+		double g2 = c1.getGreen()/255.0;
+		double b1 = c1.getBlue()/255.0;
+		double b2 = c1.getBlue()/255.0;
+		int r = (int)(255*(r1*a1 + r2*a2*(1-a1)));
+		int g = (int)(255*((g1*a1) + (g2*a2)*(1-a1)));
+		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1)));
+		return new Color(r,g,b);
+	}
+	/*private Color overlayAlphaColor(Color c1, Color c2) {
+		double a1 = c1.getAlpha()/255.0;
+		double a2 = c1.getAlpha()/255.0;
+		double r1 = c1.getRed()/255.0;
+		double r2 = c1.getRed()/255.0;
+		double g1 = c1.getGreen()/255.0;
+		double g2 = c1.getGreen()/255.0;
+		double b1 = c1.getBlue()/255.0;
+		double b2 = c1.getBlue()/255.0;
+		int r = (int)(255*(r1*a1 + r2*a2*(1-a1))/(a1+a2*(1-a1)));
+		int g = (int)(255*((g1*a1) + (g2*a2)*(1-a1))/(a1+a2*(1-a1)));
+		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1))/(a1+a2*(1-a1)));
+		return new Color(r,g,b);
+	}*/
 }
