@@ -56,6 +56,7 @@ public class weatherTest {
 					output = ((Node) textStatList.item(0)).getNodeValue().trim();
 					BufferedImage img = null;
 					//   board.drawImage(img, row, col, width, height);
+					
 					if(output.equals("Clear")) {
 						img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
 						board.drawImage(img, 15, 40, 25, 25);
