@@ -1,7 +1,12 @@
 
 package DisplayBoard.weather;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -49,7 +54,12 @@ public class weatherTest {
 					Element statElement = (Element) statList.item(0);
 					NodeList textStatList = statElement.getChildNodes();
 					output = ((Node) textStatList.item(0)).getNodeValue().trim();
+					BufferedImage img = null;
+					img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
 					if(output.equals("Clear")) {
+						board.drawImage(img, 15, 40, 25, 25);
+					}
+					else if(output.equals("Partly Cloudy")) {
 						board.drawCircle(25, 50, 10, 255, 255, 0, true);
 						board.drawCircle(35, 40, 5, 255, 255, 255, true);
 						board.drawCircle(35, 44, 5, 255, 255, 255, true);

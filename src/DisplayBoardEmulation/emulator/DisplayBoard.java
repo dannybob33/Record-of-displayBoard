@@ -620,9 +620,10 @@ public class DisplayBoard extends JPanel implements Display
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
 		BufferedImage newImage = resize(img,width,height);
-		for(int r = row;r<newImage.getHeight()+row;r++) {
-			for(int c = col;c<newImage.getWidth()+col;c++) {
-				this.colorPixel(r,c,new Color(newImage.getRGB(c, r)));
+		for(int r = 0;r<newImage.getHeight();r++) {
+			for(int c = 0;c<newImage.getWidth();c++) {
+				System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
+				this.colorPixel(r+row,c+col,new Color(newImage.getRGB(c, r)));
 			}
 		}
 		repaint();
