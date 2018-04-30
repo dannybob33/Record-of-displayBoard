@@ -55,17 +55,14 @@ public class weatherTest {
 					NodeList textStatList = statElement.getChildNodes();
 					output = ((Node) textStatList.item(0)).getNodeValue().trim();
 					BufferedImage img = null;
-					img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
+					//   board.drawImage(img, row, col, width, height);
 					if(output.equals("Clear")) {
+						img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
 						board.drawImage(img, 15, 40, 25, 25);
 					}
 					else if(output.equals("Partly Cloudy")) {
-						board.drawCircle(25, 50, 10, 255, 255, 0, true);
-						board.drawCircle(35, 40, 5, 255, 255, 255, true);
-						board.drawCircle(35, 44, 5, 255, 255, 255, true);
-						board.drawCircle(35, 48, 5, 255, 255, 255, true);
-						board.drawCircle(37, 47, 5, 255, 255, 255, true);
-						board.drawCircle(32, 41, 5, 255, 255, 255, true);
+						img = ImageIO.read(new File("H:\\Private\\CS2\\partlyCloudy.png"));
+						board.drawImage(img, 15, 40, 30, 24);
 					}
 					board.drawString(16, -1, 144, 144, 144, output);
 					output = "";
