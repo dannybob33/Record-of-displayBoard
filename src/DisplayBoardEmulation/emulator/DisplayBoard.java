@@ -503,7 +503,7 @@ public class DisplayBoard extends JPanel implements Display
 
 	}
 
-	@Override
+	
 	/**
 	 * 
 	 * @param n
@@ -558,7 +558,7 @@ public class DisplayBoard extends JPanel implements Display
 		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
 
-	@Override
+	
 	public void drawString(int row, int col, Color c, String chars, int spacing)
 	{
 		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
@@ -600,7 +600,7 @@ public class DisplayBoard extends JPanel implements Display
 		return pixels;
 	}
 
-	@Override
+	
 	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing)
 	{
 		drawString(chars.length(), row, col, red, green, blue, chars, spacing);
@@ -612,7 +612,7 @@ public class DisplayBoard extends JPanel implements Display
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
 
-	@Override
+	
 	public void drawString(int n, int row, int col, Color c, String chars, int spacing)
 	{
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
