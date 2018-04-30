@@ -7,12 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="library/jinput.jar"/>
-	<classpathentry kind="lib" path="src/JavaArduinoCommunicator/32Bit/RXTXcomm.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="D:/Programming/Java/displayBoard/src/JavaArduinoCommunicator/64Bit"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="src/MrHRXTX/arduino.jar"/>
-	<classpathentry kind="lib" path="src/MrHRXTX/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="library/arduino.jar"/>
+	<classpathentry kind="lib" path="library/jSerialComm-1.3.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

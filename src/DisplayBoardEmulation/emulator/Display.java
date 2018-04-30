@@ -17,13 +17,8 @@ public interface Display {
 	public boolean isCleared();
 	
 	public void drawString(int row, int col, int red, int green, int blue, String chars);
-	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing);
 	public void drawString(int row, int col, Color c, String chars);
-	public void drawString(int row, int col, Color c, String chars, int spacing);
 	public void drawString(int n, int row, int col, int red, int green, int blue, String chars);
-	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing);
 	public void drawString(int n, int row, int col, Color c, String chars);
-	public void drawString(int n, int row, int col, Color c, String chars, int spacing);
 	public int StringWidth(String chars);
-	public int StringWidth(String chars, int spacing);
 }

@@ -16,10 +16,18 @@ import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.nativeApp.Application;
 
 public class ImageDisplayApp extends Application {
-	String imagePath = "H:\\private\\CS2\\Art.jpg";
+	//CS2 Images:
+	//Beginning: H:\\private\\CS2\\
+	//Hackerman.jpg - Hackerman Image
+	//HashBrowns1.jpg - Hash Browns
+	//HashBrowns2.jfif - Hash Browns
+	//Bee.png - Bee Alpha testing
+	//Hue_alpha_falloff.png - More Alpha Testing
+	String imagePath = "H:\\private\\CS2\\Bee.png";
 	
 	@Override
 	public void start(DisplayBoard board){
+		//Load image as path
 		File f = new File(imagePath);
 		BufferedImage i = null;
 		try {
@@ -27,6 +35,7 @@ public class ImageDisplayApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Initial Image has Alpha? " + i.getColorModel().hasAlpha());
 		board.drawImage(i,0,0,board.COLS,board.ROWS);
 	}
 

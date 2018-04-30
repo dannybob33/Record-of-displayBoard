@@ -1,11 +1,14 @@
 
 void setup(){
   Serial.begin(9600);
+  pinMode (13, OUTPUT);
 }
 char c[1024];
 void loop(){
   while (Serial.available() > 0) {
-    int n = Serial.readBytesUntil('*', c, 1024);
-    Serial.write (c, n);
+    digitalWrite (13, HIGH);
+    int n = Serial.readBytesUntil(0, c, 1024);
+    Serial.write ("OK");
+    digitalWrite (13, LOW);
   }
 }
