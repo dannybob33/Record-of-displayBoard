@@ -20,8 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class DisplayBoard extends JPanel implements Display
-{
+public class DisplayBoard extends JPanel {
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
 	private final static int PIXEL_SPACING = 2;
@@ -38,6 +37,8 @@ public class DisplayBoard extends JPanel implements Display
 	private TreeSet<String> keys;
 
 	private LinkedList<KeyRunnable> keyCallbacks;
+	
+	private boolean autoRepaint = true;
 
 	public DisplayBoard()
 	{
@@ -62,6 +63,11 @@ public class DisplayBoard extends JPanel implements Display
 		keyCallbacks = new LinkedList<KeyRunnable>();
 		setBackground(Color.GRAY);
 		initFrame();
+	}
+	
+	public DisplayBoard(boolean autoRepaint) {
+		this();
+		this.autoRepaint = autoRepaint;
 	}
 
 	/**
@@ -97,13 +103,17 @@ public class DisplayBoard extends JPanel implements Display
 		 * int rgb = red; rgb = (rgb<<8) + green; rgb = (rgb<<8) + blue;
 		 */
 		colorPixel(row, col, new Color(red, green, blue));
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public Color getPixel(int row, int col)
@@ -268,7 +278,9 @@ public class DisplayBoard extends JPanel implements Display
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -300,7 +312,9 @@ public class DisplayBoard extends JPanel implements Display
 				colorPixel(rw, cl, c);
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -368,7 +382,7 @@ public class DisplayBoard extends JPanel implements Display
 	private class panelKeyListener implements KeyListener
 	{
 
-		@Override
+		
 		public void keyPressed(KeyEvent arg0)
 		{
 			keys.add("" + arg0.getKeyChar());
@@ -386,7 +400,7 @@ public class DisplayBoard extends JPanel implements Display
 			}
 		}
 
-		@Override
+		
 		public void keyReleased(KeyEvent arg0)
 		{
 			keys.remove("" + arg0.getKeyChar());
@@ -403,7 +417,7 @@ public class DisplayBoard extends JPanel implements Display
 			}
 		}
 
-		@Override
+		
 		public void keyTyped(KeyEvent arg0)
 		{
 			// TODO Auto-generated method stub
@@ -411,7 +425,7 @@ public class DisplayBoard extends JPanel implements Display
 		}
 	}
 
-	@Override
+	
 	/**
 	 * drawString without n (for easier Java testing)
 	 * 
@@ -457,7 +471,7 @@ public class DisplayBoard extends JPanel implements Display
 
 	}
 
-	@Override
+	
 	/**
 	 * 
 	 * @param n
@@ -504,7 +518,7 @@ public class DisplayBoard extends JPanel implements Display
 	}
 
 
-	@Override
+	
 	public void drawString(int row, int col, Color c, String chars)
 	{
 		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
@@ -529,7 +543,7 @@ public class DisplayBoard extends JPanel implements Display
 		return pixels;
 	}
 
-	@Override
+	
 	public void drawString(int n, int row, int col, Color c, String chars)
 	{
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
@@ -546,7 +560,9 @@ public class DisplayBoard extends JPanel implements Display
 				this.colorPixel(r+row,c+col,newColor);
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {
@@ -575,18 +591,8 @@ public class DisplayBoard extends JPanel implements Display
 		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1)));
 		return new Color(r,g,b);
 	}
-	/*private Color overlayAlphaColor(Color c1, Color c2) {
-		double a1 = c1.getAlpha()/255.0;
-		double a2 = c1.getAlpha()/255.0;
-		double r1 = c1.getRed()/255.0;
-		double r2 = c1.getRed()/255.0;
-		double g1 = c1.getGreen()/255.0;
-		double g2 = c1.getGreen()/255.0;
-		double b1 = c1.getBlue()/255.0;
-		double b2 = c1.getBlue()/255.0;
-		int r = (int)(255*(r1*a1 + r2*a2*(1-a1))/(a1+a2*(1-a1)));
-		int g = (int)(255*((g1*a1) + (g2*a2)*(1-a1))/(a1+a2*(1-a1)));
-		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1))/(a1+a2*(1-a1)));
-		return new Color(r,g,b);
-	}*/
+	
+	public void repaintBoard() {
+		repaint();
+	}
 }
