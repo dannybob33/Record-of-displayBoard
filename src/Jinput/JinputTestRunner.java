@@ -30,6 +30,10 @@ public class JinputTestRunner {
 	            System.out.println("Found no controllers.");
 	            System.exit(0);
 	         }
+	         else if(controllers.length > 6) {
+	        	 System.out.println(controllers.length);
+	        	 System.exit(0);
+	         }
 	         
 	         for(int i=0;i<controllers.length;i++) {
 	            controllers[i].poll();
