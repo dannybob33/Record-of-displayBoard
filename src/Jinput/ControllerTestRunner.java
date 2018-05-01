@@ -2,12 +2,13 @@ package Jinput;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
-import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;
@@ -43,16 +44,47 @@ public class ControllerTestRunner {
 		public void run() {
 
 			// First you need to create controller.
-			JInputJoystick controller = new JInputJoystick(Controller.Type.STICK, Controller.Type.GAMEPAD);
+			Controller[] controllersArrayList = ControllerEnvironment.getDefaultEnvironment().getControllers();
+			ArrayList<Controller> controllers = new ArrayList<Controller>();
+			 for(int i = 0; i<controllersArrayList.length;i++) {
+				 if(controllersArrayList[i].getType()==Controller.Type.GAMEPAD) {
+					 controllers.add(controllersArrayList[i]);
+				 }
+			 }
+			 JInputJoystick controller = new JInputJoystick(Controller.Type.GAMEPAD, controllers);
+			 JInputJoystick controller2 = new JInputJoystick(Controller.Type.GAMEPAD, controllers);
 
 			EventQueue queue = controller.getController().getEventQueue();
+			EventQueue queue2 = controller2.getController().getEventQueue();
+			System.out.println((controller.getController().getComponents()[5].getPollData()));
 			// Check if the controller was found.
 			if (!controller.isControllerConnected()) {
 				System.out.println("No controller found!");
-				// Do some stuff.
 			}
 			Event event = new Event();
+			Event event2 = new Event();
 			board.colorRect(ballLocation, color);
+			//THERE IS NOTHING IN THIS QUEUE. HOW DO WE ADD TO THIS QUEUE?
+			while (queue2.getNextEvent(event2)) {
+				System.out.println("TEST");
+				if (controller2.getButtonValue(0)) {
+					color = Color.GREEN;
+				}
+
+				else if (controller2.getButtonValue(1)) {
+					color = Color.RED;
+				}
+
+				else if (controller2.getButtonValue(2)) {
+					color = Color.BLUE;
+				}
+
+				else if (controller2.getButtonValue(3)) {
+					color = Color.CYAN;
+				} else {
+					color = Color.YELLOW;
+				}
+			}
 			while (queue.getNextEvent(event)) {
 				try {
 					Thread.sleep(timeSpeed);
@@ -66,24 +98,6 @@ public class ControllerTestRunner {
 					System.out.println("Controller disconnected!");
 					// Do some stuff.
 				}
-				if (controller.getButtonValue(0)) {
-					color = Color.GREEN;
-				}
-
-				else if (controller.getButtonValue(1)) {
-					color = Color.RED;
-				}
-
-				else if (controller.getButtonValue(2)) {
-					color = Color.BLUE;
-				}
-
-				else if (controller.getButtonValue(3)) {
-					color = Color.CYAN;
-				} else {
-					color = Color.YELLOW;
-				}
-				
 				int rightTrigger = controller.getZAxisPercentage();
 				if(rightTrigger < 45) {
 					timeSpeed = 2;
@@ -110,9 +124,12 @@ public class ControllerTestRunner {
 				} else {
 					yInc = 0;
 				}
-
-				System.out.println(xValuePercentageLeftJoystick + ", " + yValuePercentageLeftJoystick);
 				board.colorRect(ballLocation, Color.BLACK); // Erase old ball
+				System.out.println(xValuePercentageLeftJoystick + ", " + yValuePercentageLeftJoystick);
+			
+		
+			
+				
 				
 
 				if (ballLocation.x + xInc < board.COLS - ballLocation.width && ballLocation.x + xInc >= 0) {
@@ -131,6 +148,7 @@ public class ControllerTestRunner {
 				// System.out.println("yInc: " + yInc);
 
 			}
+			
 		}
 	};
 

@@ -44,9 +44,9 @@ public class JInputJoystick {
      *
      * @param controllerType Desired controller type.
      */
-    public JInputJoystick(Controller.Type controllerType) {
+    public JInputJoystick(Controller.Type controllerType, ArrayList<Controller> controllers) {
         initialize();
-        initController(controllerType, null);
+        initController(controllerType, controllers);
     }
 
     /**
@@ -78,6 +78,15 @@ public class JInputJoystick {
             if (controllers[i].getType() == controllerType_1
                     || controllers[i].getType() == controllerType_2) {
                 controller = controllers[i];
+                break;
+            }
+        }
+    }
+    private void initController(Controller.Type controllerType, ArrayList<Controller> controllers) {
+    	for (int i = 0; i < controllers.size() && controller == null; i++) {
+            if (controllers.get(i).getType() == controllerType) {
+                controller = controllers.get(i);
+                controllers.remove(controller);
                 break;
             }
         }
