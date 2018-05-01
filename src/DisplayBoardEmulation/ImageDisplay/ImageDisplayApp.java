@@ -23,7 +23,7 @@ public class ImageDisplayApp extends Application {
 	//HashBrowns2.jfif - Hash Browns
 	//Bee.png - Bee Alpha testing
 	//Hue_alpha_falloff.png - More Alpha Testing
-	String imagePath = "H:\\private\\CS2\\Bee.png";
+	String imagePath = "H:\\private\\CS2\\Hue_alpha_falloff.png";
 	
 	@Override
 	public void start(DisplayBoard board){

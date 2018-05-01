@@ -20,8 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class DisplayBoard extends JPanel implements Display
-{
+public class DisplayBoard extends JPanel {
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
 	private final static int PIXEL_SPACING = 2;
@@ -38,6 +37,8 @@ public class DisplayBoard extends JPanel implements Display
 	private TreeSet<String> keys;
 
 	private LinkedList<KeyRunnable> keyCallbacks;
+	
+	private boolean autoRepaint = true;
 
 	public DisplayBoard()
 	{
@@ -62,6 +63,11 @@ public class DisplayBoard extends JPanel implements Display
 		keyCallbacks = new LinkedList<KeyRunnable>();
 		setBackground(Color.GRAY);
 		initFrame();
+	}
+	
+	public DisplayBoard(boolean autoRepaint) {
+		this();
+		this.autoRepaint = autoRepaint;
 	}
 
 	/**
@@ -97,13 +103,17 @@ public class DisplayBoard extends JPanel implements Display
 		 * int rgb = red; rgb = (rgb<<8) + green; rgb = (rgb<<8) + blue;
 		 */
 		colorPixel(row, col, new Color(red, green, blue));
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public Color getPixel(int row, int col)
@@ -268,7 +278,9 @@ public class DisplayBoard extends JPanel implements Display
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -300,7 +312,9 @@ public class DisplayBoard extends JPanel implements Display
 				colorPixel(rw, cl, c);
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -368,7 +382,7 @@ public class DisplayBoard extends JPanel implements Display
 	private class panelKeyListener implements KeyListener
 	{
 
-		@Override
+		
 		public void keyPressed(KeyEvent arg0)
 		{
 			keys.add("" + arg0.getKeyChar());
@@ -386,7 +400,7 @@ public class DisplayBoard extends JPanel implements Display
 			}
 		}
 
-		@Override
+		
 		public void keyReleased(KeyEvent arg0)
 		{
 			keys.remove("" + arg0.getKeyChar());
@@ -403,7 +417,7 @@ public class DisplayBoard extends JPanel implements Display
 			}
 		}
 
-		@Override
+		
 		public void keyTyped(KeyEvent arg0)
 		{
 			// TODO Auto-generated method stub
@@ -411,7 +425,7 @@ public class DisplayBoard extends JPanel implements Display
 		}
 	}
 
-	@Override
+	
 	/**
 	 * drawString without n (for easier Java testing)
 	 * 
@@ -457,7 +471,7 @@ public class DisplayBoard extends JPanel implements Display
 
 	}
 
-	@Override
+	
 	/**
 	 * 
 	 * @param n
@@ -503,13 +517,66 @@ public class DisplayBoard extends JPanel implements Display
 
 	}
 
+	
+	/**
+	 * 
+	 * @param n
+	 *            - The number of Characters in chars
+	 * @param row
+	 * @param col
+	 * @param red
+	 * @param green
+	 * @param blue
+	 * @param chars
+	 * @param spacing
+	 *            - Integer to customize spacing between characters
+	 */
+	public void drawString(int n, int row, int col, int red, int green, int blue, String chars, int spacing)
+	{
+		char[][] charset = charSet.Cset(); // creating character set
 
-	@Override
+		int extraSpacing = 0; // extra spacing between letters
+
+		for (int i = 0; i < n; i++)
+		{ // for each character in "chars"...
+			String letter = chars.substring(i, i + 1); // get corresponding letter
+
+			char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
+			System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+			if (letter.hashCode() == 32)// if the character is a space (" ")...
+			{
+				extraSpacing -= spacing / 2;// reduce the spacing
+			}
+			for (int c = 0; c < locs.length; c++) // for each column...
+			{
+				int r = 0; // intialized row count
+				for (int j = 1; j <= 256; j *= 2) // for each pixel/binary in the row...
+				{
+					if (((locs[c]) & j) != 0) // if the pixel should be on...
+					{
+
+						setPixel(r + row, c + col + extraSpacing, red, green, blue);// turn the pixel on
+					}
+
+					r++;// increase the row count
+				}
+			}
+			extraSpacing += spacing; // add spacing between letters
+		}
+
+	}
+
+	
 	public void drawString(int row, int col, Color c, String chars)
 	{
 		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
 
+	
+	public void drawString(int row, int col, Color c, String chars, int spacing)
+	{
+		drawString(row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
+	}
 
 	public int StringWidth(String chars)
 	{
@@ -529,24 +596,52 @@ public class DisplayBoard extends JPanel implements Display
 		return pixels;
 	}
 
-	@Override
+	public int StringWidth(String chars, int spacing)
+	{
+		char[] chararr = chars.toCharArray();
+		int pixels = 0;
+		for (char c : chararr)
+		{
+			if (("" + c).equals(" "))
+			{
+				pixels += spacing / 2;
+			}
+			else
+			{
+				pixels += spacing;
+			}
+		}
+		return pixels;
+	}
+
+	
+	public void drawString(int row, int col, int red, int green, int blue, String chars, int spacing)
+	{
+		drawString(chars.length(), row, col, red, green, blue, chars, spacing);
+	}
+	
 	public void drawString(int n, int row, int col, Color c, String chars)
 	{
 		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars);
 	}
+
+	
+	public void drawString(int n, int row, int col, Color c, String chars, int spacing)
+	{
+		drawString(n, row, col, c.getRed(), c.getGreen(), c.getBlue(), chars, spacing);
+	}
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
 		BufferedImage newImage = resize(img,width,height);
-		System.out.println("Resized Image has Alpha? " + newImage.getColorModel().hasAlpha());
 		for(int r = 0;r<newImage.getHeight();r++) {
 			for(int c = 0;c<newImage.getWidth();c++) {
-				Color color = new Color(newImage.getRGB(c,r),true);
-				Color oldColor = this.getPixel(r,c);
-				Color newColor = overlayAlphaColor(color,oldColor);
-				this.colorPixel(r+row,c+col,newColor);
+				System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
+				this.colorPixel(r+row,c+col,new Color(newImage.getRGB(c, r)));
 			}
 		}
-		repaint();
+		if(autoRepaint) {
+			repaint();
+		}
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {
@@ -575,18 +670,8 @@ public class DisplayBoard extends JPanel implements Display
 		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1)));
 		return new Color(r,g,b);
 	}
-	/*private Color overlayAlphaColor(Color c1, Color c2) {
-		double a1 = c1.getAlpha()/255.0;
-		double a2 = c1.getAlpha()/255.0;
-		double r1 = c1.getRed()/255.0;
-		double r2 = c1.getRed()/255.0;
-		double g1 = c1.getGreen()/255.0;
-		double g2 = c1.getGreen()/255.0;
-		double b1 = c1.getBlue()/255.0;
-		double b2 = c1.getBlue()/255.0;
-		int r = (int)(255*(r1*a1 + r2*a2*(1-a1))/(a1+a2*(1-a1)));
-		int g = (int)(255*((g1*a1) + (g2*a2)*(1-a1))/(a1+a2*(1-a1)));
-		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1))/(a1+a2*(1-a1)));
-		return new Color(r,g,b);
-	}*/
+	
+	public void repaintBoard() {
+		repaint();
+	}
 }

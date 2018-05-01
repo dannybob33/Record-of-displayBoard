@@ -1,7 +1,9 @@
 package DisplayBoardEmulation.nativeApp;
 
+import DisplayBoardEmulation.ImageDisplay.GalleryApp;
 import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
+import DisplayBoardEmulation.sorting.SortingApp;
 import DisplayBoardEmulation.tron.TronApp;
 
 public class simpleNavRunner {
@@ -14,6 +16,8 @@ public class simpleNavRunner {
 		manager.addApplication(new TronApp());
 		manager.addApplication(new DiscountPongApp());
 		manager.addApplication(new ImageDisplayApp());
+		manager.addApplication(new GalleryApp());
+		manager.addApplication(new SortingApp());
 		//Start program
 		manager.initialize();
 	}
