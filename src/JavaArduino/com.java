@@ -23,6 +23,21 @@ public class com {
 	}
 	
 	public boolean setPixel(int row, int col, int r, int g, int b) {
+		if(r>=256) {
+			return false;
+		}
+		else if(r>=256) {
+			return false;
+		}
+		else if(r>=256) {
+			return false;
+		}
+		/*else if(row>=256) {
+			return false;
+		}
+		else if(col>=256) {
+			return false;
+		}*/
 		send("P "+row+" "+col+" "+r+" "+g+" "+b);
 		if(get("P1")) {
 			return true;
@@ -32,12 +47,12 @@ public class com {
 	
 	public boolean show() {
 		send("E");
-		return get("E");
+		return get("E1");
 	}
 	
 	public boolean clear() {
 		send("D");
-		return get("D");
+		return get("D1");
 	}
 	
 	private boolean get(String str) {
