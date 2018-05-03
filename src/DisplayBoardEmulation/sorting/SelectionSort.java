@@ -4,18 +4,19 @@ import java.awt.Color;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
 
-public class BubbleSort implements SortingAlgorithm {
+public class SelectionSort implements SortingAlgorithm {
+
 	private double[] values;
 	private int row;
 	private DisplayBoard board;
 	private int currentIndex = 0;
 	private boolean isDone = false;
-	private int currentMaxIndex;
-	public BubbleSort(double[] vals, DisplayBoard board, int row) {
+	private int currentMinIndex = 0;
+	private int currentMinValue = 0;
+	public SelectionSort(double[] vals, DisplayBoard board, int row) {
 		this.board = board;
 		this.values = vals;
 		this.row = row;
-		this.currentMaxIndex = this.values.length-1;
 	}
 	
 	@Override
@@ -23,22 +24,23 @@ public class BubbleSort implements SortingAlgorithm {
 		if(isDone) {
 			return;
 		}
-		if(currentMaxIndex <= 0) {
+		if(currentMinIndex >= values.length-1) {
 			isDone = true;
 			return;
 		}
-		if(currentIndex>=currentMaxIndex) {
-			currentIndex = 0;
-			currentMaxIndex -= 1;
+		if(currentIndex >= values.length) {
+			double c1 = values[currentMinIndex];
+			double c2 = values[currentMinValue];
+			values[currentMinIndex] = c2;
+			values[currentMinValue] = c1;
+			currentMinIndex += 1;
+			currentIndex = currentMinIndex;
+			currentMinValue = currentMinIndex;
 		}
-		if(values[currentIndex] > values[currentIndex+1]) {
-			double val1 = values[currentIndex];
-			double val2 = values[currentIndex+1];
-			values[currentIndex] = val2;
-			values[currentIndex+1] = val1;
-		} else {
-			currentIndex += 1;
+		if(values[currentIndex] < values[currentMinValue]) {
+			currentMinValue = currentIndex;
 		}
+		currentIndex += 1;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class BubbleSort implements SortingAlgorithm {
 		currentIndex = 0;
 		values = vals;
 		isDone = false;
-		currentMaxIndex = this.values.length-1;
+		currentMinIndex = 0;
 	}
 
 	@Override
@@ -60,5 +62,5 @@ public class BubbleSort implements SortingAlgorithm {
 			board.setPixel(row, i, c);
 		}
 	}
-	
+
 }

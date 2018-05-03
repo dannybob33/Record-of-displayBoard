@@ -23,7 +23,7 @@ public class SortingApp extends Application {
 	private double[][] sortingArr = new double[HEIGHT][board.COLS];
 	private ArrayList<SortingAlgorithm> sorterList = new ArrayList<SortingAlgorithm>();
 	
-	private final int updateSpeed = 25;
+	private final int updateSpeed = 10;
 	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	
 	//The timer
@@ -63,12 +63,12 @@ public class SortingApp extends Application {
 			}
 		}
 		for(int i = 0;i<sortingArr.length;i++) {
-			BubbleSort b = new BubbleSort(sortingArr[i],board,i);
-			sorterList.add(b);
-			b.paint();
+			InsertionSort s = new InsertionSort(sortingArr[i],board,i);
+			sorterList.add(s);
+			s.paint();
 		}
 		future = scheduler.scheduleAtFixedRate(updateAll, updateSpeed, updateSpeed, timeUnit);
-		printLine("Started Gallery");
+		printLine("Started Sorter");
 	}
 
 	@Override

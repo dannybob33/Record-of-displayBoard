@@ -37,8 +37,6 @@ public class DisplayBoard extends JPanel {
 	private TreeSet<String> keys;
 
 	private LinkedList<KeyRunnable> keyCallbacks;
-	
-	private boolean autoRepaint = true;
 
 	public DisplayBoard()
 	{
@@ -63,11 +61,6 @@ public class DisplayBoard extends JPanel {
 		keyCallbacks = new LinkedList<KeyRunnable>();
 		setBackground(Color.GRAY);
 		initFrame();
-	}
-	
-	public DisplayBoard(boolean autoRepaint) {
-		this();
-		this.autoRepaint = autoRepaint;
 	}
 
 	/**
@@ -103,17 +96,13 @@ public class DisplayBoard extends JPanel {
 		 * int rgb = red; rgb = (rgb<<8) + green; rgb = (rgb<<8) + blue;
 		 */
 		colorPixel(row, col, new Color(red, green, blue));
-		if(autoRepaint) {
-			repaint();
-		}
+		repaintBoard();
 	}
 
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
-		if(autoRepaint) {
-			repaint();
-		}
+		repaintBoard();
 	}
 
 	public Color getPixel(int row, int col)
@@ -278,9 +267,7 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
-		if(autoRepaint) {
-			repaint();
-		}
+		repaintBoard();
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -312,9 +299,7 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, c);
 			}
 		}
-		if(autoRepaint) {
-			repaint();
-		}
+		repaintBoard();
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -639,9 +624,7 @@ public class DisplayBoard extends JPanel {
 				this.colorPixel(r+row,c+col,new Color(newImage.getRGB(c, r)));
 			}
 		}
-		if(autoRepaint) {
-			repaint();
-		}
+		repaintBoard();
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {

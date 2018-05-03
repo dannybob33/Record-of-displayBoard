@@ -4,18 +4,20 @@ import java.awt.Color;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
 
-public class BubbleSort implements SortingAlgorithm {
+public class InsertionSort implements SortingAlgorithm {
+
 	private double[] values;
 	private int row;
 	private DisplayBoard board;
 	private int currentIndex = 0;
 	private boolean isDone = false;
 	private int currentMaxIndex;
-	public BubbleSort(double[] vals, DisplayBoard board, int row) {
+	public InsertionSort(double[] vals, DisplayBoard board, int row) {
 		this.board = board;
 		this.values = vals;
 		this.row = row;
-		this.currentMaxIndex = this.values.length-1;
+		currentMaxIndex = 1;
+		currentIndex = currentMaxIndex;
 	}
 	
 	@Override
@@ -23,22 +25,18 @@ public class BubbleSort implements SortingAlgorithm {
 		if(isDone) {
 			return;
 		}
-		if(currentMaxIndex <= 0) {
+		if(currentIndex <= 0) {
+			currentMaxIndex += 1;
+			currentIndex = currentMaxIndex;
+		}
+		if(currentMaxIndex >= values.length) {
 			isDone = true;
 			return;
 		}
-		if(currentIndex>=currentMaxIndex) {
-			currentIndex = 0;
-			currentMaxIndex -= 1;
+		if(values[currentIndex-1] > values[currentIndex]) {
+			swap(currentIndex-1,currentIndex);
 		}
-		if(values[currentIndex] > values[currentIndex+1]) {
-			double val1 = values[currentIndex];
-			double val2 = values[currentIndex+1];
-			values[currentIndex] = val2;
-			values[currentIndex+1] = val1;
-		} else {
-			currentIndex += 1;
-		}
+		currentIndex -=1;
 	}
 
 	@Override
@@ -46,7 +44,6 @@ public class BubbleSort implements SortingAlgorithm {
 		currentIndex = 0;
 		values = vals;
 		isDone = false;
-		currentMaxIndex = this.values.length-1;
 	}
 
 	@Override
@@ -61,4 +58,11 @@ public class BubbleSort implements SortingAlgorithm {
 		}
 	}
 	
+	private void swap(int i1, int i2) {
+		double c1 = values[i1];
+		double c2 = values[i2];
+		values[i1] = c2;
+		values[i2] = c1;
+	}
+
 }
