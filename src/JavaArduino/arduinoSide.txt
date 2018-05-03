@@ -3,15 +3,68 @@ void setup(){
   Serial.begin(9600);
   pinMode (13, OUTPUT);
 }
+
+const static int ROWS = 44;
+const static int COLS = 74;
+static int colmax = 73;
 char c[1024];
+
 void loop(){
   while (Serial.available() > 0) {
-    digitalWrite (13, HIGH);
-    int n = Serial.readBytesUntil(0, c, 1024);
-    Serial.write ("OK");
-    digitalWrite (13, LOW);
+    digitalWrite(13, HIGH);
+    int n=Serial.readBytes(c, 1);
+    if(c[0]=='P') {
+      int row=Serial.parseInt();
+      int col=Serial.parseInt();
+      int led=toLEDNum(col, row);
+      int r=Serial.parseInt();
+      int g=Serial.parseInt();
+      int b=Serial.parseInt();
+    Serial.write(led);
+    }
+    digitalWrite(13, LOW);
   }
 }
+<<<<<<< HEAD
+  
+  static int toLEDNum(int col, int row){ //The original LED num method. This is still vital.
+      int output = 0;
+      if(row%2 == 0) {
+        output = (row*colmax) + (row+col);
+      }
+      else {
+        output = (row*colmax) + ((colmax - col) + row);
+      }
+      return output;
+  }
+
+  static int getLED(int col, int row) {//New LED method getting LED num based on pin used.
+    int led = toLEDNum(col, row);
+     //every 16 rows of 74, start over again
+    if(toLEDNum(col, row) >= 2368) { //determines LED number starting from third pin used
+        led = toLEDNum(col, row) - 2368;
+      }
+      else if(toLEDNum(col, row) >= 1184) { //determines LED number starting from second pin used
+        led = toLEDNum(col, row) - 1184;
+      }
+      
+    return led;
+  }
+  /*
+void setup(){
+  Serial.begin(9600);
+  digitalWrite(13, HIGH);
+}
+
+void loop(){
+  while(Serial.available()>0) {
+      int n=Serial.read();
+      Serial.write(n);
+      digitalWrite(13, LOW);
+  }
+}
+*/
+=======
 
 
 **METHODS**
@@ -431,3 +484,4 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 }
+>>>>>>> branch 'master' of https://github.com/pumatech/displayBoard.git
