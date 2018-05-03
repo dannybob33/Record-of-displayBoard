@@ -1,10 +1,6 @@
 package JavaArduino;
 
-// see https://sourceforge.net/projects/javaarduinolibrary/files/?source=navbar
-
-//import java.util.Scanner;
-
-import arduino.*;
+import java.util.Scanner;
 
 
 public class JATest {
@@ -13,6 +9,12 @@ public class JATest {
 		com c;
 		try {
 			c=new com(11);
+			Scanner s=new Scanner(System.in);
+			if(c.setPixel(32, 24, 255, 0, 255)) {
+				if(c.show()) {
+					System.out.println("GOOD");
+				}
+			}
 			c.close();
 		}
 		catch(Exception e) {
