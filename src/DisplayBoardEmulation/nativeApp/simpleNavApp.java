@@ -35,6 +35,7 @@ public class simpleNavApp extends Application {
 			board.drawString(0, centering("No Apps"), Color.RED, "No Apps");
 			board.drawString(8, centering("To Select!"), Color.RED, "To Select!");
 		}
+		board.repaintBoard();
 	}
 
 	@Override
@@ -68,6 +69,7 @@ public class simpleNavApp extends Application {
 		board.clear();
 		printLine("Selected app is: " + app.getName());
 		board.drawString(MIDDLE_TEXT, centering(app.getName()), Color.RED, app.getName());
+		board.repaintBoard();
 	}
 	
 	private int centering(String text) {

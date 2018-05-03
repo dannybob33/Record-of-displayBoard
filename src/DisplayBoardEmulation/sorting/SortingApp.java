@@ -38,6 +38,7 @@ public class SortingApp extends Application {
 					sorter.update();
 					sorter.paint();
 				}
+				board.repaintBoard();
 			}
 		}
 	};
@@ -67,6 +68,7 @@ public class SortingApp extends Application {
 			sorterList.add(s);
 			s.paint();
 		}
+		board.repaintBoard();
 		future = scheduler.scheduleAtFixedRate(updateAll, updateSpeed, updateSpeed, timeUnit);
 		printLine("Started Sorter");
 	}

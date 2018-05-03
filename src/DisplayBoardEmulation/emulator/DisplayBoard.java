@@ -96,13 +96,11 @@ public class DisplayBoard extends JPanel {
 		 * int rgb = red; rgb = (rgb<<8) + green; rgb = (rgb<<8) + blue;
 		 */
 		colorPixel(row, col, new Color(red, green, blue));
-		repaintBoard();
 	}
 
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
-		repaintBoard();
 	}
 
 	public Color getPixel(int row, int col)
@@ -267,7 +265,6 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
-		repaintBoard();
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -299,7 +296,6 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, c);
 			}
 		}
-		repaintBoard();
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -624,7 +620,6 @@ public class DisplayBoard extends JPanel {
 				this.colorPixel(r+row,c+col,new Color(newImage.getRGB(c, r)));
 			}
 		}
-		repaintBoard();
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {
