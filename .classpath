@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="library/arduino.jar"/>
 	<classpathentry kind="lib" path="library/jSerialComm-1.3.11.jar"/>
 	<classpathentry kind="lib" path="library/jxinput.jar"/>
+	<classpathentry kind="lib" path="library/jxinput-0.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
