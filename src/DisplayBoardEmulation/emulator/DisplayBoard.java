@@ -616,8 +616,11 @@ public class DisplayBoard extends JPanel {
 		BufferedImage newImage = resize(img,width,height);
 		for(int r = 0;r<newImage.getHeight();r++) {
 			for(int c = 0;c<newImage.getWidth();c++) {
-				System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
-				this.colorPixel(r+row,c+col,new Color(newImage.getRGB(c, r)));
+				//System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
+				this.colorPixel(r+row,c+col,
+						overlayAlphaColor(
+								new Color(newImage.getRGB(c, r)),
+								this.getPixel(r,c)));
 			}
 		}
 	}
@@ -643,9 +646,9 @@ public class DisplayBoard extends JPanel {
 		double g2 = c1.getGreen()/255.0;
 		double b1 = c1.getBlue()/255.0;
 		double b2 = c1.getBlue()/255.0;
-		int r = (int)(255*(r1*a1 + r2*a2*(1-a1)));
-		int g = (int)(255*((g1*a1) + (g2*a2)*(1-a1)));
-		int b = (int)(255*((b1*a1) + (b2*a2)*(1-a1)));
+		int r = (int)(255*(r1*a1 + a2*r2*(1-a1)));
+		int g = (int)(255*(g1*a1 + a2*g2*(1-a1)));
+		int b = (int)(255*(b1*a1 + a2*b2*(1-a1)));
 		return new Color(r,g,b);
 	}
 	

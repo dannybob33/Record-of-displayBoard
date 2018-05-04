@@ -68,6 +68,7 @@ public class TronApp extends Application {
 			if(!gameEnd && isRunning) {
 				movePlayer(p2);
 			}
+			board.repaintBoard();
 		}
 	};
 
@@ -78,6 +79,7 @@ public class TronApp extends Application {
 			while(!board.isCleared()) {
 				board.clear();
 			}
+			board.repaintBoard();
 			future = scheduler.scheduleAtFixedRate(gameUpdate, timeSpeed, timeSpeed, timeUnit);
 			printLine("Game Started!");
 		}
@@ -119,6 +121,7 @@ public class TronApp extends Application {
 				} else {
 					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p1.PLAYER_COLOR);
 				}
+				board.repaintBoard();
 				future.cancel(true);
 				scheduler.schedule(reset, timeSpeed * endMultiplier, timeUnit);
 				printLine("Game Ended!");
