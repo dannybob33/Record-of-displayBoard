@@ -2,6 +2,7 @@ package DisplayBoardEmulation.snake;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -9,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.emulator.KeyRunnable;
-import DisplayBoardEmulation.tron.Player;
+import DisplayBoardEmulation.nativeApp.Application;
 
-public class SnakeApp
+public class SnakeApp extends Application
 {
 private static final String NAME = "Snake";
 	
-	private Player p1;
+	private Snek p1;
 
 	
 	//Time stuff
@@ -34,8 +35,15 @@ private static final String NAME = "Snake";
 	private boolean gameEnd;
 	
 	private boolean isRunning = false;
-		
+	
+	private LinkedList<Location> locs;
+	
+	private int sLength;
+	
 	public void start(DisplayBoard board) {
+		
+		locs = new LinkedList<Location>();
+		
 		isRunning = true;
 		
 		//Set board variable
@@ -44,11 +52,12 @@ private static final String NAME = "Snake";
 		gameEnd = false;
 		
 		//Make players
-		p1 = new Player(Color.RED, new Color(192,0,0),22,9,6);
-		p2 = new Player(Color.GREEN, new Color(0,192,0),22,66,4);
+		p1 = new Snek(Color.GREEN, new Color(0,192,0),22,9,6);
+		
+		locs.add(new Location(22, 9));
+		sLength = 4;
 		//Make key inputs
 		p1.addDirection("w", 8); p1.addDirection("a", 4); p1.addDirection("s", 2); p1.addDirection("d", 6);
-		p2.addDirection("i", 8); p2.addDirection("j", 4); p2.addDirection("k", 2); p2.addDirection("l", 6);
 		
 		if(!board.hasKeyCallback(keyUpdate)) {
 			board.addKeyCallback(keyUpdate);
@@ -62,12 +71,8 @@ private static final String NAME = "Snake";
 	public final Runnable gameUpdate = new Runnable() {
 		public void run() {
 			p1.changedDir = false;
-			p2.changedDir = false;
 			if(!gameEnd && isRunning) {
-				movePlayer(p1);
-			}
-			if(!gameEnd && isRunning) {
-				movePlayer(p2);
+				moveSnek(p1);
 			}
 			board.repaintBoard();
 		}
@@ -81,6 +86,7 @@ private static final String NAME = "Snake";
 				board.clear();
 			}
 			board.repaintBoard();
+			sLength = 4;
 			future = scheduler.scheduleAtFixedRate(gameUpdate, timeSpeed, timeSpeed, timeUnit);
 			printLine("Game Started!");
 		}
@@ -89,13 +95,19 @@ private static final String NAME = "Snake";
 	public final KeyRunnable keyUpdate = new KeyRunnable() {
 		public void run(KeyEvent e) {
 			if(isRunning) {
-				p1.changeDirection("" + e.getKeyChar());
-				p2.changeDirection("" + e.getKeyChar());
+				if (e.getKeyChar() == ' ')
+				{
+					sLength++;
+				}
+				else
+				{
+					p1.changeDirection("" + e.getKeyChar());
+				}
 			}
 		}
 	};
 	
-	private void movePlayer(Player p) {
+	private void moveSnek(Snek p) {
 		if(gameEnd || !isRunning) {
 			return;
 		}
@@ -109,23 +121,33 @@ private static final String NAME = "Snake";
 		} else {
 			r=p.getRow()+1;c=p.getCol();
 		}
-		if(checkPositionEmpty(r,c)) {
+		if(checkPositionEmpty(r,c) || board.getPixel(r, c).equals(Color.RED)) {
+			locs.add(new Location(r, c));
+			if (board.getPixel(r, c).equals(Color.RED))
+			{
+				sLength++;
+			}
+			if (locs.size() > sLength)
+			{
+				board.setPixel(locs.get(0).getRow(), locs.get(0).getCol(), Color.BLACK);
+				locs.removeFirst();
+			}
 			board.setPixel(p.getRow(),p.getCol(),p.TRAIL_COLOR);
-			board.setPixel(r,c,p.TRAIL_COLOR);
+			board.setPixel(r,c,p.PLAYER_COLOR);
 			p.setRow(r);
 			p.setCol(c);
 		} else {
 			if(!gameEnd && isRunning) {
 				gameEnd = true;
 				if(p.equals(p1)) {
-					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p2.PLAYER_COLOR);
-				} else {
-					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,p1.PLAYER_COLOR);
-				}
+					board.colorRect(0,0,DisplayBoard.COLS+1,DisplayBoard.ROWS+1,Color.RED);
+				} 
 				board.repaintBoard();
 				future.cancel(true);
 				scheduler.schedule(reset, timeSpeed * endMultiplier, timeUnit);
+				sLength = 4;
 				printLine("Game Ended!");
+				
 			}
 		}
 	}
@@ -134,10 +156,9 @@ private static final String NAME = "Snake";
 		p1.setRow(22);
 		p1.setCol(9);
 		p1.setDirection(6);
-		
-		p2.setRow(22);
-		p2.setCol(66);
-		p2.setDirection(4);
+		locs = new LinkedList<Location>();
+		locs.add(new Location(22, 9));
+		sLength = 4;
 	}
 	
 	public boolean checkPositionEmpty(int row, int col) {

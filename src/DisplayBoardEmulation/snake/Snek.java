@@ -3,7 +3,7 @@ package DisplayBoardEmulation.snake;
 import java.awt.Color;
 import java.util.TreeMap;
 
-public class Player {
+public class Snek {
 	public final Color PLAYER_COLOR;
 	public final Color TRAIL_COLOR;
 	private int row;
@@ -12,7 +12,7 @@ public class Player {
 	public boolean changedDir;
 	public TreeMap<String, Integer> directions;
 	
-	public Player(Color playerColor,Color trailColor,int row,int col,int direction) {
+	public Snek(Color playerColor,Color trailColor,int row,int col,int direction) {
 		PLAYER_COLOR = playerColor;
 		TRAIL_COLOR = trailColor;
 		this.row = row;
