@@ -3,6 +3,7 @@ package DisplayBoardEmulation.fusionFeud;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -150,18 +151,18 @@ public class fusionFeudApp {
 				}
 
 				// -------Move the bullets------
-				for(Bullet bullet : bullets) {
+				Iterator<Bullet> itr = bullets.iterator();
+				while(itr.hasNext()) {
+					Bullet bullet = itr.next();
+					board.colorRect(bullet.ballLocation, Color.BLACK);
 					if(!bullet.move()) {
 						System.out.println(bullet.ballLocation);
-						bullets.remove(bullet);
-						System.out.println("hereh");
+						itr.remove();
 					}
 					else {
-						System.out.println("test");
 						board.colorRect(bullet.ballLocation, Color.YELLOW);
 					}
 				}
-				System.out.println("TEST'");
 				// Change the color
 				board.colorRect(p1Location, p1Color);
 				board.colorRect(p2Location, p2Color);
