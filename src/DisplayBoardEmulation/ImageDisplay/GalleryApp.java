@@ -82,6 +82,7 @@ public class GalleryApp extends Application {
 	private void updateImage() {
 		if(isRunning) {
 			board.drawImage(images.get(currentImageIndex), 0, 0, board.COLS, board.ROWS);
+			board.repaintBoard();
 		}
 	}
 	
