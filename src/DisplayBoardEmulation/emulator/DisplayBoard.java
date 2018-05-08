@@ -617,7 +617,7 @@ public class DisplayBoard extends JPanel {
 		for(int r = 0;r<newImage.getHeight();r++) {
 			for(int c = 0;c<newImage.getWidth();c++) {
 				//System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
-				this.colorPixel(r+row,c+col,
+				this.setPixel(r+row,c+col,
 						overlayAlphaColor(
 								new Color(newImage.getRGB(c, r)),
 								this.getPixel(r,c)));
@@ -628,7 +628,7 @@ public class DisplayBoard extends JPanel {
 	private BufferedImage resize(BufferedImage img, int width, int height) {
 		int w = img.getWidth();
 	    int h = img.getHeight();
-	    BufferedImage dimg = new BufferedImage(width, height, img.getType());
+	    BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g = dimg.createGraphics();
 	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 	            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
