@@ -34,8 +34,7 @@ public class fusionFeudApp {
 
 	// Player 2
 	private Color p2Color = Color.RED;
-	private Rectangle p2Location = new Rectangle(72-paddleWidth, 18, paddleWidth,
-			paddleHeight);
+	private Rectangle p2Location = new Rectangle(72 - paddleWidth, 18, paddleWidth, paddleHeight);
 	private int p2XInc = 0;
 	private int p2YInc = 0;
 
@@ -89,9 +88,7 @@ public class fusionFeudApp {
 						// == false)
 
 						if (button.equals(XInputButton.A) && pressed) {
-							p1Color = Color.GREEN;
-						} else {
-							p1Color = Color.BLUE;
+							bullets.add(new Bullet((p1Location.x)+3,(p1Location.y)+4,1));
 						}
 					}
 				};
@@ -117,9 +114,7 @@ public class fusionFeudApp {
 						// == false)
 
 						if (button.equals(XInputButton.A) && pressed) {
-							p2Color = Color.GREEN;
-						} else {
-							p2Color = Color.RED;
+							bullets.add(new Bullet((p2Location.x)-3,(p1Location.y)+4,-1));
 						}
 					}
 				};
@@ -128,16 +123,17 @@ public class fusionFeudApp {
 
 				// Left stick movements
 				int[] xy = leftStickMovement(device);
-				p1XInc = xy[0];
-				p1YInc = xy[1];
+//				p1XInc = xy[0];
+				 p1YInc = xy[1];
 				xy = leftStickMovement(device2);
-				p2XInc = xy[0];
-				p2YInc = xy[1];
+//				p2XInc = xy[0];
+				 p2YInc = xy[1];
 				// erase the ball
 				board.colorRect(p1Location, Color.BLACK);
 				board.colorRect(p2Location, Color.BLACK);
+				// ----Move the Paddles----
+				/* TODO: Should we make a Paddle Class with a paddle.move method? */
 				// Move the ball according to xInc
-				/// * TODO: CREATE A COLLISION METHOD */
 				if (p1Location.x + p1XInc < DisplayBoard.COLS - p1Location.width && p1Location.x + p1XInc >= 0) {
 					p1Location.x = p1Location.x + p1XInc;
 				}
@@ -152,6 +148,20 @@ public class fusionFeudApp {
 				if (p2Location.y + p2YInc < DisplayBoard.ROWS - p2Location.height && p2Location.y + p2YInc >= 0) {
 					p2Location.y = p2Location.y + p2YInc;
 				}
+
+				// -------Move the bullets------
+				for(Bullet bullet : bullets) {
+					if(!bullet.move()) {
+						System.out.println(bullet.ballLocation);
+						bullets.remove(bullet);
+						System.out.println("hereh");
+					}
+					else {
+						System.out.println("test");
+						board.colorRect(bullet.ballLocation, Color.YELLOW);
+					}
+				}
+				System.out.println("TEST'");
 				// Change the color
 				board.colorRect(p1Location, p1Color);
 				board.colorRect(p2Location, p2Color);
@@ -173,18 +183,35 @@ public class fusionFeudApp {
 		int ballSize = 2;
 		int xInc;
 		int yInc = 0;
+		int player;
 		Rectangle ballLocation;
 
 		public Bullet(int xLoc, int yLoc, int player) {
 			ballLocation = new Rectangle(xLoc, yLoc, ballSize, ballSize);
-			if (player == 1) {
+			this.player = player;
+			if (this.player == 1) {
 				xInc = 1;
 			} else {
 				xInc = -1;
 			}
 		}
-	}
 
+		public boolean move() {
+			
+			if (ballLocation.x + xInc < DisplayBoard.COLS - ballSize && ballLocation.x + xInc >= 0) {
+				ballLocation.x = ballLocation.x + xInc;
+				return true;
+			}
+			else {
+				System.out.println(ballLocation.x + " " + xInc + " " + DisplayBoard.COLS);
+			return false;	
+			}
+//			ATM this probably doesn't matter because balls only move in the x direction
+//			if (ballLocation.y + yInc < DisplayBoard.ROWS - ballLocation.height && ballLocation.y + yInc >= 0) {
+//				ballLocation.y = ballLocation.y + yInc;
+//			}
+		}
+	}
 	/* TODO: CREATE A COLLISION METHOD */
 	// puts movements into array depending on left stick of given device
 	public int[] leftStickMovement(XInputDevice device) {
