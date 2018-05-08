@@ -20,6 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import arduino.Arduino;
+
 public class DisplayBoard extends JPanel {
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
@@ -38,8 +40,28 @@ public class DisplayBoard extends JPanel {
 
 	private LinkedList<KeyRunnable> keyCallbacks;
 
+//  arduino inst vars
+	
+	private Arduino a;
+	int rowMax; //DEclusive
+	int colMax; //DEclusive
+
 	public DisplayBoard()
 	{
+		/*
+		 * init serial port connection to arduino
+		 */
+		int port = 9;
+		a=new Arduino("COM"+port, 115200); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
+		a.openConnection();
+		try {
+			Thread.sleep(2500);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Initialized");
+
 		/*
 		 * ROWS = rows; COLS = cols;
 		 */
@@ -265,6 +287,10 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, new Color(r, g, b));
 			}
 		}
+		
+		// also send to Arduino
+		
+		
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -296,6 +322,11 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, c);
 			}
 		}
+		
+		// send to Arduino
+		
+		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1");
+
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -750,5 +781,6 @@ public class DisplayBoard extends JPanel {
 	
 	public void repaintBoard() {
 		repaint();
+		a.serialWrite("E");
 	}
 }
