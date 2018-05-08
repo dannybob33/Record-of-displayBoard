@@ -37,6 +37,7 @@ public class ImageDisplayApp extends Application {
 		}
 		System.out.println("Initial Image has Alpha? " + i.getColorModel().hasAlpha());
 		board.drawImage(i,0,0,board.COLS,board.ROWS);
+		board.repaintBoard();
 	}
 
 	@Override
