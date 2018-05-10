@@ -3,6 +3,7 @@ package DisplayBoardEmulation.nativeApp;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
 import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
+import DisplayBoardEmulation.snake.SnakeApp;
 import DisplayBoardEmulation.sorting.SortingApp;
 import DisplayBoardEmulation.tron.TronApp;
 import DisplayBoardEmulation.webcam.WebCamPhotoApp;
@@ -20,6 +21,7 @@ public class simpleNavRunner {
 		manager.addApplication(new GalleryApp());
 		manager.addApplication(new SortingApp());
 		manager.addApplication(new WebCamPhotoApp());
+		manager.addApplication(new SnakeApp());
 		//Start program
 		manager.initialize();
 	}

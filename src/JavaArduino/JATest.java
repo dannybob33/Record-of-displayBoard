@@ -1,20 +1,36 @@
 package JavaArduino;
 
-import java.util.Scanner;
-
-
 public class JATest {
 
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(11);
-			Scanner s=new Scanner(System.in);
-			if(c.setPixel(32, 24, 255, 0, 255)) {
+			c=new com(9, 73, 43);
+			c.clear();
+			c.show();
+			Thread.sleep(150);
+			/*if(c.setPixel(32, 24, 255, 0, 255)) {
+				System.out.println("Sent!");
 				if(c.show()) {
 					System.out.println("GOOD");
 				}
 			}
+			*/
+			c.drawRect(0, 0, 44, 74, 0, 0, 0, true);
+			c.show();
+			int lastR = 0;
+			int lastC = 0;
+			for (int cc=0; cc<64; cc++) {
+				for (int rr=0; rr<32; rr++) {
+					c.drawRect(lastR, lastC, 10, 10, 0, 0, 0, true);
+					c.drawRect(rr, cc, 10, 10, 255, 255, 255, true);
+					lastR = rr;
+					lastC = cc;
+					c.show();
+				}
+			}
+
+			System.out.println("End!");
 			c.close();
 		}
 		catch(Exception e) {
