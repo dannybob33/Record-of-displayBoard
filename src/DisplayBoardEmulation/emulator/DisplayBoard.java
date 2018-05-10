@@ -52,7 +52,7 @@ public class DisplayBoard extends JPanel {
 		 * init serial port connection to arduino
 		 */
 		int port = 6;
-		a=new Arduino("COM"+port, 115200); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
+		a=new Arduino("COM"+port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 		a.openConnection();
 		try {
 			Thread.sleep(2500);
@@ -123,6 +123,7 @@ public class DisplayBoard extends JPanel {
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
+		a.serialWrite("P " + row + " " + col + " " + c.getRed() + " " + c.getGreen() + " " + c.getBlue());
 	}
 
 	public Color getPixel(int row, int col)
@@ -402,6 +403,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += 6; // add spacing between letters
 		}
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 
 	}
 
@@ -544,7 +546,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += 6; // add spacing between letters
 		}
-
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 	}
 
 	
@@ -593,7 +595,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += spacing; // add spacing between letters
 		}
-
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 	}
 
 	
