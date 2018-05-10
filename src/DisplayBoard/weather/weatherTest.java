@@ -24,8 +24,7 @@ public class weatherTest {
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
-			//URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Broomfield.xml"); 
-			//I'm just testing different locations here, no worries. I'll delete this later
+
 			
 			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -65,9 +64,6 @@ public class weatherTest {
 					
 					
 					
-					
-					
-					
 					if(output.length() > 6) {   //checks the length of the name and enters a new line if there are two words
 						int atSpace = output.indexOf(" ");
 						output1 = output.substring(0,atSpace);
@@ -79,54 +75,54 @@ public class weatherTest {
 					//   board.drawImage(img, row, col, width, height);
 					
 					if(output.equals("Clear")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
-						board.drawImage(img, 15, 40, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
+						//board.drawImage(img, 15, 40, 25, 25);
 					}
 					else if(output.equals("Partly Cloudy")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\partlyCloudy.png"));
-						board.drawImage(img, 15, 40, 30, 24);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\partlyCloudy.png"));
+						//board.drawImage(img, 15, 40, 30, 24);
 					}
 					else if(output.equals("Mostly Cloudy")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\mostlyCloudy.png"));
-						board.drawImage(img, 15, 40, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\mostlyCloudy.png"));
+						//board.drawImage(img, 15, 40, 25, 25);
 					}
 					else if(output.equals("Scattered Clouds")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\scatteredClouds.png"));
-						board.drawImage(img, 25, 40, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\scatteredClouds.png"));
+						//board.drawImage(img, 20, 40, 30, 30);
 					}
 					else if(output.equals("Overcast")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\overcast.png"));
-						board.drawImage(img, 20, 45, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\overcast.png"));
+						//board.drawImage(img, 20, 45, 25, 25);
 					}
 					else if(output.equals("Light Rain")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\lightRain.png"));
-						board.drawImage(img, 13, 40, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightRain.png"));
+						//board.drawImage(img, 13, 40, 25, 25);
 					}
 					else if(output.equals("Heavy Rain")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\heavyRain.png"));
-						board.drawImage(img, 15, 40, 23, 23);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavyRain.png"));
+						//board.drawImage(img, 15, 40, 23, 23);
 					}
 					else if(output.equals("Heavy Drizzle")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\heavyDrizzle.png"));
-						board.drawImage(img, 15, 43, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavyDrizzle.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
 					}
 					else if(output.equals("Light Drizzle")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\lightDrizzle.png"));
-						board.drawImage(img, 15, 43, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightDrizzle.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
 					}
 					else if(output.equals("Light Snow")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\lightSnow.png"));
-						board.drawImage(img, 15, 43, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightSnow.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
 					}
 					else if(output.equals("Heavy Snow")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\heavySnow.png"));
-						board.drawImage(img, 13, 40, 30, 30);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavySnow.png"));
+						//board.drawImage(img, 13, 40, 30, 30);
 					}
 					
 					
 					else if(output.equals("Light Volcanic Ash") || output.equals("Heavy Volcanic Ash")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\thisIsFine.png"));
-						board.drawImage(img, 0, 40, 44, 44);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\thisIsFine.png"));
+						//board.drawImage(img, 0, 40, 44, 44);
 					}
 					
 					
