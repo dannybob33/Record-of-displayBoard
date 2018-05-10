@@ -452,7 +452,103 @@ public class DisplayBoard extends JPanel {
 
 	}
 
-	
+	public void drawLine(int r1, int c1, int r2, int c2, Color col) {
+		// Draw line using Color
+		int deltC = c2 - c1;
+		int deltR = r2 - r1;
+		double slope = (double) deltR / deltC;
+
+		double c = Math.min(c1, c2);
+		double r= Math.min(r1, r2);
+		
+		if (slope > -1 && slope < 1) {
+			if(Math.min(c1, c2)==c2) {
+				r=r2;
+			}
+			else {
+				r=r1;
+			}
+			if(Math.min(r1, r2)==r2) {
+				c=c2;
+			}
+			else {
+				c=c1;
+			}
+			for (int c3 = Math.min(c1, c2); c3 <= Math.max(c1, c2); c3++) {
+				r = r + slope;
+				setPixel((int)r, c3, col);
+			}
+
+		}
+		else {
+			if(Math.min(c1, c2)==c2) {
+				r=r2;
+			}
+			else {
+				r=r1;
+			}
+			if(Math.min(r1, r2)==r2) {
+				c=c2;
+			}
+			else {
+				c=c1;
+			}
+			for (int r3 = Math.min(r1, r2); r3 <= Math.max(r1, r2); r3++) {
+				c = c + 1/slope;
+				setPixel(r3, (int)c, col);
+			}
+		}
+	}
+
+	public void drawLine(int r1, int c1, int r2, int c2, int red, int green, int blue) {
+		// Draw line using RGB
+		int deltC = c2 - c1;
+		int deltR = r2 - r1;
+		double slope = (double) deltR / deltC;
+
+		double c = Math.min(c1, c2);
+		double r= Math.min(r1, r2);
+		
+		if (slope > -1 && slope < 1) {
+			if(Math.min(c1, c2)==c2) {
+				r=r2;
+			}
+			else {
+				r=r1;
+			}
+			if(Math.min(r1, r2)==r2) {
+				c=c2;
+			}
+			else {
+				c=c1;
+			}
+			for (int c3 = Math.min(c1, c2); c3 <= Math.max(c1, c2); c3++) {
+				r = r + slope;
+				setPixel((int)r, c3, red, green, blue);
+			}
+
+		}
+		else {
+			if(Math.min(c1, c2)==c2) {
+				r=r2;
+			}
+			else {
+				r=r1;
+			}
+			if(Math.min(r1, r2)==r2) {
+				c=c2;
+			}
+			else {
+				c=c1;
+			}
+			for (int r3 = Math.min(r1, r2); r3 <= Math.max(r1, r2); r3++) {
+				c = c + 1/slope;
+				setPixel(r3, (int)c, red, green, blue);
+			}
+		}
+	}
+
+
 	/**
 	 * 
 	 * @param n

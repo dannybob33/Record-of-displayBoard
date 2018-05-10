@@ -56,7 +56,7 @@ public class ControllerTestRunner {
 
 			EventQueue queue = controller.getController().getEventQueue();
 			EventQueue queue2 = controller2.getController().getEventQueue();
-			System.out.println((controller.getController().getComponents()[5].getPollData()));
+			System.out.println(queue);
 			// Check if the controller was found.
 			if (!controller.isControllerConnected()) {
 				System.out.println("No controller found!");

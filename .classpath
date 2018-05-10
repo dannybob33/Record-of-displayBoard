@@ -13,5 +13,7 @@
 	<classpathentry kind="lib" path="library/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="lib" path="library/webcam-capture-0.3.10.jar"/>
 	<classpathentry kind="lib" path="library/slf4j-simple-1.7.2.jar"/>
+	<classpathentry kind="lib" path="library/jxinput.jar"/>
+	<classpathentry kind="lib" path="library/jxinput-0.8.jar" sourcepath="library/jxinput-0.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
