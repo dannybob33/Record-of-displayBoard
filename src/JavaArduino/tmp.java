@@ -1,4 +1,4 @@
-package tmp;
+package JavaArduino;
 
 import java.util.Scanner;
 
@@ -69,9 +69,9 @@ public class JATest {
 		}		
 		a.closeConnection();
 		s.close();
-		*/
+		
 	}
-}
+}*/
 /*
 ASCII Table ~ Character Map
 !, dec: 33, hex: 21, oct: 41, bin: 100001

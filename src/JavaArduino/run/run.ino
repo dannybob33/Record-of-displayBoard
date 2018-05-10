@@ -28,7 +28,7 @@ char c[1024];
 boolean tmp=false;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(250000);
   digitalWrite(13, LOW);
   delay(2500);
   // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
@@ -134,6 +134,7 @@ void loop() {
       int g=Serial.parseInt();
       int b=Serial.parseInt();
       char text[count];
+      Serial.readBytes(text, 1);//absorbs space
       /*int n2=*/Serial.readBytes(text, count);
       /*
       if(n!=n2) {

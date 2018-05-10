@@ -1,4 +1,4 @@
-package tmp;
+package JavaArduino;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ public class com {
 	int colMax; //DEclusive
 	
 	public com(int port, int row, int max) { //DEclusive
-		a=new Arduino("COM"+port, 115200); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
+		a=new Arduino("COM"+port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 		a.openConnection();
 		try {
 			Thread.sleep(2500);

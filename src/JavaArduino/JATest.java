@@ -1,11 +1,11 @@
-package tmp;
+package JavaArduino;
 
 public class JATest {
 
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(12, 73, 43);
+			c=new com(6, 73, 43);
 			c.clear();
 			c.show();
 			Thread.sleep(250);
