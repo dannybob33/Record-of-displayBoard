@@ -170,39 +170,7 @@ public class DisplayBoard extends JPanel {
 
 	public void drawCircle(int x, int y, int r, int red, int green, int blue, boolean fill)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-		if (fill == false)
-		{
-			for (i = 0; i < 360; i += 1)
-			{
-				angle = i;
-				x1 = r * Math.cos(angle * PI / 180);
-				y1 = r * Math.sin(angle * PI / 180);
-
-				int ElX = (int) Math.round(x + x1);
-				int ElY = (int) Math.round(y + y1);
-
-				setPixel(ElX, ElY, new Color(red, green, blue));
-			}
-		}
-		else
-		{
-			for (int j = r; j >= 0; j--)
-			{
-				for (i = 0; i < 360; i += 1)
-				{
-					angle = i;
-					x1 = j * Math.cos(angle * PI / 180);
-					y1 = j * Math.sin(angle * PI / 180);
-
-					int ElX = (int) Math.round(x + x1);
-					int ElY = (int) Math.round(y + y1);
-
-					setPixel(ElX, ElY, new Color(red, green, blue));
-				}
-			}
-		}
+		drawCircle(x,y,r,new Color(red,green,blue),fill);
 	}
 
 	public void drawCircle(int x, int y, int r, Color col, boolean fill)
