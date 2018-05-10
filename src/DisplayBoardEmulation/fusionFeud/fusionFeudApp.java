@@ -115,12 +115,14 @@ public class fusionFeudApp {
 						// == false)
 
 						if (button.equals(XInputButton.A) && pressed) {
-							bullets.add(new Bullet((p2Location.x)-3,(p1Location.y)+4,-1));
+							bullets.add(new Bullet((p2Location.x)-3,(p2Location.y)+4,-1));
 						}
 					}
 				};
 				device.addListener(listener);
 				device2.addListener(listener2);
+
+
 
 				// Left stick movements
 				int[] xy = leftStickMovement(device);
@@ -130,8 +132,10 @@ public class fusionFeudApp {
 //				p2XInc = xy[0];
 				 p2YInc = xy[1];
 				// erase the ball
+
 				board.colorRect(p1Location, Color.BLACK);
 				board.colorRect(p2Location, Color.BLACK);
+
 				// ----Move the Paddles----
 				/* TODO: Should we make a Paddle Class with a paddle.move method? */
 				// Move the ball according to xInc
@@ -149,6 +153,7 @@ public class fusionFeudApp {
 				if (p2Location.y + p2YInc < DisplayBoard.ROWS - p2Location.height && p2Location.y + p2YInc >= 0) {
 					p2Location.y = p2Location.y + p2YInc;
 				}
+				
 
 				// -------Move the bullets------
 				Iterator<Bullet> itr = bullets.iterator();
@@ -156,7 +161,6 @@ public class fusionFeudApp {
 					Bullet bullet = itr.next();
 					board.colorRect(bullet.ballLocation, Color.BLACK);
 					if(!bullet.move()) {
-						System.out.println(bullet.ballLocation);
 						itr.remove();
 					}
 					else {
@@ -198,14 +202,38 @@ public class fusionFeudApp {
 		}
 
 		public boolean move() {
-			
-			if (ballLocation.x + xInc < DisplayBoard.COLS - ballSize && ballLocation.x + xInc >= 0) {
-				ballLocation.x = ballLocation.x + xInc;
-				return true;
+			if(player == 1) {
+				if(ballLocation.x + xInc == p2Location.x -1 && ((ballLocation.y>=p2Location.y && ballLocation.y<=p2Location.y+paddleHeight)||(ballLocation.y+ballSize>=p2Location.y && ballLocation.y+ballSize<=p2Location.y+paddleHeight))) {
+					//bounce
+					player = 2;
+					xInc = -1*xInc;
+					ballLocation.x += xInc;
+					return true;
+				}
+				else if (ballLocation.x + xInc < DisplayBoard.COLS - ballSize && ballLocation.x + xInc >= 0) {
+					ballLocation.x += xInc;
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 			else {
-				System.out.println(ballLocation.x + " " + xInc + " " + DisplayBoard.COLS);
-			return false;	
+				if(ballLocation.x + xInc == p1Location.x + paddleWidth&& ((ballLocation.y>=p1Location.y && ballLocation.y<=p1Location.y+paddleHeight)||(ballLocation.y+ballSize>=p1Location.y && ballLocation.y+ballSize<=p1Location.y+paddleHeight))) {
+					//bounce
+					player = 1;
+					xInc = -1*xInc;
+					ballLocation.x += xInc;
+					return true;
+				}
+				else if (ballLocation.x + xInc < DisplayBoard.COLS - ballSize && ballLocation.x + xInc >= 0) {
+					ballLocation.x += xInc;
+					return true;
+				}
+				else {
+					return false;
+				}
+				
 			}
 //			ATM this probably doesn't matter because balls only move in the x direction
 //			if (ballLocation.y + yInc < DisplayBoard.ROWS - ballLocation.height && ballLocation.y + yInc >= 0) {
