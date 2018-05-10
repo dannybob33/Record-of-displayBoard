@@ -1,4 +1,4 @@
-package JavaArduino;
+package tmp;
 
 import java.io.IOException;
 
@@ -21,38 +21,55 @@ public class com {
 		System.out.println("Initialized");
 	}
 	
-	//CIRC row col radius red green blue isFull
-	//C [0-] [0-] [0-] [0-255] [0-255] [0-255] [0-1]
+	public boolean drawString(int n, int col, int row, int r, int g, int b, char[] c) {
+		send("S "+n+" "+col+" "+row+" "+r+" "+g+" "+b+" "+new String(c));
+		/*
+		String s="";
+		while(s.equals("")) {
+			s=a.serialRead();
+		}
+		System.out.println("S: "+s);
+		*/
+		return true;
+	}
+	
+	public boolean drawString(int n, int col, int row, int r, int g, int b, String c) {
+		send("S "+n+" "+col+" "+row+" "+r+" "+g+" "+b+" "+c);
+		/*
+		String s="";
+		while(s.equals("")) {
+			s=a.serialRead();
+		}
+		System.out.println("S: "+s);
+		*/
+		return true;
+	}
+	
+	public boolean drawLine(int row1, int col1, int row2, int col2, int r, int g, int b) {
+		send("L "+row1+" "+col1+" "+row2+" "+col2+" "+r+" "+g+" "+b);
+		return true;
+	}
+	
 	/*
+	public boolean brightness(int i) {
+		send("I "+i);
+		return true;
+	}
+	*/
+	
+	//CIRC row col radius red green blue isFull
+	//C 10 10 4 192 64 128 1
+	//C 10 10 4 192 64 128 0
 	public boolean drawCircle(int row, int col, int radius, int r, int g, int b, boolean isFull) {
+		int i=isFull?1:0;
+		send("C "+row+" "+col+" "+radius+" "+r+" "+g+" "+b+" "+i);
+		return true;
 		
-	}*/
+	}
 
+	//R 10 20 5 10 128 255 0 1
 	//R 10 20 5 10 128 255 0 0
 	public boolean drawRect(int row, int col, int w, int h, int r, int g, int b, boolean isFull) {
-		/*
-		if(rgb(r)) {
-			return false;
-		}
-		else if(rgb(g)) {
-			return false;
-		}
-		else if(rgb(b)) {
-			return false;
-		}
-		else if((row>rowMax)||(row<0)) {
-			return false;
-		}
-		else if((col>colMax)||(col<0)) {
-			return false;
-		}
-		else if((colMax-col)<w) {
-			return false;
-		}
-		else if((rowMax-row)<h) {
-			return false;
-		}
-		*/
 		int i=isFull?1:0;
 		send("R "+row+" "+col+" "+w+" "+h+" "+r+" "+g+" "+b+" "+i);
 		return true;
@@ -60,23 +77,6 @@ public class com {
 
 	//P 20 16 0 128 255
 	public boolean setPixel(int row, int col, int r, int g, int b) {
-		/*
-		if(r>=256) {
-			return false;
-		}
-		else if(r>=256) {
-			return false;
-		}
-		else if(r>=256) {
-			return false;
-		}
-		else if((row>rowMax)||(row<0)) {
-			return false;
-		}
-		else if((col>colMax)||(col<0)) {
-			return false;
-		}
-		*/
 		send("P "+row+" "+col+" "+r+" "+g+" "+b);
 		return true;
 	}

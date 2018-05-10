@@ -1,50 +1,20 @@
 package tmp;
 
+import java.util.Scanner;
+
+/*
 public class JATest {
 
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(12, 73, 43);
-			c.clear();
-			c.show();
-			Thread.sleep(250);
-			if(c.setPixel(10, 20, 192, 128, 255)) {
-				System.out.println("SetPixel: GOOD");
+			c=new com(12);
+			if(c.setPixel(32, 24, 255, 0, 255)) {
+				System.out.println("Sent!");
+				if(c.show()) {
+					System.out.println("GOOD");
+				}
 			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawCircle(10, 20, 4, 192, 128, 255, true)) {
-				System.out.println("DrawCircle: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawRect(10, 20, 8, 16, 192, 128, 255, true)) {
-				System.out.println("DrawRect: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawLine(0, 0, 74, 44, 192, 128, 255)) {
-				System.out.println("DrawLine: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawString("Hello Worldz!".length(), 10, 10, 192, 128, 255, "Hello Worldz!")) {
-				System.out.println("DrawString: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			Thread.sleep(1000);
 			System.out.println("End!");
 			c.close();
 		}
@@ -53,7 +23,7 @@ public class JATest {
 		}
 		
 		
-		
+		*/
 		
 		
 		
