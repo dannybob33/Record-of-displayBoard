@@ -5,7 +5,7 @@ public class JATest {
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(9, 73, 43);
+			c=new com(6, 73, 43);
 			c.clear();
 			c.show();
 			Thread.sleep(150);
@@ -16,7 +16,7 @@ public class JATest {
 				}
 			}
 			*/
-			c.drawRect(0, 0, 44, 74, 0, 0, 0, true);
+			c.drawRect(0, 0, 44, 74, 255, 0, 0, true);
 			c.show();
 			int lastR = 0;
 			int lastC = 0;

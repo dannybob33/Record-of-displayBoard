@@ -51,7 +51,7 @@ public class DisplayBoard extends JPanel {
 		/*
 		 * init serial port connection to arduino
 		 */
-		int port = 9;
+		int port = 6;
 		a=new Arduino("COM"+port, 115200); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 		a.openConnection();
 		try {
@@ -142,38 +142,12 @@ public class DisplayBoard extends JPanel {
 
 	public void drawCircle(int x, int y, int r)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-
-		for (i = 0; i < 360; i += 1)
-		{
-			angle = i;
-			x1 = r * Math.cos(angle * PI / 180);
-			y1 = r * Math.sin(angle * PI / 180);
-
-			int ElX = (int) Math.round(x + x1);
-			int ElY = (int) Math.round(y + y1);
-
-			setPixel(ElX, ElY, new Color(200, 200, 200));
-		}
+		drawCircle(x,y,r,new Color(200, 200, 200));
 	}
 
 	public void drawCircle(int x, int y, int r, int red, int green, int blue)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-
-		for (i = 0; i < 360; i += 1)
-		{
-			angle = i;
-			x1 = r * Math.cos(angle * PI / 180);
-			y1 = r * Math.sin(angle * PI / 180);
-
-			int ElX = (int) Math.round(x + x1);
-			int ElY = (int) Math.round(y + y1);
-
-			setPixel(ElX, ElY, new Color(red, green, blue));
-		}
+		drawCircle(x,y,r,new Color(red,green,blue));
 	}
 
 	public void drawCircle(int x, int y, int r, Color col)
@@ -270,27 +244,7 @@ public class DisplayBoard extends JPanel {
 
 	public void colorRect(int row, int col, int width, int height, int r, int g, int b)
 	{
-		int finalRow = row + height;
-		if (finalRow >= ROWS)
-		{
-			finalRow = ROWS - 1;
-		}
-		int finalCol = col + width;
-		if (finalCol >= COLS)
-		{
-			finalCol = COLS - 1;
-		}
-		for (int rw = row; rw <= finalRow; rw++)
-		{
-			for (int cl = col; cl <= finalCol; cl++)
-			{
-				colorPixel(rw, cl, new Color(r, g, b));
-			}
-		}
-		
-		// also send to Arduino
-		
-		
+		colorRect(row,col,width,height,new Color(r,g,b));
 	}
 
 	public void addKeyCallback(KeyRunnable r)
