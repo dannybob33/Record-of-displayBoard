@@ -91,6 +91,11 @@ public class com {
 		return;
 	}
 	
+	public boolean drawImage (int row, int col, int width, int height, String data) {
+		// data is a sequence of r g b values 
+		send ("X "+row+" "+col+" "+width+" "+height+" "+data);
+		return true;
+	}
 	private void send(String s) {
 		a.serialWrite(s);
 		return;

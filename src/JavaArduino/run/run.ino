@@ -62,6 +62,20 @@ void loop() {
       strip.setPixelColor(toLEDNum(row, col), strip.Color(r, g, b));
       //Serial.write("P1");
     }
+    else if(c[0]=='X') {
+      int row=Serial.parseInt();
+      int col=Serial.parseInt();
+      int w=Serial.parseInt();
+      int h=Serial.parseInt();
+      for (r=0; r<h; r++) {
+        for (c=0; c<w; c++) {
+            int red = Serial.parseInt();
+            int green = Serial.parseInt();
+            int blue = Serial.parseInt();
+            strip.setPixelColor(toLEDNum(row+r, col+c), strip.Color(red, green, blue);
+        }
+      }
+    }
     else if(c[0]=='E') {
       strip.show();
       //Serial.write("E1");
@@ -600,9 +614,3 @@ void drawString(int n, int row, int col, int red, int green, int blue, String ch
   }
 
 }
-
-
-
-
-
-

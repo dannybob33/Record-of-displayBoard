@@ -665,15 +665,19 @@ public class DisplayBoard extends JPanel {
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
 		BufferedImage newImage = resize(img,width,height);
+		String data = "";
 		for(int r = 0;r<newImage.getHeight();r++) {
 			for(int c = 0;c<newImage.getWidth();c++) {
 				//System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
+				Color color = new Color(newImage.getRGB(c, r));
 				this.setPixel(r+row,c+col,
 						overlayAlphaColor(
 								new Color(newImage.getRGB(c, r)),
 								this.getPixel(r,c)));
+				data+=color.getRed()+" "+color.getGreen()+" "+color.getBlue()+" ";
 			}
 		}
+		a.serialWrite("X " + row + " " + col + " " + width + " " + height + " " +data);
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {
