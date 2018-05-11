@@ -51,7 +51,7 @@ public class DisplayBoard extends JPanel {
 		/*
 		 * init serial port connection to arduino
 		 */
-		int port = 6;
+		int port = 9;
 		a=new Arduino("COM"+port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 		a.openConnection();
 		try {
@@ -670,11 +670,12 @@ public class DisplayBoard extends JPanel {
 			for(int c = 0;c<newImage.getWidth();c++) {
 				//System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
 				Color color = new Color(newImage.getRGB(c, r));
-				this.setPixel(r+row,c+col,
+				/*this.setPixel(r+row,c+col,
 						overlayAlphaColor(
 								new Color(newImage.getRGB(c, r)),
-								this.getPixel(r,c)));
+								this.getPixel(r,c))); */
 				data+=color.getRed()+" "+color.getGreen()+" "+color.getBlue()+" ";
+				System.out.println(color);
 			}
 		}
 		a.serialWrite("X " + row + " " + col + " " + width + " " + height + " " +data);
