@@ -123,7 +123,7 @@ public class DisplayBoard extends JPanel {
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
-		a.serialWrite("P " + row + " " + col + " " + c.getRed() + " " + c.getGreen() + " " + c.getBlue());
+		a.serialWrite("P " + row + " " + col + " " + c.getRed() + " " + c.getGreen() + " " + c.getBlue()+" ");
 	}
 
 	public Color getPixel(int row, int col)
@@ -248,7 +248,7 @@ public class DisplayBoard extends JPanel {
 		
 		// send to Arduino
 		
-		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1");
+		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1"+" ");
 
 	}
 
