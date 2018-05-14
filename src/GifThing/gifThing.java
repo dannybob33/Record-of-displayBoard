@@ -14,7 +14,7 @@ public class gifThing extends Application {
 	@Override
 	public void start(DisplayBoard board) {
 			for (int i = 0; i <= 32; i++) {
-				String imagePath = "vader.jpg";
+				String imagePath = "H:\\private\\CS2\\Memes\\vader.jpg";
 				if (i < 10) {
 					imagePath = "H:\\private\\CS2\\Memes\\JediGif\\frame_0" + i + "_delay-0.1s.gif";
 				} else {

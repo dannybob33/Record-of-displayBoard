@@ -9,18 +9,23 @@ import javax.imageio.ImageIO;
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.nativeApp.Application;
 
-public class Test extends Application {
+public class Jedi extends Application {
+	private boolean isRunning = false;
+	private DisplayBoard board;
 
 	@Override
 	public void start(DisplayBoard board) {
+		this.board = board;
+		isRunning = true;
 		while (true) {
-			String imagePath = "H:\\private\\CS2\\Memes\\Luke.jpg";
-			for (int i = 0; i <= 21; i++) {
+			for (int i = 0; i <= 32; i++) {
+				String imagePath = "H:\\private\\CS2\\Memes\\vader.jpg";
 				if (i < 10) {
-					imagePath = "H:\\private\\CS2\\Memes\\Hyper2\\frame_0" + i + "_delay-0.04s.gif";
+					imagePath = "H:\\private\\CS2\\Memes\\JediGif\\frame_0" + i + "_delay-0.1s.gif";
 				} else {
-					imagePath = "H:\\private\\CS2\\Memes\\Hyper2\\frame_" + i + "_delay-0.04s.gif";
+					imagePath = "H:\\private\\CS2\\Memes\\JediGif\\frame_" + i + "_delay-0.1s.gif";
 				}
+
 				File f = new File(imagePath);
 				BufferedImage img = null;
 				try {
@@ -30,27 +35,29 @@ public class Test extends Application {
 				}
 				board.drawImage(img, 0, 0, board.COLS, board.ROWS);
 				board.repaintBoard();
-				wait(40);
+				wait(50);
 			}
 		}
 	}
 
 	public void wait(int milli) {
+		if(isRunning) {
 		try {
 			Thread.sleep(milli);
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
+		}
 		}
 	}
 
 	@Override
 	public void terminate() {
 		// TODO Auto-generated method stub
-
+		isRunning = false;
 	}
 
 	@Override
 	public String getName() {
-		return "gifThing";
+		return "Gif App";
 	}
 }
