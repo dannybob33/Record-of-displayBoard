@@ -47,7 +47,7 @@ public class DiscountPongApp extends Application {
 				return;
 			}
 			//Erase ball
-			board.colorRect(ballLocation.y,ballLocation.x,ballSize,ballSize,Color.BLACK);
+			board.colorRect(0,0,board.COLS,board.ROWS,Color.CYAN);
 			//Draw paddles
 			board.colorRect(paddle1, Color.RED); //left paddle
 			board.colorRect(paddle2, Color.GREEN); //right paddle
@@ -58,6 +58,7 @@ public class DiscountPongApp extends Application {
 			if(ballLocation.y <= 0 || ballLocation.y >= DisplayBoard.ROWS-ballSize) yInc *= -1; //y direction
 			//Draw ball at new location
 			board.colorRect(ballLocation, Color.YELLOW); //left paddle
+			board.repaintBoard();
 		}
 	};
 

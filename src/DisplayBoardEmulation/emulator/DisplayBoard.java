@@ -20,6 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import arduino.Arduino;
+
 public class DisplayBoard extends JPanel {
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
@@ -38,8 +40,28 @@ public class DisplayBoard extends JPanel {
 
 	private LinkedList<KeyRunnable> keyCallbacks;
 
+//  arduino inst vars
+	
+	private Arduino a;
+	int rowMax; //DEclusive
+	int colMax; //DEclusive
+
 	public DisplayBoard()
 	{
+		/*
+		 * init serial port connection to arduino
+		 */
+		int port = 9;
+		a=new Arduino("COM"+port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
+		a.openConnection();
+		try {
+			Thread.sleep(2500);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Initialized");
+
 		/*
 		 * ROWS = rows; COLS = cols;
 		 */
@@ -101,6 +123,7 @@ public class DisplayBoard extends JPanel {
 	public void setPixel(int row, int col, Color c)
 	{
 		colorPixel(row, col, c);
+		a.serialWrite("P " + row + " " + col + " " + c.getRed() + " " + c.getGreen() + " " + c.getBlue()+" ");
 	}
 
 	public Color getPixel(int row, int col)
@@ -120,38 +143,12 @@ public class DisplayBoard extends JPanel {
 
 	public void drawCircle(int x, int y, int r)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-
-		for (i = 0; i < 360; i += 1)
-		{
-			angle = i;
-			x1 = r * Math.cos(angle * PI / 180);
-			y1 = r * Math.sin(angle * PI / 180);
-
-			int ElX = (int) Math.round(x + x1);
-			int ElY = (int) Math.round(y + y1);
-
-			setPixel(ElX, ElY, new Color(200, 200, 200));
-		}
+		drawCircle(x,y,r,new Color(200, 200, 200));
 	}
 
 	public void drawCircle(int x, int y, int r, int red, int green, int blue)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-
-		for (i = 0; i < 360; i += 1)
-		{
-			angle = i;
-			x1 = r * Math.cos(angle * PI / 180);
-			y1 = r * Math.sin(angle * PI / 180);
-
-			int ElX = (int) Math.round(x + x1);
-			int ElY = (int) Math.round(y + y1);
-
-			setPixel(ElX, ElY, new Color(red, green, blue));
-		}
+		drawCircle(x,y,r,new Color(red,green,blue));
 	}
 
 	public void drawCircle(int x, int y, int r, Color col)
@@ -174,39 +171,7 @@ public class DisplayBoard extends JPanel {
 
 	public void drawCircle(int x, int y, int r, int red, int green, int blue, boolean fill)
 	{
-		double PI = 3.1415926535;
-		double i, angle, x1, y1;
-		if (fill == false)
-		{
-			for (i = 0; i < 360; i += 1)
-			{
-				angle = i;
-				x1 = r * Math.cos(angle * PI / 180);
-				y1 = r * Math.sin(angle * PI / 180);
-
-				int ElX = (int) Math.round(x + x1);
-				int ElY = (int) Math.round(y + y1);
-
-				setPixel(ElX, ElY, new Color(red, green, blue));
-			}
-		}
-		else
-		{
-			for (int j = r; j >= 0; j--)
-			{
-				for (i = 0; i < 360; i += 1)
-				{
-					angle = i;
-					x1 = j * Math.cos(angle * PI / 180);
-					y1 = j * Math.sin(angle * PI / 180);
-
-					int ElX = (int) Math.round(x + x1);
-					int ElY = (int) Math.round(y + y1);
-
-					setPixel(ElX, ElY, new Color(red, green, blue));
-				}
-			}
-		}
+		drawCircle(x,y,r,new Color(red,green,blue),fill);
 	}
 
 	public void drawCircle(int x, int y, int r, Color col, boolean fill)
@@ -248,23 +213,7 @@ public class DisplayBoard extends JPanel {
 
 	public void colorRect(int row, int col, int width, int height, int r, int g, int b)
 	{
-		int finalRow = row + height;
-		if (finalRow >= ROWS)
-		{
-			finalRow = ROWS - 1;
-		}
-		int finalCol = col + width;
-		if (finalCol >= COLS)
-		{
-			finalCol = COLS - 1;
-		}
-		for (int rw = row; rw <= finalRow; rw++)
-		{
-			for (int cl = col; cl <= finalCol; cl++)
-			{
-				colorPixel(rw, cl, new Color(r, g, b));
-			}
-		}
+		colorRect(row,col,width,height,new Color(r,g,b));
 	}
 
 	public void addKeyCallback(KeyRunnable r)
@@ -296,6 +245,11 @@ public class DisplayBoard extends JPanel {
 				colorPixel(rw, cl, c);
 			}
 		}
+		
+		// send to Arduino
+		
+		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1"+" ");
+
 	}
 
 	public void colorRect(Rectangle rect, Color c)
@@ -449,6 +403,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += 6; // add spacing between letters
 		}
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 
 	}
 
@@ -591,7 +546,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += 6; // add spacing between letters
 		}
-
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 	}
 
 	
@@ -640,7 +595,7 @@ public class DisplayBoard extends JPanel {
 			}
 			extraSpacing += spacing; // add spacing between letters
 		}
-
+		a.serialWrite("S " + chars.length() + " " + row + " " + col + " " + red + " " + green + " " + blue + " " + chars);
 	}
 
 	
@@ -710,21 +665,26 @@ public class DisplayBoard extends JPanel {
 	
 	public void drawImage(BufferedImage img, int row, int col, int width, int height) {
 		BufferedImage newImage = resize(img,width,height);
+		String data = "";
 		for(int r = 0;r<newImage.getHeight();r++) {
 			for(int c = 0;c<newImage.getWidth();c++) {
 				//System.out.println(newImage.getWidth() + ", " + newImage.getHeight() + ", " + c + ", "+ r);
-				this.colorPixel(r+row,c+col,
+				Color color = new Color(newImage.getRGB(c, r));
+				/*this.setPixel(r+row,c+col,
 						overlayAlphaColor(
 								new Color(newImage.getRGB(c, r)),
-								this.getPixel(r,c)));
+								this.getPixel(r,c))); */
+				data+=color.getRed()+" "+color.getGreen()+" "+color.getBlue()+" ";
+				System.out.println(color);
 			}
 		}
+		a.serialWrite("X " + row + " " + col + " " + width + " " + height + " " +data);
 	}
 	
 	private BufferedImage resize(BufferedImage img, int width, int height) {
 		int w = img.getWidth();
 	    int h = img.getHeight();
-	    BufferedImage dimg = new BufferedImage(width, height, img.getType());
+	    BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g = dimg.createGraphics();
 	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 	            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -750,5 +710,6 @@ public class DisplayBoard extends JPanel {
 	
 	public void repaintBoard() {
 		repaint();
+		a.serialWrite("E");
 	}
 }

@@ -23,6 +23,10 @@ public class weatherTest {
 		board.show();
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
+			
+
+			
+			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(weatherURL.openStream());
@@ -30,6 +34,8 @@ public class weatherTest {
 			doc.getDocumentElement().normalize();
 			NodeList listOfData = doc.getElementsByTagName("current_observation");
 			String output = "";
+			String output1 = "";
+			String output2 = "";
 			for (int s = 0; s < listOfData.getLength(); s++) {
 				Node firstDataNode = listOfData.item(s);
 				if (firstDataNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -54,18 +60,82 @@ public class weatherTest {
 					Element statElement = (Element) statList.item(0);
 					NodeList textStatList = statElement.getChildNodes();
 					output = ((Node) textStatList.item(0)).getNodeValue().trim();
+					
+					
+					
+					
+					if(output.length() > 6) {   //checks the length of the name and enters a new line if there are two words
+						int atSpace = output.indexOf(" ");
+						output1 = output.substring(0,atSpace);
+						output2 = output.substring(atSpace+1);
+					}
 					BufferedImage img = null;
+					
+					
 					//   board.drawImage(img, row, col, width, height);
 					
 					if(output.equals("Clear")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
-						board.drawImage(img, 15, 40, 25, 25);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\crouton.png"));
+						//board.drawImage(img, 15, 40, 25, 25);
 					}
 					else if(output.equals("Partly Cloudy")) {
-						img = ImageIO.read(new File("H:\\Private\\CS2\\partlyCloudy.png"));
-						board.drawImage(img, 15, 40, 30, 24);
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\partlyCloudy.png"));
+						//board.drawImage(img, 15, 40, 30, 24);
 					}
-					board.drawString(16, -1, 144, 144, 144, output);
+					else if(output.equals("Mostly Cloudy")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\mostlyCloudy.png"));
+						//board.drawImage(img, 15, 40, 25, 25);
+					}
+					else if(output.equals("Scattered Clouds")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\scatteredClouds.png"));
+						//board.drawImage(img, 20, 40, 30, 30);
+					}
+					else if(output.equals("Overcast")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\overcast.png"));
+						//board.drawImage(img, 20, 45, 25, 25);
+					}
+					else if(output.equals("Light Rain")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightRain.png"));
+						//board.drawImage(img, 13, 40, 25, 25);
+					}
+					else if(output.equals("Heavy Rain")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavyRain.png"));
+						//board.drawImage(img, 15, 40, 23, 23);
+					}
+					else if(output.equals("Heavy Drizzle")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavyDrizzle.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
+					}
+					else if(output.equals("Light Drizzle")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightDrizzle.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
+					}
+					else if(output.equals("Light Snow")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\lightSnow.png"));
+						//board.drawImage(img, 15, 43, 25, 25);
+					}
+					else if(output.equals("Heavy Snow")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\heavySnow.png"));
+						//board.drawImage(img, 13, 40, 30, 30);
+					}
+					
+					
+					else if(output.equals("Light Volcanic Ash") || output.equals("Heavy Volcanic Ash")) {
+						//img = ImageIO.read(new File("H:\\Private\\CS2\\thisIsFine.png"));
+						//board.drawImage(img, 0, 40, 44, 44);
+					}
+					
+					
+					//board.drawString(row, col, red, green, blue, chars);
+					
+					if(output.length() > 6) { //checks the length of the name and enters a new line if there are two words
+						board.drawString(16, -1, 144, 144, 144, output1);
+						board.drawString(24, -1, 144, 144, 144, output2);
+					}
+					else {
+						board.drawString(16, -1, 144, 144, 144, output);
+					}
+					board.repaint();
 					output = "";
 				} // end of if clause
 			} // end of for loop with s var
@@ -84,3 +154,5 @@ public class weatherTest {
 		// System.exit (0);
 	}
 }
+
+

@@ -64,7 +64,7 @@ public class SortingApp extends Application {
 			}
 		}
 		for(int i = 0;i<sortingArr.length;i++) {
-			BubbleSort s = new BubbleSort(sortingArr[i],board,i);
+			HeapSort s = new HeapSort(sortingArr[i],board,i);
 			sorterList.add(s);
 			s.paint();
 		}

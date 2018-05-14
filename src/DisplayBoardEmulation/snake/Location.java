@@ -1,6 +1,6 @@
 package DisplayBoardEmulation.snake;
 
-public class Location
+public class Location implements Comparable<Location>
 {
 	public int row;
 	public int col;
@@ -29,6 +29,19 @@ public class Location
 	public void setCol(int col)
 	{
 		this.col = col;
+	}
+
+	@Override
+	public int compareTo(Location other)
+	{
+		if (row == other.row && col == other.col)
+		{
+			return 0;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 	
 }
