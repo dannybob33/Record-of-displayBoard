@@ -247,8 +247,7 @@ public class DisplayBoard extends JPanel {
 		}
 		
 		// send to Arduino
-		
-		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1"+" ");
+		a.serialWrite("R "+row+" "+col+" "+width+" "+height+" "+c.getRed()+" "+c.getGreen()+" "+c.getBlue()+" "+"1" + " ");
 
 	}
 

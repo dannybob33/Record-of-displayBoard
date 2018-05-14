@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.ivan.xinput.XInputDevice; // Class for XInput 1.3. Legacy for Win7.
@@ -15,8 +16,9 @@ import com.ivan.xinput.listener.SimpleXInputDeviceListener;
 import com.ivan.xinput.listener.XInputDeviceListener;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
+import DisplayBoardEmulation.nativeApp.Application;
 
-public class fusionFeudApp {
+public class fusionFeudApp extends Application{
 	// ------Board Setup---------
 	private DisplayBoard board;
 	private int timeSpeed = 25;
@@ -43,18 +45,15 @@ public class fusionFeudApp {
 	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	// -----Start Game------
-	public void start() {
+	private ScheduledFuture<?> future;
+	
+	@Override
+	public void start(DisplayBoard board) {
 		// Create and show board
-		board = new DisplayBoard();
-		board.show();
+		this.board = board;
+		this.board.show();
 		// Setup timer
-		scheduler.scheduleAtFixedRate(update, timeSpeed, timeSpeed, timeUnit);
-	}
-
-	public static void main(String[] args) {
-		// I just did this since I don't like static variables
-		fusionFeudApp application = new fusionFeudApp();
-		application.start();
+		future = scheduler.scheduleAtFixedRate(update, timeSpeed, timeSpeed, timeUnit);
 	}
 
 	// -----Game Function---------
@@ -132,12 +131,12 @@ public class fusionFeudApp {
 //				p2XInc = xy[0];
 				 p2YInc = xy[1];
 				// erase the ball
-
+System.out.println("Clear Paddles Start");
 				board.colorRect(p1Location, Color.BLACK);
 				board.colorRect(p2Location, Color.BLACK);
+				System.out.println("Clear Paddles End");
 
 				// ----Move the Paddles----
-				/* TODO: Should we make a Paddle Class with a paddle.move method? */
 				// Move the ball according to xInc
 				if (p1Location.x + p1XInc < DisplayBoard.COLS - p1Location.width && p1Location.x + p1XInc >= 0) {
 					p1Location.x = p1Location.x + p1XInc;
@@ -156,6 +155,7 @@ public class fusionFeudApp {
 				
 
 				// -------Move the bullets------
+				System.out.println("Bullets start");
 				Iterator<Bullet> itr = bullets.iterator();
 				while(itr.hasNext()) {
 					Bullet bullet = itr.next();
@@ -167,16 +167,20 @@ public class fusionFeudApp {
 						board.colorRect(bullet.ballLocation, Color.YELLOW);
 					}
 				}
+				System.out.println("Bullets end");
 				// Change the color
+				System.out.println("Recolor paddles Start");
 				board.colorRect(p1Location, p1Color);
 				board.colorRect(p2Location, p2Color);
+				System.out.println("Recolor paddles end");
 				// repaint the whole board
 				board.repaint();
 				// poll the controller again
+				System.out.println("Poll Start");
 				device.poll();
 				device2.poll();
+				System.out.println("Poll End");
 			} catch (XInputNotLoadedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -241,7 +245,6 @@ public class fusionFeudApp {
 //			}
 		}
 	}
-	/* TODO: CREATE A COLLISION METHOD */
 	// puts movements into array depending on left stick of given device
 	public int[] leftStickMovement(XInputDevice device) {
 		int[] xy = new int[2];
@@ -260,5 +263,15 @@ public class fusionFeudApp {
 			xy[1] = 0;
 		}
 		return xy;
+	}
+
+	@Override
+	public void terminate() {
+		future.cancel(true);		
+	}
+
+	@Override
+	public String getName() {
+		return "Fusion Feud!";
 	}
 }
