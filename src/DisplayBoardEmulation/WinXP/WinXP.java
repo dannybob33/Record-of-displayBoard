@@ -2,6 +2,7 @@ package DisplayBoardEmulation.WinXP;
 
 import java.io.File;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
@@ -18,8 +19,8 @@ import DisplayBoardEmulation.tron.TronApp;
 import DisplayBoardEmulation.webcam.WebCamPhotoApp;
 
 /**
- * Class that should not exist. 
- * @author Some bad people.
+ * Dear future readers of my Code. John Bass very much disagrees with the following Class
+ * @author Tyler O'Dowd, Ishan Kumar (not really Ishan tho)
  *
  */
 public class WinXP extends Application {
@@ -27,18 +28,17 @@ public class WinXP extends Application {
 	DisplayBoard b;
 	tt t;
 	boolean d;
+	int di;
 	
 	public WinXP() {
 		d=false;
+		di=-99999;
 	}
 	
 	public WinXP(boolean debug) {
 		d=debug;
+		di=0;
 	}
-
-	//end of hettsy face app
-	
-	//start of running thread
 
 	private class tt extends Thread {
 		private DisplayBoard b;
@@ -50,12 +50,12 @@ public class WinXP extends Application {
 		
 		private boolean action() {
 			try {
-				Thread.sleep((long).00001);
+				Thread.sleep((long).0001);
 			}
 			catch(InterruptedException e) {
 				return true;
 			}
-			b.show();
+			b.repaintBoard();
 			return false;
 		}
 		
@@ -64,12 +64,18 @@ public class WinXP extends Application {
 			if(action()) {
 				return;
 			}
-			b.drawString(0, 0, 255,  255, 255, "A:\\Virus.exe");
+			b.drawString(0, 0, 255, 255, 255, "C:\\");
+			b.drawString(8, 0, 255, 255, 255, "WinXP.exe");
+			if(d) {
+				System.out.println("C_WINXP_EXE 1");
+			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(1000);
 			}
 			catch(InterruptedException e) {
-				System.out.println("Error: 400.3");
+				if(d) {
+					System.out.println("Error: 400.3");
+				}
 				e.printStackTrace();
 			}
 			if(action()) {
@@ -78,20 +84,33 @@ public class WinXP extends Application {
 			if(startUp()) {
 				return;
 			}
+			if(time(1250)) {
+				return;
+			}
 			if(login()) {
+				return;
+			}
+			if(time(1000)) {
 				return;
 			}
 			if(desktop()) {
 				return;
 			}
+			time(2000);
 			if(startMenu()) {
 				return;
+			}
+			if(d) {
+				System.out.println("While(1) Begin");
 			}
 			while(true) {
 				if(action()) {
 					return;
 				}
 				int i=(int)(Math.random()*20);
+				if(time(2250)) {
+					return;
+				}
 				switch(i) {
 					case 1:
 						if(open()) {
@@ -288,12 +307,42 @@ public class WinXP extends Application {
 						}
 						break;
 				}
+				if(d) {
+					System.out.println("LOOP_COUNT "+di++);
+					System.out.println("LOOP_CASE "+i);
+				}
+			}
+		}
+		
+		private boolean time(long millis) {
+			try {
+				long t=System.nanoTime();
+				while(System.nanoTime()<=(t+(millis*10))) {
+					debug("test");
+					if(action()) {
+						return true;
+					}
+				}
+				Thread.sleep((long).000000001);
+			}
+			catch(InterruptedException e) {
+				if(d) {
+					System.out.println("Error: 400.4");
+				}
+				e.printStackTrace();
+			}
+			return true;
+		}
+		
+		private void debug(String msg) {
+			if(d) {
+				System.out.println(msg);
 			}
 		}
 		
 		private void image(String dir) {
 			try {
-				b.drawImage(ImageIO.read(new File(dir)), 1, 1, DisplayBoard.ROWS-1, DisplayBoard.COLS-1);
+				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.COLS, DisplayBoard.ROWS);
 				if(action()) {
 					return;
 				}
@@ -314,6 +363,9 @@ public class WinXP extends Application {
 				return true;
 			}
 			image("WinXP/background.jpg");
+			if(d) {
+				System.out.println("DESKTOP_BACKGROUND 1");
+			}
 			return action();
 		}
 		
@@ -322,6 +374,9 @@ public class WinXP extends Application {
 				return true;
 			}
 			image("WinXP/login.png");
+			if(d) {
+				System.out.println("LOGIN_PAGE 1");
+			}
 			return false;
 		}
 		
@@ -330,6 +385,9 @@ public class WinXP extends Application {
 				return true;
 			}
 			image("WinXP/loading.png");
+			if(d) {
+				System.out.println("LOADING_PAGE 1");
+			}
 			return false;
 		}
 		
@@ -349,6 +407,9 @@ public class WinXP extends Application {
 				}
 				e.printStackTrace();
 			}
+			if(d) {
+				System.out.println("START_MENU 1");
+			}
 			return action();
 		}
 		
@@ -364,7 +425,10 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			b.colorRect(DisplayBoard.ROWS/4, DisplayBoard.COLS/4, DisplayBoard.ROWS-(DisplayBoard.ROWS/4), DisplayBoard.COLS-(DisplayBoard.COLS/4), 0, 0, 0);
+			b.colorRect(DisplayBoard.ROWS/4, DisplayBoard.COLS/4, DisplayBoard.COLS-(DisplayBoard.COLS/4), DisplayBoard.ROWS-(DisplayBoard.ROWS/4), 0, 0, 0);
+			if(d) {
+				System.out.println("OPEN_APPLICATION 1");
+			}
 			return action();
 		}
 	}
@@ -381,14 +445,17 @@ public class WinXP extends Application {
 				e.printStackTrace();
 			}
 		}
+		if(d) {
+			System.out.println("START_WINDOWS_XP 1");
+		}
 	}
 
 	public void terminate() {
 		t.interrupt();
 		b.clear();
-		b.show();
+		b.repaintBoard();
 		b.drawString(0, 0, 255,  255, 255, "A:\\Virus.exe -a");
-		b.show();
+		b.repaintBoard();
 		try {
 			Thread.sleep(7500);
 		}
@@ -399,8 +466,8 @@ public class WinXP extends Application {
 			e.printStackTrace();
 		}
 		b.clear();
-		b.show();
-		b.colorRect(0, 0, DisplayBoard.ROWS-1, DisplayBoard.COLS-1, 0, 0, 255);
+		b.repaintBoard();
+		b.colorRect(0, 0, DisplayBoard.COLS, DisplayBoard.ROWS, 0, 0, 255);
 		b.drawString(0, 0, 255,  255, 255, "BSOD: Machine Check Exception");
 		return;
 	}
