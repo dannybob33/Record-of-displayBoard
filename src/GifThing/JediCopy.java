@@ -35,6 +35,9 @@ public class JediCopy extends Application {
 
 	public final Runnable update = new Runnable() {
 		public void run() {
+			if(!isRunning) {
+				return;
+			}
 			String imagePath = "";
 			if (currImg < 10) {
 				imagePath = "Jedi/frame_0" + currImg + "_delay-0.1s.gif";
@@ -71,6 +74,7 @@ public class JediCopy extends Application {
 	public void terminate() {
 		// TODO Auto-generated method stub
 		isRunning = false;
+		future.cancel(true);
 	}
 
 	@Override
