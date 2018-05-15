@@ -535,6 +535,7 @@ public class DisplayBoard extends JPanel {
 					pixels += (char) (pix & 0xFF);//b
 				}
 			}
+			this.repaintBoard();
 			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
 		}
 	}
