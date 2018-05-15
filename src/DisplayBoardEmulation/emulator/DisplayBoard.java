@@ -63,6 +63,8 @@ public class DisplayBoard extends JPanel {
 
 	private boolean em;
 	private boolean ard;
+	
+	private ArrayList<String> commandBuffer;
 
 	public DisplayBoard() {
 		this(DEF_EMULATOR, DEF_ARDUINO);
@@ -109,7 +111,8 @@ public class DisplayBoard extends JPanel {
 		keys = new TreeSet<String>();
 		this.addKeyListener(new panelKeyListener());
 		keyCallbacks = new LinkedList<KeyRunnable>();
-
+		
+		commandBuffer = new ArrayList<String>();
 	}
 
 	/**
@@ -166,7 +169,7 @@ public class DisplayBoard extends JPanel {
 			pixelArr[row][col].setPixelColor(c);
 		}
 		if (!emOnly && ard) {
-			a.serialWrite("P" + (char) row + (char) col + (char) c.getRed() + (char) c.getGreen() + (char) c.getBlue());
+			commandBuffer.add("P" + (char) row + (char) col + (char) c.getRed() + (char) c.getGreen() + (char) c.getBlue());
 		}
 	}
 
@@ -209,7 +212,7 @@ public class DisplayBoard extends JPanel {
 		// send single command to Arduino and let it draw the rect
 
 		if (ard) {
-			a.serialWrite("R" + (char) row + (char) col + (char) width + (char) height + (char) c.getRed()
+			commandBuffer.add("R" + (char) row + (char) col + (char) width + (char) height + (char) c.getRed()
 					+ (char) c.getGreen() + (char) c.getBlue() + (char) 1);
 		}
 	}
@@ -272,7 +275,7 @@ public class DisplayBoard extends JPanel {
 
 		if (ard) {
 			int i = fill ? 1 : 0;
-			a.serialWrite("C" + (char) row + (char) col + (char) r + (char) c.getRed() + (char) c.getGreen()
+			commandBuffer.add("C" + (char) row + (char) col + (char) r + (char) c.getRed() + (char) c.getGreen()
 					+ (char) c.getBlue() + (char) i);
 		}
 
@@ -360,7 +363,7 @@ public class DisplayBoard extends JPanel {
 		// send command to arduino
 
 		if (ard) {
-			a.serialWrite("S" + (char) row + (char) col + (char) color.getRed() + (char) color.getGreen()
+			commandBuffer.add("S" + (char) row + (char) col + (char) color.getRed() + (char) color.getGreen()
 					+ (char) color.getBlue() + (char) chars.length() + chars);
 		}
 	}
@@ -469,7 +472,7 @@ public class DisplayBoard extends JPanel {
 		// send command to arduino
 
 		if (ard) {
-			a.serialWrite("L" + (char) r1 + (char) c1 + (char) r2 + (char) c2 + (char) color.getRed()
+			commandBuffer.add("L" + (char) r1 + (char) c1 + (char) r2 + (char) c2 + (char) color.getRed()
 					+ (char) color.getGreen() + (char) color.getBlue());
 		}
 	}
@@ -532,7 +535,7 @@ public class DisplayBoard extends JPanel {
 					pixels += (char) (pix & 0xFF);//b
 				}
 			}
-			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
+			commandBuffer.add("X" + (char) row + (char) col + (char) width + (char) height + pixels);
 		}
 	}
 
@@ -565,8 +568,16 @@ public class DisplayBoard extends JPanel {
 	public void repaintBoard() {
 		if (em)
 			repaint();
-		if (ard)
-			a.serialWrite("E");
+		if (ard) {
+			commandBuffer.add("E");
+			//compress everything into a single string command and then go
+			String finalSend = "";
+			for(String s : commandBuffer) {
+				finalSend += s + " ";
+			}
+			a.serialWrite(finalSend);
+			commandBuffer.clear();
+		}
 	}
 
 	// Key handling
