@@ -321,7 +321,7 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			image("WinXP/login.jpg");
+			image("WinXP/login.png");
 			return false;
 		}
 		
@@ -329,7 +329,7 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			image("WinXP/loading.jpg");
+			image("WinXP/loading.png");
 			return false;
 		}
 		
