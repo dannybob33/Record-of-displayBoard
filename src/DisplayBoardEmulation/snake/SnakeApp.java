@@ -51,7 +51,7 @@ public class SnakeApp extends Application
 		gameEnd = false;
 
 		// Make players
-		p1 = new Snek(Color.GREEN, new Color(0, 192, 0), 22, 9, 6);
+		p1 = new Snek(Color.ORANGE, new Color(0, 192, 0), 22, 9, 6);
 
 		board.setPixel(22, 36, Color.RED);
 
@@ -200,7 +200,7 @@ public class SnakeApp extends Application
 				gameEnd = true;
 				if (p.equals(p1))
 				{
-					board.setBrightness(150);
+					board.setBrightness(8);
 					board.colorRect(0, 0, DisplayBoard.COLS + 1, DisplayBoard.ROWS + 1, Color.RED);
 					board.drawString(10, centering("LOSE"), Color.WHITE, "LOSE");
 					board.drawString(19, centering("Score: " + ((sLength/4) - 1)), Color.WHITE, "Score: " + ((sLength/4) - 1));

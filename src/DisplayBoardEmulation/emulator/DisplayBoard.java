@@ -524,18 +524,18 @@ public class DisplayBoard extends JPanel {
 			for (int r = 0; r < height; r++) {
 				for (int c = 0; c < width; c++) {
 					int pix = newImage.getRGB(c, r);
-					if (r==30 && c== 30) {
-						int red = (pix >> 16) & 0xFF;
-						int green = (pix >> 8) & 0xFF;
-						int blue = pix& 0xFF;
-						System.out.println(" "+red+" "+green+" "+blue);
-					}
-					pixels += (char) ((pix >> 16) & 0xFF);//r
-					pixels += (char) ((pix >> 8) & 0xFF);//g
-					pixels += (char) (pix & 0xFF);//b
+					int red = (pix >> 16) & 0xFF;
+					int green = (pix >> 8) & 0xFF;
+					int blue = pix & 0xFF;
+//					pixels += (char) ((pix >> 16) & 0xFF);//r
+//					pixels += (char) ((pix >> 8) & 0xFF);//g
+//					pixels += (char) (pix & 0xFF);//b
+					pixels += red + " ";
+					pixels += green + " ";
+					pixels += blue + " ";
 				}
 			}
-			this.repaintBoard();
+			this.repaintBoard(); // flush buffer
 			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
 		}
 	}

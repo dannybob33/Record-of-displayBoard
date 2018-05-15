@@ -24,7 +24,7 @@ int xmax = 73;
 int ymax = 43;
 
 
-char c[1024];
+byte c[10000];
 boolean tmp=false;
 
 void setup() {
@@ -54,25 +54,31 @@ void loop() {
   while (Serial.available() > 0) {
     int n=Serial.readBytes(c, 1);
     if(c[0]=='P') {
-      int row=Serial.parseInt();
-      int col=Serial.parseInt();
-      int r=Serial.parseInt();
-      int g=Serial.parseInt();
-      int b=Serial.parseInt();
+      int n=Serial.readBytes(c, 5);
+      int row=c[0];
+      int col=c[1];
+      int r=c[2];
+      int g=c[3];
+      int b=c[4];
       strip.setPixelColor(toLEDNum(row, col), strip.Color(r, g, b));
-      //Serial.write("P1");
     }
     else if(c[0]=='X') {
-      int row=Serial.parseInt();
-      int col=Serial.parseInt();
-      int w=Serial.parseInt();
-      int h=Serial.parseInt();
-      for (int r=0; r<h; r++) {
-        for (int c=0; c<w; c++) {
-            int red = Serial.parseInt();
-            int green = Serial.parseInt();
-            int blue = Serial.parseInt();
-            strip.setPixelColor(toLEDNum(row+r, col+c), strip.Color(red, green, blue));
+      int n=Serial.readBytes(c, 4);
+      int row=c[0];
+      int col=c[1];
+      int w=c[2];
+      int h=c[3];
+//      n=Serial.readBytes(c, 3*w*h);
+//      int i=0;
+      for (int rr=0; rr<h; rr++) {
+        for (int cc=0; cc<w; cc++) {
+          int red = Serial.parseInt();
+          int green = Serial.parseInt();
+          int blue = Serial.parseInt();
+//            unsigned int red = c[i++];
+//            unsigned int green = c[i++];
+//            unsigned int blue = c[i++];
+            strip.setPixelColor(toLEDNum(row+rr, col+cc), strip.Color(red, green, blue));
         }
       }
     }
@@ -89,16 +95,16 @@ void loop() {
       //Serial.write("D1");
     }
     else if(c[0]=='R') {
-      //send("R "+row+" "+col+" "+w+" "+h+" "+h+" "+r+" "+g+" "+b+" "+i);
-      int row=Serial.parseInt();
-      int col=Serial.parseInt();
-      int w=Serial.parseInt();
-      int h=Serial.parseInt();
-      int r=Serial.parseInt();
-      int g=Serial.parseInt();
-      int b=Serial.parseInt();
-      int f=Serial.parseInt();
-      if(f==0) {
+      int n=Serial.readBytes(c, 8);
+      int row=c[0];
+      int col=c[1];
+      int w=c[2];
+      int h=c[3];
+      int r=c[4];
+      int g=c[5];
+      int b=c[6];
+      int f=c[7];
+       if(f==0) {
         colorRect(row, col, w, h, r, g, b, false);
       }
       else {
@@ -106,14 +112,15 @@ void loop() {
       }
     }
     else if(c[0]=='C') {
-      //send("C "+row+" "+col+" "+radius+" "+r+" "+g+" "+b+" "+i);
-      int row=Serial.parseInt();
-      int col=Serial.parseInt();
-      int radius=Serial.parseInt();
-      int r=Serial.parseInt();
-      int g=Serial.parseInt();
-      int b=Serial.parseInt();
-      int f=Serial.parseInt();
+      int n=Serial.readBytes(c, 7);
+      int row=c[0];
+      int col=c[1];
+      int radius=c[2];
+      int r=c[3];
+      int g=c[4];
+      int b=c[5];
+      int f=c[6];
+
       if(f==0) {
         drawCircle(row, col, radius, r, g, b, false);
       }
@@ -121,40 +128,34 @@ void loop() {
         drawCircle(row, col, radius, r, g, b, true);
       }
     }
-    /*
+    
     else if(c[0]=='I') {
-      //send("I "+i);
-      int brightness=Serial.parseInt();
+      int n = Serial.readBytes(c,1);
+      int bright = c[0];
+      strip.setBrightness(bright);
     }
-    */
+    
     else if(c[0]=='L') {
-      //send("L "+row1+" "+col1+" "+row2+" "+col2+" "+r+" "+g+" "+b);
-      int row1=Serial.parseInt();
-      int col1=Serial.parseInt();
-      int row2=Serial.parseInt();
-      int col2=Serial.parseInt();
-      int r=Serial.parseInt();
-      int g=Serial.parseInt();
-      int b=Serial.parseInt();
-      int f=Serial.parseInt();
+      int n=Serial.readBytes(c, 7);
+      int row1=c[0];
+      int col1=c[1];
+      int row2=c[2];
+      int col2=c[3];
+      int r=c[4];
+      int g=c[5];
+      int b=c[6];
       drawLine(row1, col1, row2, col2, r, g, b);
     }
     else if(c[0]=='S') {
-      //send("S "+n+" "+col+" "+row+" "+r+" "+g+" "+b+" "+new String(c));
-      int count=Serial.parseInt();
-      int row=Serial.parseInt();
-      int col=Serial.parseInt();
-      int r=Serial.parseInt();
-      int g=Serial.parseInt();
-      int b=Serial.parseInt();
+      int n=Serial.readBytes(c, 6);
+      int row=c[0];
+      int col=c[1];
+      int r=c[2];
+      int g=c[3];
+      int b=c[4];
+      int count=c[5];
       char text[count];
-      Serial.readBytes(text, 1);//absorbs space
-      /*int n2=*/Serial.readBytes(text, count);
-      /*
-      if(n!=n2) {
-        Serial.write('S');
-      }
-      */
+      Serial.readBytes(text, count);
       drawString(count, row, col, r, g, b, text);
     }
   }
