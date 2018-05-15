@@ -54,15 +54,16 @@ public class JATest {
 			
 			BufferedImage img = null;
 			try {
-			    img = ImageIO.read(new File("P2P.jpg"));
+			    img = ImageIO.read(new File("gallery/flag.png"));
 			} catch (IOException e) {
 			}
 			
 			if(c.drawImage(0, 3, img)) {
 				System.out.println("DrawImage: GOOD");
 			}
+			c.drawString(10, 0, 255, 255, 255, "Good Luck!".length(), "Good Luck!");
 			c.show();
-			Thread.sleep(4750);
+			Thread.sleep(4750); 
 			c.clear();
 
 			System.out.println("End!");

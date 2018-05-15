@@ -20,7 +20,7 @@ public class weatherTest {
 	public static void main(String[] args) {
 		System.out.println("Fetching weather data from Weather Underground...");
 		DisplayBoard board = new DisplayBoard();
-		board.show();
+		board.repaintBoard();
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
@@ -135,7 +135,7 @@ public class weatherTest {
 					else {
 						board.drawString(16, -1, 144, 144, 144, output);
 					}
-					board.repaint();
+					board.repaintBoard();
 					output = "";
 				} // end of if clause
 			} // end of for loop with s var

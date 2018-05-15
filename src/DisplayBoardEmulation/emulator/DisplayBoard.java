@@ -491,6 +491,7 @@ public class DisplayBoard extends JPanel {
 		if (em) {
 			for (int r = 0; r < newImage.getHeight(); r++) {
 				for (int c = 0; c < newImage.getWidth(); c++) {
+					if (r==30 && c==30) System.out.println(overlayAlphaColor(new Color(newImage.getRGB(c, r)), this.getPixel(r, c)));
 					drawPixel(r + row, c + col,
 							overlayAlphaColor(new Color(newImage.getRGB(c, r)), this.getPixel(r, c)), true);
 				}
@@ -505,29 +506,30 @@ public class DisplayBoard extends JPanel {
 
 			// THIS METHOD SHOULD WORK AND BE MUCH FASTER
 			// BUT IT HANGS ON THE .getData() call ???
-			//
-			// System.out.println("Getting image");
-			//
+			//			//
 			// WritableRaster rast = newImage.getRaster();
-			// System.out.println("Got raster");
 			//
 			// DataBuffer buff = rast.getDataBuffer();
-			// System.out.println("Got buffer");
 			//
 			// final byte[] pixels = ((DataBufferByte) buff).getData();
-			// System.out.println("Got data");
 			//
-			// System.out.println("sending image");
+			// System.out.println(new String(pixels));
 
-			// ALTERNATE (SLOW) METHOD - GET RGB PIXEL BY PIXEL
+			// ALTERNATE (SLOWER) METHOD - GET RGB PIXEL BY PIXEL
 
 			String pixels = "";
 			for (int r = 0; r < height; r++) {
 				for (int c = 0; c < width; c++) {
 					int pix = newImage.getRGB(c, r);
-					pixels += (char) ((pix >> 16) & 0xFF);
-					pixels += (char) ((pix >> 8) & 0xFF);
-					pixels += (char) ((pix >> 0) & 0xFF);
+					if (r==30 && c== 30) {
+						int red = (pix >> 16) & 0xFF;
+						int green = (pix >> 8) & 0xFF;
+						int blue = pix& 0xFF;
+						System.out.println(" "+red+" "+green+" "+blue);
+					}
+					pixels += (char) ((pix >> 16) & 0xFF);//r
+					pixels += (char) ((pix >> 8) & 0xFF);//g
+					pixels += (char) (pix & 0xFF);//b
 				}
 			}
 			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
