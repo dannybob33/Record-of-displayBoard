@@ -293,7 +293,7 @@ public class WinXP extends Application {
 		
 		private void image(String dir) {
 			try {
-				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.ROWS, DisplayBoard.COLS);
+				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.ROWS-1, DisplayBoard.COLS-1);
 				if(action()) {
 					return;
 				}
@@ -400,7 +400,7 @@ public class WinXP extends Application {
 		}
 		b.clear();
 		b.show();
-		b.colorRect(0, 0, DisplayBoard.ROWS, DisplayBoard.COLS, 0, 0, 255);
+		b.colorRect(0, 0, DisplayBoard.ROWS-1, DisplayBoard.COLS-1, 0, 0, 255);
 		b.drawString(0, 0, 255,  255, 255, "BSOD: Machine Check Exception");
 		return;
 	}
