@@ -313,7 +313,7 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			image("background.jpg");
+			image("WinXP/background.jpg");
 			return action();
 		}
 		
@@ -321,7 +321,7 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			image("login.jpg");
+			image("WinXP/login.jpg");
 			return false;
 		}
 		
@@ -329,7 +329,7 @@ public class WinXP extends Application {
 			if(action()) {
 				return true;
 			}
-			image("loading.jpg");
+			image("WinXP/loading.jpg");
 			return false;
 		}
 		
@@ -400,7 +400,8 @@ public class WinXP extends Application {
 		}
 		b.clear();
 		b.show();
-		//bsod machine check exception
+		b.colorRect(0, 0, DisplayBoard.ROWS, DisplayBoard.COLS, 0, 0, 255);
+		b.drawString(0, 0, 255,  255, 255, "BSOD: Machine Check Exception");
 		return;
 	}
 

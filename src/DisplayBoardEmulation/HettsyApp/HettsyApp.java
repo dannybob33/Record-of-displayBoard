@@ -18,7 +18,7 @@ public class HettsyApp extends Application {
 	//HashBrowns2.jfif - Hash Browns
 	//Bee.png - Bee Alpha testing
 	//Hue_alpha_falloff.png - More Alpha Testing
-	String imagePath = "HettsyFace.jpg";//Hettsys Face
+	String imagePath = "WinXP/HettsyFace.jpg";//Hettsys Face
 	
 	@Override
 	public void start(DisplayBoard board){

@@ -18,7 +18,7 @@ public class NO extends Application {
 	//HashBrowns2.jfif - Hash Browns
 	//Bee.png - Bee Alpha testing
 	//Hue_alpha_falloff.png - More Alpha Testing
-	String imagePath = "no.jpg";//NO
+	String imagePath = "WinXP/no.jpg";//NO
 	
 	@Override
 	public void start(DisplayBoard board){
