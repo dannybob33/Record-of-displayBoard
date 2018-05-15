@@ -29,7 +29,7 @@ public class simpleNavRunner {
 		//manager.addApplication(new Jedi());
 		manager.addApplication(new fusionFeudApp());
 		manager.addApplication(new weatherTest());
-		manager.addApplication(new WinXP());
+		manager.addApplication(new WinXP(true));
 		//Start program
 		manager.initialize();
 	}
