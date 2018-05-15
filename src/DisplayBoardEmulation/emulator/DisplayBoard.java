@@ -643,9 +643,9 @@ public class DisplayBoard extends JPanel {
 		}
 		
 	}
-	/*public boolean setBrightness(int brightness) {
+	public boolean setBrightness(int brightness) {
 		a.serialWrite("I" + (char)brightness);
 		return true;
-	}*/
+	}
 
 }

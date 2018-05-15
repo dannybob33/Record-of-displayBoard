@@ -91,6 +91,7 @@ public class SnakeApp extends Application
 		public void run()
 		{
 			initializePlayers();
+			board.setBrightness(32);
 			gameEnd = false;
 			while (!board.isCleared())
 			{
@@ -199,6 +200,7 @@ public class SnakeApp extends Application
 				gameEnd = true;
 				if (p.equals(p1))
 				{
+					board.setBrightness(150);
 					board.colorRect(0, 0, DisplayBoard.COLS + 1, DisplayBoard.ROWS + 1, Color.RED);
 					board.drawString(10, centering("LOSE"), Color.WHITE, "LOSE");
 					board.drawString(19, centering("Score: " + ((sLength/4) - 1)), Color.WHITE, "Score: " + ((sLength/4) - 1));
