@@ -20,6 +20,7 @@ public class weatherTest extends Application {
 	private DisplayBoard board;
 		public void start(DisplayBoard board) {
 			this.board = board;
+			//board.setBrightness(100);
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
@@ -55,8 +56,8 @@ public class weatherTest extends Application {
 					NodeList statList = firstDataElement.getElementsByTagName("weather");
 					Element statElement = (Element) statList.item(0);
 					NodeList textStatList = statElement.getChildNodes();
-					output = ((Node) textStatList.item(0)).getNodeValue().trim();
-					
+					//output = ((Node) textStatList.item(0)).getNodeValue().trim();
+					output = "Scattered Clouds";
 					
 					
 					
@@ -66,6 +67,7 @@ public class weatherTest extends Application {
 						output2 = output.substring(atSpace+1);
 					}
 					BufferedImage img = null;
+					
 					
 					
 					//   board.drawImage(img, row, col, width, height);
@@ -117,20 +119,17 @@ public class weatherTest extends Application {
 					
 					
 					else if(output.equals("Light Volcanic Ash") || output.equals("Heavy Volcanic Ash")) {
-						img = ImageIO.read(new File("weather/\\thisIsFine.png"));
+						img = ImageIO.read(new File("weather/thisIsFine.png"));
 						board.drawImage(img, 0, 40, 44, 44);
 					}
-					
-					
-					//board.drawString(row, col, red, green, blue, chars);
-					
-					if(output.length() > 6) { //checks the length of the name and enters a new line if there are two words
+					if(output.length() > 6) {
 						board.drawString(16, 0, 144, 144, 144, output1);
 						board.drawString(24, 0, 144, 144, 144, output2);
 					}
 					else {
 						board.drawString(16, 0, 144, 144, 144, output);
 					}
+					//board.drawString(row, col, red, green, blue, chars);
 					board.repaintBoard();
 					output = "";
 				} // end of if clause

@@ -52,7 +52,7 @@ public class JATest {
 			c.clear();
 			
 			
-			BufferedImage img = null;
+			/*BufferedImage img = null;
 			try {
 			    img = ImageIO.read(new File("gallery/flag.png"));
 			} catch (IOException e) {
@@ -63,7 +63,7 @@ public class JATest {
 			}
 			c.drawString(10, 0, 255, 255, 255, "Good Luck!".length(), "Good Luck!");
 			c.show();
-			Thread.sleep(4750); 
+			*/Thread.sleep(4750); 
 			c.clear();
 
 			System.out.println("End!");
