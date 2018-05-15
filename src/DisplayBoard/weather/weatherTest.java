@@ -135,7 +135,7 @@ public class weatherTest {
 					else {
 						board.drawString(16, -1, 144, 144, 144, output);
 					}
-					board.repaint();
+					board.repaintBoard();
 					output = "";
 				} // end of if clause
 			} // end of for loop with s var
