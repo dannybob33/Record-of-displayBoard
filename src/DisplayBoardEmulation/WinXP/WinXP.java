@@ -293,7 +293,7 @@ public class WinXP extends Application {
 		
 		private void image(String dir) {
 			try {
-				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.ROWS-1, DisplayBoard.COLS-1);
+				b.drawImage(ImageIO.read(new File(dir)), 1, 1, DisplayBoard.ROWS-1, DisplayBoard.COLS-1);
 				if(action()) {
 					return;
 				}
