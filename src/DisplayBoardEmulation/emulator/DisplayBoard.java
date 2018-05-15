@@ -35,7 +35,8 @@ public class DisplayBoard extends JPanel {
 	// use these to determine default behavior for DisplayBoard
 
 	private final static boolean DEF_EMULATOR = true;
-	private final static boolean DEF_ARDUINO = false;
+	private final static boolean DEF_ARDUINO = true;
+	private final static int ARDUINO_PORT = 7;
 
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
@@ -75,7 +76,7 @@ public class DisplayBoard extends JPanel {
 		 * init serial port connection to arduino
 		 */
 		if (ard) {
-			int port = 9;
+			int port = ARDUINO_PORT;
 			a = new Arduino("COM" + port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600,
 													// 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 			a.openConnection();

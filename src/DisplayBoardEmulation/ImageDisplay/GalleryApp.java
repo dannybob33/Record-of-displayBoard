@@ -19,7 +19,7 @@ public class GalleryApp extends Application {
 	private static final String NAME = "Gallery";
 	
 	//Image Stuff
-	private String directory_path = "H:\\private\\CS2";
+	private String directory_path = "gallery/";
 	private ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 	
 	private int currentImageIndex = 0;

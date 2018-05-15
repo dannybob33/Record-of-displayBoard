@@ -11,7 +11,7 @@ public class JATest {
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(9, 73, 43);
+			c=new com(7, 73, 43);
 			c.clear();
 			c.show();
 			Thread.sleep(250);
@@ -44,7 +44,7 @@ public class JATest {
 			Thread.sleep(1750);
 			c.clear();
 			c.show();
-			if(c.drawString(10, 10, 192, 128, 255, "Hello Worldz!".length(), "Hello Worldz!")) {
+			if(c.drawString(10, 0, 192, 128, 255, "Hello Worldz!".length(), "Hello Worldz!")) {
 				System.out.println("DrawString: GOOD");
 			}
 			c.show();
@@ -58,7 +58,7 @@ public class JATest {
 			} catch (IOException e) {
 			}
 			
-			if(c.drawImage(5, 5, img)) {
+			if(c.drawImage(0, 3, img)) {
 				System.out.println("DrawImage: GOOD");
 			}
 			c.show();
