@@ -1,6 +1,5 @@
 package DisplayBoardEmulation.WinXP;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -245,7 +244,7 @@ public class WinXP extends Application {
 						if(reset()) {
 							return;
 						}
-						HettsyApp a8=new HettsyApp();
+						DiscountPongApp a8=new DiscountPongApp();
 						a8.start(b);
 						if(action()) {
 							return;
