@@ -1,5 +1,6 @@
 package DisplayBoardEmulation.nativeApp;
 
+import DisplayBoard.weather.weatherTest;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
 import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
@@ -26,6 +27,7 @@ public class simpleNavRunner {
 		manager.addApplication(new SnakeApp());
 		manager.addApplication(new Jedi());
 		manager.addApplication(new fusionFeudApp());
+		manager.addApplication(new weatherTest());
 		//Start program
 		manager.initialize();
 	}

@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,18 +13,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import DisplayBoardEmulation.emulator.DisplayBoard;
+import DisplayBoardEmulation.nativeApp.Application;
 import org.w3c.dom.*;
 
-public class weatherTest {
-	public static void main(String[] args) {
-		System.out.println("Fetching weather data from Weather Underground...");
-		DisplayBoard board = new DisplayBoard();
-		board.show();
+public class weatherTest extends Application {
+	private DisplayBoard board;
+		public void start(DisplayBoard board) {
+			this.board = board;
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
-			
-
-			
 			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -153,6 +149,12 @@ public class weatherTest {
 		}
 		// System.exit (0);
 	}
+
+	public void terminate() {
+		return;
+	}
+	
+	public String getName() {
+		return "Weather";
+	}
 }
-
-
