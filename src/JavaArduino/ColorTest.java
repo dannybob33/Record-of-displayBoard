@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class JATest {
+public class ColorTest {
 
 	public static void main(String[] args) {
 		com c;

@@ -125,6 +125,7 @@ public class ControllerTestRunner {
 					yInc = 0;
 				}
 				board.colorRect(ballLocation, Color.BLACK); // Erase old ball
+				board.repaintBoard();
 				System.out.println(xValuePercentageLeftJoystick + ", " + yValuePercentageLeftJoystick);
 			
 		
@@ -146,7 +147,7 @@ public class ControllerTestRunner {
 				// System.out.println("Ball Location X: " + ballLocation.x);
 				// System.out.println("Ball Location y: " + ballLocation.y);
 				// System.out.println("yInc: " + yInc);
-
+				board.repaintBoard();
 			}
 			
 		}
