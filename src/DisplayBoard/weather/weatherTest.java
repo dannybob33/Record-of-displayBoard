@@ -20,7 +20,7 @@ public class weatherTest {
 	public static void main(String[] args) {
 		System.out.println("Fetching weather data from Weather Underground...");
 		DisplayBoard board = new DisplayBoard();
-		board.show();
+		board.repaintBoard();
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
