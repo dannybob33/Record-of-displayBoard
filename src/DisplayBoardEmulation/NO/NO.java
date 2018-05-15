@@ -1,4 +1,4 @@
-package DisplayBoardEmulation.HettsyApp;
+package DisplayBoardEmulation.NO;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +10,7 @@ import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.nativeApp.Application;
 
 //begin hettsys face
-public class HettsyApp extends Application {
+public class NO extends Application {
 	//CS2 Images:
 	//Beginning: H:\\private\\CS2\\
 	//Hackerman.jpg - Hackerman Image
@@ -18,7 +18,7 @@ public class HettsyApp extends Application {
 	//HashBrowns2.jfif - Hash Browns
 	//Bee.png - Bee Alpha testing
 	//Hue_alpha_falloff.png - More Alpha Testing
-	String imagePath = "HettsyFace.jpg";//Hettsys Face
+	String imagePath = "no.jpg";//NO
 	
 	@Override
 	public void start(DisplayBoard board){

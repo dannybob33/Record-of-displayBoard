@@ -6,7 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import DisplayBoardEmulation.HettsyApp.HettsyApp;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
+import DisplayBoardEmulation.NO.NO;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.fusionFeud.fusionFeudApp;
@@ -54,53 +56,62 @@ public class WinXP extends Application {
 		}
 		
 		public void run() {
+			b.clear();
 			if(action()) {
 				return;
 			}
 			b.drawString(0, 0, 255,  255, 255, "A:\\Virus.exe");
+			try {
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e) {
+				System.out.println("Error: 400.3");
+				e.printStackTrace();
+			}
 			if(action()) {
 				return;
 			}
-			update(1500);
-			if(action()) {
+			if(startUp()) {
 				return;
 			}
-			startUp();
-			if(action()) {
+			if(login()) {
 				return;
 			}
-			login();
-			if(action()) {
+			if(desktop()) {
 				return;
 			}
-			desktop();
-			if(action()) {
-				return;
-			}
-			startMenu();
-			if(action()) {
+			if(startMenu()) {
 				return;
 			}
 			while(true) {
 				if(action()) {
 					return;
 				}
-				int i=(int)(Math.random()*10);
+				int i=(int)(Math.random()*20);
 				switch(i) {
 					case 1:
-						open();
+						if(open()) {
+							return;
+						}
+						HettsyApp a1=new HettsyApp();
+						a1.start(b);
 						if(action()) {
 							return;
 						}
-						notepad("");
-						if(action()) {
+						long t1=System.nanoTime();
+						while((t1+30000000)>=System.nanoTime()) {
+							if(action()) {
+								a1.terminate();
+								return;
+							}
+						}
+						a1.terminate();
+						if(reset()) {
 							return;
 						}
-						reset();
 						break;
 					case 2:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						SnakeApp a2=new SnakeApp();
@@ -116,14 +127,12 @@ public class WinXP extends Application {
 							}
 						}
 						a2.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 3:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						TronApp a3=new TronApp();
@@ -139,14 +148,12 @@ public class WinXP extends Application {
 							}
 						}
 						a3.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 4:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						SortingApp a4=new SortingApp();
@@ -162,14 +169,12 @@ public class WinXP extends Application {
 							}
 						}
 						a4.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 5:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						fusionFeudApp a5=new fusionFeudApp();
@@ -185,14 +190,12 @@ public class WinXP extends Application {
 							}
 						}
 						a5.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 6:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						WebCamPhotoApp a6=new WebCamPhotoApp();
@@ -208,14 +211,12 @@ public class WinXP extends Application {
 							}
 						}
 						a6.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 7:
-						open();
-						if(action()) {
+						if(open()) {
 							return;
 						}
 						GalleryApp a7=new GalleryApp();
@@ -231,37 +232,54 @@ public class WinXP extends Application {
 							}
 						}
 						a7.terminate();
-						reset();
-						if(action()) {
+						if(reset()) {
 							return;
 						}
 						break;
 					case 8:
-						open();
+						if(reset()) {
+							return;
+						}
+						HettsyApp a8=new HettsyApp();
+						a8.start(b);
 						if(action()) {
 							return;
 						}
-						app3();
-						if(action()) {
+						long t8=System.nanoTime();
+						while((t8+30000000)>=System.nanoTime()) {
+							if(action()) {
+								a8.terminate();
+								return;
+							}
+						}
+						a8.terminate();
+						if(reset()) {
 							return;
 						}
 						break;
 					case 9:
-						open();
+						if(open()) {
+							return;
+						}
+						NO a9=new NO();
+						a9.start(b);
 						if(action()) {
 							return;
 						}
-						app9();
-						if(action()) {
+						long t9=System.nanoTime();
+						while((t9+30000000)>=System.nanoTime()) {
+							if(action()) {
+								a9.terminate();
+								return;
+							}
+						}
+						a9.terminate();
+						if(reset()) {
 							return;
 						}
 						break;
 					default: 
-						if(action()) {
-							return;
-						}
-						desktop();
-						if(action()) {
+						if(desktop()) {
 							return;
 						}
 						break;
@@ -269,17 +287,12 @@ public class WinXP extends Application {
 			}
 		}
 		
-		private void login() {
-			
-		}
-		
-		private void startUp() {
-			
-		}
-		
-		private void Desktop() {
+		private void image(String dir) {
 			try {
-				b.drawImage(ImageIO.read(new File("")), 0, 0, DisplayBoard.ROWS, DisplayBoard.COLS);
+				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.ROWS, DisplayBoard.COLS);
+				if(action()) {
+					return;
+				}
 			}
 			catch(IOException e) {
 				if(d) {
@@ -292,28 +305,63 @@ public class WinXP extends Application {
 			}
 		}
 		
-		private void desktop() {
-			//ISHAN
+		private boolean desktop() {
+			if(action()) {
+				return true;
+			}
+			image("background.jpg");
+			return action();
 		}
 		
-		private void startMenu() {
-			
-			b.show();
+		private boolean login() {
+			if(action()) {
+				return true;
+			}
+			image("login.jpg");
+			return false;
 		}
 		
-		private void drawFloppy() {
-			
-			b.show();
+		private boolean startUp() {
+			if(action()) {
+				return true;
+			}
+			image("loading.jpg");
+			return false;
 		}
 		
-		private void update(long l) {
-			
-			b.show();
+		private boolean startMenu() {
+			if(action()) {
+				return true;
+			}
+			try {
+				b.drawImage(ImageIO.read(new File("startMenu.jpg")), DisplayBoard.ROWS/2, 0, DisplayBoard.ROWS/2, DisplayBoard.COLS/5);
+				if(action()) {
+					return true;
+				}
+			}
+			catch(IOException e) {
+				if(d) {
+					System.out.println("404.1");
+				}
+				e.printStackTrace();
+			}
+			return action();
 		}
 		
-		private void notepad(String str) {
-			
-			b.show();
+		public boolean reset() {
+			if(action()) {
+				return true;
+			}
+			desktop();
+			return action();
+		}
+		
+		public boolean open() {
+			if(action()) {
+				return true;
+			}
+			b.colorRect(DisplayBoard.ROWS/4, DisplayBoard.COLS/4, DisplayBoard.ROWS-(DisplayBoard.ROWS/4), DisplayBoard.COLS-(DisplayBoard.COLS/4), 0, 0, 0);
+			return action();
 		}
 	}
 	
