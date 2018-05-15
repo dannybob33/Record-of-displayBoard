@@ -2,7 +2,12 @@ package DisplayBoardEmulation.nativeApp;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.emulator.KeyRunnable;
@@ -28,6 +33,19 @@ public class simpleNavApp extends Application {
 			board.addKeyCallback(keyUpdate);
 		}
 		if(apps.size() > 1) {
+			BufferedImage p2p;
+			try {
+			    p2p = ImageIO.read(new File("P2P.jpg"));
+			    board.drawImage(p2p, 0, 3, 67, 44);
+			    board.repaintBoard();
+			    Thread.sleep(1000);
+			    board.drawString(18, centering("Loading..."), Color.RED, "Loading...");
+			    board.repaintBoard();
+			    Thread.sleep(5000);
+			    board.clear();
+			} catch (Exception e) {
+				// ignore problems
+			}
 			board.drawString(0, centering("Select App"), Color.RED, "Select App");
 			board.drawString(8, centering("With WASD"), Color.RED, "With WASD");
 			board.drawString(16, centering("Keys"), Color.RED, "Keys");

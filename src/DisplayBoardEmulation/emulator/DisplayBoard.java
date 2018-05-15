@@ -1,8 +1,7 @@
 package DisplayBoardEmulation.emulator;
 
-
 // problems: 
-// DrawString to emulator is compressed
+// extraSpacing isn't used in drawString
 // if displayboard only, doesn't read keyboard?
 // webcam - displayboard can't access data buffer - hangs
 
@@ -32,6 +31,12 @@ import javax.swing.SwingUtilities;
 import arduino.Arduino;
 
 public class DisplayBoard extends JPanel {
+
+	// use these to determine default behavior for DisplayBoard
+
+	private final static boolean DEF_EMULATOR = true;
+	private final static boolean DEF_ARDUINO = false;
+
 	private final static int PIXEL_WIDTH = 10;
 	private final static int PIXEL_HEIGHT = 10;
 	private final static int PIXEL_SPACING = 2;
@@ -56,20 +61,20 @@ public class DisplayBoard extends JPanel {
 	int colMax; // DEclusive
 
 	private boolean em;
-	private boolean db;
+	private boolean ard;
 
 	public DisplayBoard() {
-		this(true, true);
+		this(DEF_EMULATOR, DEF_ARDUINO);
 	}
 
-	public DisplayBoard(boolean em, boolean db) {
+	public DisplayBoard(boolean em, boolean ard) {
 		this.em = em;
-		this.db = db;
+		this.ard = ard;
 
 		/*
 		 * init serial port connection to arduino
 		 */
-		if (db) {
+		if (ard) {
 			int port = 9;
 			a = new Arduino("COM" + port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600,
 													// 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
@@ -136,16 +141,20 @@ public class DisplayBoard extends JPanel {
 		return keyCallbacks.contains(r);
 	}
 
-	// Methods to use
+	// getPixel - No support for physical displayboard!
+
 	public Color getPixel(int row, int col) {
-		return pixelArr[row][col].getPixelColor();
+		if (em)
+			return pixelArr[row][col].getPixelColor();
+		return Color.BLACK;
 	}
 
 	// **** DRAW PIXEL
 
 	// this is the master pixel drawing method
-	// the toEm lets you draw a pixel ONLY to the emulator regardless of the global
-	// setting
+	// the emOnly flag allows it to be used by other methods to build
+	// more complex shapes on the emulator, but still have the option
+	// to send a single command to the Arduino for interpretation by it
 
 	public void drawPixel(int row, int col, Color c, boolean emOnly) {
 		if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
@@ -155,13 +164,12 @@ public class DisplayBoard extends JPanel {
 		if (em) {
 			pixelArr[row][col].setPixelColor(c);
 		}
-		if (!emOnly && db) {
+		if (!emOnly && ard) {
 			a.serialWrite("P" + (char) row + (char) col + (char) c.getRed() + (char) c.getGreen() + (char) c.getBlue());
 		}
 	}
 
-	// this are the billion variants that people use - these are mostly for
-	// compatibility; try not to use them
+	// this are the variants that people can use
 
 	public void setPixel(int row, int col, int red, int green, int blue) {
 		drawPixel(row, col, new Color(red, green, blue), false);
@@ -187,7 +195,7 @@ public class DisplayBoard extends JPanel {
 			finalCol = COLS - 1;
 		}
 
-		// send to emulator
+		// draw pixel by pixel for emulator
 
 		if (em) {
 			for (int rw = row; rw <= finalRow; rw++) {
@@ -197,14 +205,15 @@ public class DisplayBoard extends JPanel {
 			}
 		}
 
-		// send to Arduino
+		// send single command to Arduino and let it draw the rect
 
-
-		if (db) {
+		if (ard) {
 			a.serialWrite("R" + (char) row + (char) col + (char) width + (char) height + (char) c.getRed()
 					+ (char) c.getGreen() + (char) c.getBlue() + (char) 1);
 		}
 	}
+
+	// variants
 
 	public void colorRect(int row, int col, int width, int height, Color c) {
 		drawRect(row, col, width, height, c);
@@ -224,6 +233,9 @@ public class DisplayBoard extends JPanel {
 	// ***** DRAW CIRCLE
 
 	public void drawCircle(int row, int col, int r, Color c, boolean fill) {
+
+		// draw pixel by pixel for emulator
+
 		if (em) {
 			double PI = 3.1415926535;
 
@@ -255,13 +267,17 @@ public class DisplayBoard extends JPanel {
 			}
 		}
 
-		if (db) {
+		// send command to arduino
+
+		if (ard) {
 			int i = fill ? 1 : 0;
 			a.serialWrite("C" + (char) row + (char) col + (char) r + (char) c.getRed() + (char) c.getGreen()
 					+ (char) c.getBlue() + (char) i);
 		}
 
 	}
+
+	// variants
 
 	public void drawCircle(int row, int col, int r) {
 		drawCircle(row, col, r, new Color(200, 200, 200));
@@ -282,14 +298,21 @@ public class DisplayBoard extends JPanel {
 	// ***** CLEAR
 
 	public void clear() {
+		// just draw a black rectangle
+
 		drawRect(0, 0, COLS, ROWS, Color.BLACK);
 	}
 
+	// this works only for emulator
+
 	public boolean isCleared() {
-		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
-				if (!getPixel(r, c).equals(Color.BLACK)) {
-					return false;
+
+		if (em) {
+			for (int r = 0; r < ROWS; r++) {
+				for (int c = 0; c < COLS; c++) {
+					if (!getPixel(r, c).equals(Color.BLACK)) {
+						return false;
+					}
 				}
 			}
 		}
@@ -301,39 +324,47 @@ public class DisplayBoard extends JPanel {
 	public void drawString(int row, int col, Color color, String chars, int spacing) {
 		int n = chars.length();
 
+		// look up char in table and drawPixels for emulator
+
 		if (em) {
 			char[][] charset = charSet.Cset(); // creating character set
 
-			int extraSpacing = 6; // extra spacing between letters
+			int extraSpacing = 0; // extra spacing between letters
 
 			for (int i = 0; i < n; i++) { // for each character in "chars"...
 				String letter = chars.substring(i, i + 1); // get corresponding letter
-
 				char[] locs = charset[letter.hashCode()]; // array of hex codes for each row of pixels in the letter
-				// System.out.println("L: " + letter + "; HC: " + letter.hashCode());
+
 				if (letter.hashCode() == 32)// if the character is a space (" ")...
 				{
-					extraSpacing -= spacing / 2;// reduce the spacing
+					extraSpacing -= 3;// reduce the spacing
 				}
-				for (int c = 0; c < locs.length; c++) // for each column...
-				{
-					int r = 0; // Initialized row count
-					for (int j = 1; j <= 256; j *= 2) { // for each pixel/binary in the row...
-						if (((locs[c]) & j) != 0) {// if the pixel should be on...
-							drawPixel(r + row, c + col + extraSpacing, color, true);
+				for (int c = 0; c < locs.length; c++) { // for each column...
+					int r = 0; // intialized row count
+					for (int j = 1; j <= 256; j *= 2) // for each pixel/binary in the row...
+					{
+						if (((locs[c]) & j) != 0) // if the pixel should be on...
+						{
+
+							drawPixel(r + row, c + col + extraSpacing, color, true);// turn the pixel on
 						}
 
 						r++;// increase the row count
 					}
 				}
-				extraSpacing += spacing; // add spacing between letters
+				extraSpacing += 6; // add spacing between letters
 			}
 		}
-		if (db) {
+
+		// send command to arduino
+
+		if (ard) {
 			a.serialWrite("S" + (char) row + (char) col + (char) color.getRed() + (char) color.getGreen()
 					+ (char) color.getBlue() + (char) chars.length() + chars);
 		}
 	}
+
+	// variants
 
 	public void drawString(int row, int col, Color c, String chars) {
 		drawString(row, col, c, chars, 0);
@@ -388,6 +419,9 @@ public class DisplayBoard extends JPanel {
 	// ***** DRAW LINE
 
 	public void drawLine(int r1, int c1, int r2, int c2, Color color) {
+
+		// draw pixel by pixel for emulator
+
 		if (em) {
 			// Draw line using Color
 			int deltC = c2 - c1;
@@ -431,7 +465,9 @@ public class DisplayBoard extends JPanel {
 			}
 		}
 
-		if (db) {
+		// send command to arduino
+
+		if (ard) {
 			a.serialWrite("L" + (char) r1 + (char) c1 + (char) r2 + (char) c2 + (char) color.getRed()
 					+ (char) color.getGreen() + (char) color.getBlue());
 		}
@@ -444,8 +480,12 @@ public class DisplayBoard extends JPanel {
 	// ***** DRAW IMAGE
 
 	public void drawImage(BufferedImage image, int row, int col, int width, int height) {
+
+		// first resize the image to the newly desired dimensions
+
 		BufferedImage newImage = resize(image, width, height);
-		System.out.println("Resized image");
+
+		// draw pixels for emulator
 
 		if (em) {
 			for (int r = 0; r < newImage.getHeight(); r++) {
@@ -455,23 +495,41 @@ public class DisplayBoard extends JPanel {
 				}
 			}
 		}
-		if (db) {
-			System.out.println("Getting image");
 
-			WritableRaster rast = newImage.getRaster();
-			System.out.println("Got raster");
-			
-			DataBuffer buff = rast.getDataBuffer();
-			System.out.println("Got buffer");
-			
-			final byte[] pixels = ((DataBufferByte)buff).getData();
-			System.out.println("Got data");
-			
-			System.out.println("sending  image");
+		// build complex command to send to arduino
+
+		if (ard) {
 			width = newImage.getWidth(); // just to be sure...
 			height = newImage.getHeight();
-			System.out.println("P"+pixels);
-			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + new String(pixels));
+
+			// THIS METHOD SHOULD WORK AND BE MUCH FASTER
+			// BUT IT HANGS ON THE .getData() call ???
+			//
+			// System.out.println("Getting image");
+			//
+			// WritableRaster rast = newImage.getRaster();
+			// System.out.println("Got raster");
+			//
+			// DataBuffer buff = rast.getDataBuffer();
+			// System.out.println("Got buffer");
+			//
+			// final byte[] pixels = ((DataBufferByte) buff).getData();
+			// System.out.println("Got data");
+			//
+			// System.out.println("sending image");
+
+			// ALTERNATE (SLOW) METHOD - GET RGB PIXEL BY PIXEL
+
+			String pixels = "";
+			for (int r = 0; r < height; r++) {
+				for (int c = 0; c < width; c++) {
+					int pix = newImage.getRGB(c, r);
+					pixels += (char) ((pix >> 16) & 0xFF);
+					pixels += (char) ((pix >> 8) & 0xFF);
+					pixels += (char) ((pix >> 0) & 0xFF);
+				}
+			}
+			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
 		}
 	}
 
@@ -504,7 +562,7 @@ public class DisplayBoard extends JPanel {
 	public void repaintBoard() {
 		if (em)
 			repaint();
-		if (db)
+		if (ard)
 			a.serialWrite("E");
 	}
 
@@ -522,6 +580,7 @@ public class DisplayBoard extends JPanel {
 			this.requestFocus();
 		}
 	}
+
 	private void initFrame() {
 		System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
 		containerFrame = new JFrame();
