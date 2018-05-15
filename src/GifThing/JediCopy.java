@@ -27,7 +27,6 @@ public class JediCopy extends Application {
 	public void start(DisplayBoard board) {
 		// Create and show board
 		this.board = board;
-		this.board.show();
 		isRunning = true;
 		// Setup timer
 		future = scheduler.scheduleAtFixedRate(update, timeSpeed, timeSpeed, timeUnit);
@@ -36,6 +35,7 @@ public class JediCopy extends Application {
 	public final Runnable update = new Runnable() {
 		public void run() {
 			if(!isRunning) {
+				future.cancel(true);
 				return;
 			}
 			String imagePath = "";
