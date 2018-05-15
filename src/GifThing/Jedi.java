@@ -35,24 +35,26 @@ public class Jedi extends Application {
 
 	public final Runnable update = new Runnable() {
 		public void run() {
-			String imagePath = "";
-			if (currImg < 10) {
-				imagePath = "Jedi/frame_0" + currImg + "_delay-0.1s.gif";
-			} else {
-				imagePath = "Jedi/frame_" + currImg + "_delay-0.1s.gif";
-			}
-			File f = new File(imagePath);
-			BufferedImage img = null;
-			try {
-				img = ImageIO.read(f);
-			} catch (IOException e) {
-				// e.printStackTrace();
-			}
-			board.drawImage(img, 0, 0, board.COLS, board.ROWS);
-			board.repaintBoard();
-			currImg++;
-			if (currImg > 32) {
-				currImg = 0;
+			if (isRunning) {
+				String imagePath = "";
+				if (currImg < 10) {
+					imagePath = "Jedi/frame_0" + currImg + "_delay-0.1s.gif";
+				} else {
+					imagePath = "Jedi/frame_" + currImg + "_delay-0.1s.gif";
+				}
+				File f = new File(imagePath);
+				BufferedImage img = null;
+				try {
+					img = ImageIO.read(f);
+				} catch (IOException e) {
+					// e.printStackTrace();
+				}
+				board.drawImage(img, 0, 0, board.COLS, board.ROWS);
+				board.repaintBoard();
+				currImg++;
+				if (currImg > 32) {
+					currImg = 0;
+				}
 			}
 		}
 	};

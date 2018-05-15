@@ -35,7 +35,7 @@ public class DisplayBoard extends JPanel {
 	// use these to determine default behavior for DisplayBoard
 
 	private final static boolean DEF_EMULATOR = true;
-	private final static boolean DEF_ARDUINO = true;
+	private final static boolean DEF_ARDUINO = false;
 	private final static int ARDUINO_PORT = 7;
 
 	private final static int PIXEL_WIDTH = 10;
