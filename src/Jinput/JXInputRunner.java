@@ -135,6 +135,7 @@ public class JXInputRunner {
 		} else {
 			xy[1] = 0;
 		}
+		System.out.println(device.getComponents().getAxes().lx + " " + device.getComponents().getAxes().ly);
 		return xy;
 	}
 }
