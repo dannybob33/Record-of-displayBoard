@@ -199,11 +199,11 @@ public class DisplayBoard extends JPanel {
 
 		// send to Arduino
 
+
 		if (db) {
 			a.serialWrite("R" + (char) row + (char) col + (char) width + (char) height + (char) c.getRed()
 					+ (char) c.getGreen() + (char) c.getBlue() + (char) 1);
 		}
-
 	}
 
 	public void colorRect(int row, int col, int width, int height, Color c) {
