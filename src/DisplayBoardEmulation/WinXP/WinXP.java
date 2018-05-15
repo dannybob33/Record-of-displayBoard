@@ -16,6 +16,11 @@ import DisplayBoardEmulation.sorting.SortingApp;
 import DisplayBoardEmulation.tron.TronApp;
 import DisplayBoardEmulation.webcam.WebCamPhotoApp;
 
+/**
+ * Class that should not exist. 
+ * @author Some bad people.
+ *
+ */
 public class WinXP extends Application {
 	
 	DisplayBoard b;

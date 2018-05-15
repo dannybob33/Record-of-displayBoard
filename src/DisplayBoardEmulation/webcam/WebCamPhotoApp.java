@@ -44,6 +44,7 @@ public class WebCamPhotoApp extends Application {
 	@Override
 	public void terminate() {
 		isRunning = false;
+		webcam.close();
 	}
 
 	@Override
