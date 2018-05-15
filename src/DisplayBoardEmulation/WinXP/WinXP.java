@@ -407,5 +407,4 @@ public class WinXP extends Application {
 	public String getName() {
 		return "Windows XP";
 	}
-	
 }
