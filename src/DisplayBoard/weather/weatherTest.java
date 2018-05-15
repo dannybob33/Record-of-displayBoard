@@ -20,7 +20,7 @@ public class weatherTest {
 	public static void main(String[] args) {
 		System.out.println("Fetching weather data from Weather Underground...");
 		DisplayBoard board = new DisplayBoard();
-		board.repaintBoard();
+		board.show();
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
@@ -45,7 +45,7 @@ public class weatherTest {
 					Element fullCityElement = (Element) fullCityList.item(0);
 					NodeList textFCList = fullCityElement.getChildNodes();
 					output = "" + ((Node) textFCList.item(0)).getNodeValue().trim();
-					board.drawString(0, -1, 144, 144, 144, output);
+					board.drawString(0, 0, 144, 144, 144, output);
 					board.drawString(0, 52, 144, 144, 144, ", CO");
 					output = "";
 					// ------
@@ -53,7 +53,7 @@ public class weatherTest {
 					Element tempElement = (Element) tempList.item(0);
 					NodeList textTempList = tempElement.getChildNodes();
 					output = "" + ((Node) textTempList.item(0)).getNodeValue().trim();
-					board.drawString(8, -1, 144, 144, 144, output + " F");
+					board.drawString(8, 0, 144, 144, 144, output + " F");
 					output = "";
 					// ------
 					NodeList statList = firstDataElement.getElementsByTagName("weather");
@@ -129,11 +129,11 @@ public class weatherTest {
 					//board.drawString(row, col, red, green, blue, chars);
 					
 					if(output.length() > 6) { //checks the length of the name and enters a new line if there are two words
-						board.drawString(16, -1, 144, 144, 144, output1);
-						board.drawString(24, -1, 144, 144, 144, output2);
+						board.drawString(16, 0, 144, 144, 144, output1);
+						board.drawString(24, 0, 144, 144, 144, output2);
 					}
 					else {
-						board.drawString(16, -1, 144, 144, 144, output);
+						board.drawString(16, 0, 144, 144, 144, output);
 					}
 					board.repaintBoard();
 					output = "";
