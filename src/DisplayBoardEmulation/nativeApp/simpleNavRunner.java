@@ -26,7 +26,7 @@ public class simpleNavRunner {
 		manager.addApplication(new SortingApp());
 		manager.addApplication(new WebCamPhotoApp());
 		manager.addApplication(new SnakeApp());
-		manager.addApplication(new Jedi());
+		//manager.addApplication(new Jedi());
 		manager.addApplication(new fusionFeudApp());
 		manager.addApplication(new weatherTest());
 		manager.addApplication(new WinXP());
