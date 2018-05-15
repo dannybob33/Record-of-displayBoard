@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.nativeApp.Application;
 
-public class Jedi extends Application {
+public class JediCopy extends Application {
 	private boolean isRunning = false;
 	private DisplayBoard board;
 	private int timeSpeed = 75;
@@ -75,6 +75,6 @@ public class Jedi extends Application {
 
 	@Override
 	public String getName() {
-		return "Jedi App";
+		return "JediCopy App";
 	}
 }
