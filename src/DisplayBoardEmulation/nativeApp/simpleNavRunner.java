@@ -20,10 +20,9 @@ public class simpleNavRunner {
 		manager.addNavigatingApplication(new simpleNavApp());
 		//Add other apps
 		manager.addApplication(new TronApp());
-		manager.addApplication(new DiscountPongApp());
-		manager.addApplication(new ImageDisplayApp());
+		//manager.addApplication(new DiscountPongApp());
 		manager.addApplication(new GalleryApp());
-		manager.addApplication(new SortingApp());
+		//manager.addApplication(new SortingApp());
 		manager.addApplication(new WebCamPhotoApp());
 		manager.addApplication(new SnakeApp());
 		//manager.addApplication(new Jedi());
