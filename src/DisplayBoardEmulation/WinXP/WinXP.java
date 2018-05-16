@@ -66,10 +66,13 @@ public class WinXP extends Application {
 				Thread.sleep((long).000001);
 			}
 			catch(InterruptedException e) {
+				debug("STOP_WINDOWS_XP 0");
+				endTime();
 				return true;
 			}
-			if(dic%100000==0) {
+			if(dic>=500000) {
 				debug("THREAD_CHECK 1");
+				dic=0;
 			}
 			dic++;
 			return false;
@@ -82,22 +85,20 @@ public class WinXP extends Application {
 			}
 			b.drawString(0, 0, 255, 255, 255, "C:\\");
 			b.drawString(8, 0, 255, 255, 255, "WinXP.exe");
-			if(d) {
-				System.out.println("C_WINXP_EXE 1");
-			}
+			debug("C_WINXP_EXE 1");
 			if(time(1250)) {
 				return;
 			}
 			if(startUp()) {
 				return;
 			}
-			if(time(1550)) {
+			if(time(2550)) {
 				return;
 			}
 			if(login()) {
 				return;
 			}
-			if(time(1125)) {
+			if(time(2225)) {
 				return;
 			}
 			if(desktop()) {
@@ -107,6 +108,7 @@ public class WinXP extends Application {
 			if(startMenu()) {
 				return;
 			}
+			time(1750);
 			if(d) {
 				System.out.println("While(1) Begin");
 			}
@@ -316,6 +318,18 @@ public class WinXP extends Application {
 			return false;
 		}
 		
+		private void endTime() {
+			long t=System.currentTimeMillis();
+			debug("END_TIME 0");
+			while(System.currentTimeMillis()<=(t+(5000))) {
+				//do nothing
+				//debug("END_TIME_LOOP 0");
+			}
+			//debug("END_TIME_LOOP 1");
+			debug("END_TIME 1 ");
+			return;
+		}
+		
 		private boolean time(long millis, Application a) {
 			background=false;
 			if(action()) {
@@ -419,7 +433,8 @@ public class WinXP extends Application {
 				return true;
 			}
 			try {
-				b.drawImage(ImageIO.read(new File("startMenu.gif")), DisplayBoard.ROWS/2, 0, DisplayBoard.ROWS/2, DisplayBoard.COLS/5);
+				//b.drawImage(ImageIO.read(new File("WinXP/startupmenu.gif")), DisplayBoard.ROWS/2, 0, DisplayBoard.COLS/5, DisplayBoard.ROWS);
+				b.drawImage(ImageIO.read(new File("WinXP/startmenu.png")), DisplayBoard.ROWS/2, 0, DisplayBoard.COLS/5, DisplayBoard.ROWS/2);
 				if(action()) {
 					return true;
 				}
@@ -467,31 +482,39 @@ public class WinXP extends Application {
 	}
 
 	public void terminate() {
+		//debug("STOP_WINDOWS_XP 0");
 		t.interrupt();
-		debug("STOP_WINDOWS_XP 0");
-		while(!t.interrupted()) {
+		/*while(!t.interrupted()) {
 			//do nothing
 			//waiting for thread to be interrupted
 		}
-		debug("STOPPED_WINDOWS_XP 1");
+		*/
 		b.clear();
+		debug("VIRUS 0");
+		b.drawString(0, 0, 255,  255, 255, "A:\\");
+		b.drawString(8, 0, 255,  255, 255, "Virus.exe");
+		b.drawString(16, 0, 255,  255, 255, "-a");
 		b.repaintBoard();
-		b.drawString(0, 0, 255,  255, 255, "A:\\Virus.exe -a");
-		b.repaintBoard();
-		try {
-			Thread.sleep(2000);
-		}
-		catch(InterruptedException e) {
-			debug("VIRUS -1");
-			e.printStackTrace();
-		}
+		time(1000);
 		debug("VIRUS 1");
 		b.clear();
 		b.repaintBoard();
+		debug("BSOD_MACHINE_CHECK_EXCEPTION 0");
 		b.colorRect(0, 0, DisplayBoard.COLS, DisplayBoard.ROWS, 0, 0, 255);
-		b.drawString(0, 0, 255,  255, 255, "BSOD: Machine Check Exception");
-		debug("BSOD_MCE 1");
+		b.drawString(0, 0, 255,  255, 255, "BSOD: MCE");
+		debug("BSOD_MACHINE_CHECK_EXCEPTION 1");
+		debug("STOP_WINDOWS_XP 1");
 		return;
+	}
+	
+	public void time(long millis) {
+		long t=System.currentTimeMillis();
+		while(System.currentTimeMillis()<=(t+(millis))) {
+			/*if((System.currentTimeMillis()-t)%100==0) {
+				debug("STOP_LOOP_TIME "+(System.currentTimeMillis()-t));
+			}
+			*/
+		}
 	}
 	
 	private void debug(String msg) {
