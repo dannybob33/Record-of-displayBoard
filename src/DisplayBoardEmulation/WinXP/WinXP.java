@@ -2,13 +2,13 @@ package DisplayBoardEmulation.WinXP;
 
 import java.io.File;
 import java.io.IOException;
-import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import DisplayBoardEmulation.HettsyApp.HettsyApp;
+import DisplayBoard.weather.weatherTest;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
-import DisplayBoardEmulation.NO.NO;
+import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
+import DisplayBoardEmulation.WinXP.uApps.*;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.fusionFeud.fusionFeudApp;
@@ -17,6 +17,7 @@ import DisplayBoardEmulation.snake.SnakeApp;
 import DisplayBoardEmulation.sorting.SortingApp;
 import DisplayBoardEmulation.tron.TronApp;
 import DisplayBoardEmulation.webcam.WebCamPhotoApp;
+import GifThing.Jedi;
 
 /**
  * Dear future readers of my Code. John Bass very much disagrees with the following Class
@@ -25,37 +26,52 @@ import DisplayBoardEmulation.webcam.WebCamPhotoApp;
  */
 public class WinXP extends Application {
 	
-	DisplayBoard b;
-	tt t;
-	boolean d;
-	int di;
+	private DisplayBoard b;
+	private tt t;
+	private boolean d;
+	private int di;
+	private int dic;
 	
 	public WinXP() {
 		d=false;
 		di=-99999;
+		dic=-99999999;
 	}
 	
 	public WinXP(boolean debug) {
 		d=debug;
 		di=0;
+		dic=0;
 	}
 
 	private class tt extends Thread {
 		private DisplayBoard b;
+		private boolean background;
 		
 		public tt(DisplayBoard board, boolean debug) {
 			b=board;
 			d=debug;
+			background=false;
 		}
 		
 		private boolean action() {
 			try {
-				Thread.sleep((long).0001);
+				Thread.sleep((long).000001);
 			}
 			catch(InterruptedException e) {
 				return true;
 			}
 			b.repaintBoard();
+			try {
+				Thread.sleep((long).000001);
+			}
+			catch(InterruptedException e) {
+				return true;
+			}
+			if(dic%100000==0) {
+				debug("THREAD_CHECK 1");
+			}
+			dic++;
 			return false;
 		}
 		
@@ -69,34 +85,25 @@ public class WinXP extends Application {
 			if(d) {
 				System.out.println("C_WINXP_EXE 1");
 			}
-			try {
-				Thread.sleep(1000);
-			}
-			catch(InterruptedException e) {
-				if(d) {
-					System.out.println("Error: 400.3");
-				}
-				e.printStackTrace();
-			}
-			if(action()) {
+			if(time(1250)) {
 				return;
 			}
 			if(startUp()) {
 				return;
 			}
-			if(time(1250)) {
+			if(time(1550)) {
 				return;
 			}
 			if(login()) {
 				return;
 			}
-			if(time(1000)) {
+			if(time(1125)) {
 				return;
 			}
 			if(desktop()) {
 				return;
 			}
-			time(2000);
+			time(2750);
 			if(startMenu()) {
 				return;
 			}
@@ -108,217 +115,193 @@ public class WinXP extends Application {
 					return;
 				}
 				int i=(int)(Math.random()*20);
-				if(time(2250)) {
+				if(time((long)(Math.random()*1750))) {
 					return;
 				}
-				switch(i) {
-					case 1:
-						if(open()) {
-							return;
-						}
-						HettsyApp a1=new HettsyApp();
-						a1.start(b);
-						if(action()) {
-							return;
-						}
-						long t1=System.nanoTime();
-						while((t1+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a1.terminate();
+				try {
+					switch(i) {
+						case 1:
+							if(time(250, new HettsyApp())) {
 								return;
 							}
-						}
-						a1.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 2:
-						if(open()) {
-							return;
-						}
-						SnakeApp a2=new SnakeApp();
-						a2.start(b);
-						if(action()) {
-							return;
-						}
-						long t2=System.nanoTime();
-						while((t2+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a2.terminate();
+							break;
+						case 2:
+							if(time(20000, new SnakeApp())) {
 								return;
 							}
-						}
-						a2.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 3:
-						if(open()) {
-							return;
-						}
-						TronApp a3=new TronApp();
-						a3.start(b);
-						if(action()) {
-							return;
-						}
-						long t3=System.nanoTime();
-						while((t3+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a3.terminate();
+							break;
+						case 3:
+							if(time(15000, new TronApp())) {
 								return;
 							}
-						}
-						a3.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 4:
-						if(open()) {
-							return;
-						}
-						SortingApp a4=new SortingApp();
-						a4.start(b);
-						if(action()) {
-							return;
-						}
-						long t4=System.nanoTime();
-						while((t4+120000000)>=System.nanoTime()) {
-							if(action()) {
-								a4.terminate();
+							break;
+					/*
+						case 4:
+							if(time(60000, new SortingApp())) {
 								return;
 							}
-						}
-						a4.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 5:
-						if(open()) {
-							return;
-						}
-						fusionFeudApp a5=new fusionFeudApp();
-						a5.start(b);
-						if(action()) {
-							return;
-						}
-						long t5=System.nanoTime();
-						while((t5+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a5.terminate();
+							break;
+					 */
+						case 5:
+							if(time(15000, new fusionFeudApp())) {
 								return;
 							}
-						}
-						a5.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 6:
-						if(open()) {
-							return;
-						}
-						WebCamPhotoApp a6=new WebCamPhotoApp();
-						a6.start(b);
-						if(action()) {
-							return;
-						}
-						long t6=System.nanoTime();
-						while((t6+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a6.terminate();
+							break;
+						case 6:
+							if(time(7500, new WebCamPhotoApp())) {
 								return;
 							}
-						}
-						a6.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 7:
-						if(open()) {
-							return;
-						}
-						GalleryApp a7=new GalleryApp();
-						a7.start(b);
-						if(action()) {
-							return;
-						}
-						long t7=System.nanoTime();
-						while((t7+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a7.terminate();
+							break;
+						case 7:
+							if(time(30000, new GalleryApp())) {
 								return;
 							}
-						}
-						a7.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 8:
-						if(reset()) {
-							return;
-						}
-						DiscountPongApp a8=new DiscountPongApp();
-						a8.start(b);
-						if(action()) {
-							return;
-						}
-						long t8=System.nanoTime();
-						while((t8+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a8.terminate();
+							break;
+						case 8:
+							if(time(15000, new DiscountPongApp())) {
 								return;
 							}
-						}
-						a8.terminate();
-						if(reset()) {
-							return;
-						}
-						break;
-					case 9:
-						if(open()) {
-							return;
-						}
-						NO a9=new NO();
-						a9.start(b);
-						if(action()) {
-							return;
-						}
-						long t9=System.nanoTime();
-						while((t9+30000000)>=System.nanoTime()) {
-							if(action()) {
-								a9.terminate();
+							break;
+						case 9:
+							if(time(900, new NO())) {
 								return;
 							}
-						}
-						a9.terminate();
-						if(reset()) {
+							break;
+						case 10:
+							if(time(900, new SPOON())) {
+								return;
+							}
+							break;
+						case 11:
+							if(startMenu()) {
+								return;
+							}
+							else {
+								if(time((long)(Math.random()*10))) {
+									return;
+								}
+								if(Math.random()>.59) {
+									if(!background) {
+										if(desktop()) {
+											return;
+										}
+									}
+									else {
+										if(action()) {
+											return;
+										}
+									}
+								}
+							}
+							break;
+					case 12:
+						if(startMenu()) {
 							return;
 						}
-						break;
-					default: 
-						if(desktop()) {
-							return;
+						else {
+							if(time((long)(Math.random()*10))) {
+								return;
+							}
+							if(Math.random()>.59) {
+								if(!background) {
+									if(desktop()) {
+										return;
+									}
+								}
+								else {
+									if(action()) {
+										return;
+									}
+								}
+							}
 						}
 						break;
+					/*
+						case 13:
+							if(time(2750, new ImageDisplayApp())) {
+								return;
+							}
+							break;
+						case 14:
+							if(time(10000, new ImageDisplayApp())) {
+								return;
+							}
+							break;
+					 */
+						case 15:
+							if(time(3750, new Jedi())) {
+								return;
+							}
+							break;
+						case 16: 
+							if(time(8000, new weatherTest())) {
+								return;
+							}
+							break;
+						case 17: 
+							if(startMenu()) {
+								return;
+							}
+							else {
+								if(time((long)(Math.random()*10))) {
+									return;
+								}
+								if(Math.random()>.59) {
+									if(!background) {
+										if(desktop()) {
+											return;
+										}
+									}
+									else {
+										if(action()) {
+											return;
+										}
+									}
+								}
+							}
+							break;
+						default: 
+							if(!background) {
+								if(desktop()) {
+									return;
+								}
+							}
+							else {
+								if(action()) {
+									return;
+								}
+							}
+							break;
+					}
 				}
-				if(d) {
-					System.out.println("LOOP_COUNT "+di++);
-					System.out.println("LOOP_CASE "+i);
+				catch(Exception e) {
+					if(d) {
+						e.printStackTrace();
+					}
+					debug("SWITCH_CASE_FAILURE -1 "+i);
+				}
+				debug(("LOOP_COUNT "+di+++"\nLOOP_CASE "+i));
+				if(!background) {
+					if(desktop()) {
+						return;
+					}
+				}
+				else {
+					if(action()) {
+						return;
+					}
+				}
+				if(time(1500)) {
+					return;
 				}
 			}
 		}
 		
 		private boolean time(long millis) {
 			try {
-				long t=System.nanoTime();
-				while(System.nanoTime()<=(t+(millis*10))) {
-					debug("test");
+				long t=System.currentTimeMillis();
+				debug("DELAY_TIME 0 "+millis);
+				while(System.currentTimeMillis()<=(t+(millis))) {
 					if(action()) {
 						return true;
 					}
@@ -326,12 +309,48 @@ public class WinXP extends Application {
 				Thread.sleep((long).000000001);
 			}
 			catch(InterruptedException e) {
-				if(d) {
-					System.out.println("Error: 400.4");
-				}
+				debug("DELAY_TIME -1 "+millis);
 				e.printStackTrace();
 			}
-			return true;
+			debug("DELAY_TIME 1 "+millis);
+			return false;
+		}
+		
+		private boolean time(long millis, Application a) {
+			background=false;
+			if(action()) {
+				return true;
+			}
+			b.clear();
+			if(action()) {
+				return true;
+			}
+			b.repaintBoard();
+			if(open()) {
+				return true;
+			}
+			a.start(b);
+			try {
+				long t=System.currentTimeMillis();
+				debug("DELAY_TIME_APP 0 "+millis+" "+a.getName());
+				while(System.currentTimeMillis()<=(t+(millis))) {
+					if(action()) {
+						a.terminate();
+						return true;
+					}
+				}
+				Thread.sleep((long).000000001);
+			}
+			catch(InterruptedException e) {
+				debug("DELAY_TIME_APP -1 "+millis+" "+a.getName());
+				e.printStackTrace();
+			}
+			debug("DELAY_TIME_APP 1 "+millis+" "+a.getName());
+			if(reset()) {
+				return true;
+			}
+			a.terminate();
+			return action();
 		}
 		
 		private void debug(String msg) {
@@ -340,32 +359,38 @@ public class WinXP extends Application {
 			}
 		}
 		
-		private void image(String dir) {
+		private boolean image(String dir) {
+			debug("IMAGE 0 "+dir);
 			try {
+				if(action()) {
+					return true;
+				}
 				b.drawImage(ImageIO.read(new File(dir)), 0, 0, DisplayBoard.COLS, DisplayBoard.ROWS);
 				if(action()) {
-					return;
+					return true;
 				}
 			}
 			catch(IOException e) {
-				if(d) {
-					System.out.println("404.1");
-				}
+				debug("IMAGE -1 "+dir);
 				e.printStackTrace();
 			}
 			if(action()) {
-				return;
+				return true;
 			}
+			debug("IMAGE 1 "+dir);
+			return false;
 		}
 		
 		private boolean desktop() {
 			if(action()) {
 				return true;
 			}
+			background=true;
 			image("WinXP/background.jpg");
-			if(d) {
-				System.out.println("DESKTOP_BACKGROUND 1");
+			if(action()) {
+				return true;
 			}
+			debug("DESKTOP_BACKGROUND 1");
 			return action();
 		}
 		
@@ -374,20 +399,18 @@ public class WinXP extends Application {
 				return true;
 			}
 			image("WinXP/login.png");
-			if(d) {
-				System.out.println("LOGIN_PAGE 1");
+			if(action()) {
+				return true;
 			}
+			debug("LOGIN_PAGE 1");
 			return false;
 		}
 		
 		private boolean startUp() {
-			if(action()) {
+			if(image("WinXP/loading.png")) {
 				return true;
 			}
-			image("WinXP/loading.png");
-			if(d) {
-				System.out.println("LOADING_PAGE 1");
-			}
+			debug("LOADING_PAGE 1");
 			return false;
 		}
 		
@@ -396,20 +419,16 @@ public class WinXP extends Application {
 				return true;
 			}
 			try {
-				b.drawImage(ImageIO.read(new File("startMenu.jpg")), DisplayBoard.ROWS/2, 0, DisplayBoard.ROWS/2, DisplayBoard.COLS/5);
+				b.drawImage(ImageIO.read(new File("startMenu.gif")), DisplayBoard.ROWS/2, 0, DisplayBoard.ROWS/2, DisplayBoard.COLS/5);
 				if(action()) {
 					return true;
 				}
 			}
 			catch(IOException e) {
-				if(d) {
-					System.out.println("404.1");
-				}
+				debug("START_MENU -1");
 				e.printStackTrace();
 			}
-			if(d) {
-				System.out.println("START_MENU 1");
-			}
+			debug("START_MENU 1");
 			return action();
 		}
 		
@@ -426,9 +445,8 @@ public class WinXP extends Application {
 				return true;
 			}
 			b.colorRect(DisplayBoard.ROWS/4, DisplayBoard.COLS/4, DisplayBoard.COLS-(DisplayBoard.COLS/4), DisplayBoard.ROWS-(DisplayBoard.ROWS/4), 0, 0, 0);
-			if(d) {
-				System.out.println("OPEN_APPLICATION 1");
-			}
+			time((long).25);
+			debug("OPEN_APPLICATION 1");
 			return action();
 		}
 	}
@@ -436,39 +454,50 @@ public class WinXP extends Application {
 	public void start(DisplayBoard board) {
 		b=board;
 		t=new tt(b, d);
+		debug("START_WINDOWS_XP 0");
 		try {
 			t.start();
 		}
 		catch(Exception e) {
-			if(d) {
-				System.out.println("Error: 400.1");
-				e.printStackTrace();
-			}
+			debug("START_WINDOWS_XP -1");
+			e.printStackTrace();
 		}
-		if(d) {
-			System.out.println("START_WINDOWS_XP 1");
-		}
+		debug("START_WINDOWS_XP 1");
+		return;
 	}
 
 	public void terminate() {
 		t.interrupt();
+		debug("STOP_WINDOWS_XP 0");
+		while(!t.interrupted()) {
+			//do nothing
+			//waiting for thread to be interrupted
+		}
+		debug("STOPPED_WINDOWS_XP 1");
 		b.clear();
 		b.repaintBoard();
 		b.drawString(0, 0, 255,  255, 255, "A:\\Virus.exe -a");
 		b.repaintBoard();
 		try {
-			Thread.sleep(7500);
+			Thread.sleep(2000);
 		}
 		catch(InterruptedException e) {
-			if(d) {
-				System.out.println("Error: 400.2");
-			}
+			debug("VIRUS -1");
 			e.printStackTrace();
 		}
+		debug("VIRUS 1");
 		b.clear();
 		b.repaintBoard();
 		b.colorRect(0, 0, DisplayBoard.COLS, DisplayBoard.ROWS, 0, 0, 255);
 		b.drawString(0, 0, 255,  255, 255, "BSOD: Machine Check Exception");
+		debug("BSOD_MCE 1");
+		return;
+	}
+	
+	private void debug(String msg) {
+		if(d) {
+			System.out.println(msg);
+		}
 		return;
 	}
 

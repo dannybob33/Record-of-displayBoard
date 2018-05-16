@@ -40,7 +40,7 @@ public class TronAppControllers extends Application {
 	
 	private boolean isRunning = false;
 	
-	// retrieve all devices
+	// all devices
 	XInputDevice[] devices;
 	XInputDevice device1;
 	XInputDevice device2;

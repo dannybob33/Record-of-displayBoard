@@ -12,24 +12,22 @@ public class HeapSort implements SortingAlgorithm {
 	private int currentIndex = 0;
 	private int currentIndex2 = 0;
 	private boolean isDone = false;
-	private boolean hasHeapified = false;
-	private boolean isSifting = false;
-	private int start;
+	
+	//not sifting
 	private int end;
-	private int siftingRoot;
-	private int siftingEnd;
+	private int start;
+	private boolean hasBuiltHeap;
+	private boolean isSifting;
 	
 	//sifting
-	int child;
-	int toSwap;
-	int parent;
+	private int root;
 	
 	public HeapSort(double[] vals, DisplayBoard board, int row) {
 		this.board = board;
 		this.values = vals;
 		this.row = row;
-		this.start = parent(vals.length-1);
 		this.end = vals.length-1;
+		this.start = parent(values.length-1)+1;
 	}
 	
 	@Override
@@ -37,6 +35,23 @@ public class HeapSort implements SortingAlgorithm {
 		if(isDone) {
 			return;
 		}
+		if(isSifting) {
+			
+		}
+		if(!hasBuiltHeap) {
+			start -=1;
+			if(start < 0) {
+				hasBuiltHeap = true;
+			} else {
+				root = start;
+				isSifting = true;
+				return;
+			}
+		}
+	}
+	
+	private void sift() {
+		
 	}
 
 	@Override
@@ -44,7 +59,6 @@ public class HeapSort implements SortingAlgorithm {
 		currentIndex = 0;
 		values = vals;
 		isDone = false;
-		hasHeapified = false;
 	}
 
 	@Override
@@ -74,12 +88,15 @@ public class HeapSort implements SortingAlgorithm {
 	private int parent(int i) {
 		return (i-1)/2;
 	}
-	
-	private void heapify() {
-		
+
+	@Override
+	public boolean isDone() {
+		return isDone;
 	}
-	private void sift(int root, int end) {
-		
+	
+	@Override
+	public String getName() {
+		return "HeapSort";
 	}
 
 }
