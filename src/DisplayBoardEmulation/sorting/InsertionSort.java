@@ -75,7 +75,7 @@ public class InsertionSort implements SortingAlgorithm {
 	
 	@Override
 	public String getName() {
-		return "InsertionSort";
+		return "Insertion";
 	}
 
 }

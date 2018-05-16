@@ -72,7 +72,7 @@ public class SelectionSort implements SortingAlgorithm {
 	
 	@Override
 	public String getName() {
-		return "SelectionSort";
+		return "Selection";
 	}
 
 }

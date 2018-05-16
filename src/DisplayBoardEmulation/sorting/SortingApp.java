@@ -1,5 +1,6 @@
 package DisplayBoardEmulation.sorting;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,8 +43,14 @@ public class SortingApp extends Application {
 	private XInputDevice device1;
 	private boolean justChangedAlgorithm = false;
 	
+	private final int TEXT_ROW = DisplayBoard.ROWS-9;
+	
 	public final Runnable updateAll = new Runnable() {
 		public void run() {
+			if(!isRunning) {
+				future.cancel(true);
+				return;
+			}
 			device1.poll();
 			double leftX = device1.getComponents().getAxes().lx;
 			if(leftX >= 0.5 && !justChangedAlgorithm) {
@@ -55,7 +62,7 @@ public class SortingApp extends Application {
 			} else if (leftX > -0.5 && leftX < 0.5 && justChangedAlgorithm) {
 				justChangedAlgorithm = false;
 			}
-			if(isRunning && !allDone) {
+			if(!allDone) {
 				boolean allAreDone = true;
 				for(SortingAlgorithm sorter : currentSorterList) {
 					sorter.update();
@@ -106,10 +113,20 @@ public class SortingApp extends Application {
 			insertionList.add(s);
 		}
 		sorterList.add(insertionList);
+		//HeapSort
+		ArrayList<SortingAlgorithm> heapList = new ArrayList<SortingAlgorithm>();
+		for(int i = 0;i<sortingArr.length;i++) {
+			HeapSort s = new HeapSort(sortingArr[i],board,i);
+			heapList.add(s);
+		}
+		sorterList.add(heapList);
 		initializeSorters();
 	}
 	
 	private void changeSorter(int direction) {
+		if(!isRunning) {
+			return;
+		}
 		//Cancel updating
 		future.cancel(true);
 		//Reset all sorting algorithms in current list
@@ -126,10 +143,16 @@ public class SortingApp extends Application {
 		initializeSorters();
 	}
 	private void initializeSorters() {
+		if(!isRunning) {
+			return;
+		}
 		currentSorterList = sorterList.get(currentAlg);
 		for(SortingAlgorithm sorter : currentSorterList) {
 			sorter.paint();
 		}
+		board.colorRect(board.ROWS-9,0,board.COLS,9,Color.BLACK);
+		String name = currentSorterList.get(0).getName();
+		board.drawString(TEXT_ROW, centering(name), Color.WHITE, name);
 		board.repaintBoard();
 		future = scheduler.scheduleAtFixedRate(updateAll, updateSpeed, updateSpeed, timeUnit);
 		allDone = false;
@@ -163,6 +186,12 @@ public class SortingApp extends Application {
 				sortingArr[i][j] = d.get(j);
 			}
 		}
+	}
+	
+	private int centering(String text) {
+		int width = board.StringWidth(text);
+		System.out.println(width);
+		return (DisplayBoard.COLS-width)/2;
 	}
 
 }

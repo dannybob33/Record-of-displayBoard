@@ -69,7 +69,7 @@ public class BubbleSort implements SortingAlgorithm {
 
 	@Override
 	public String getName() {
-		return "BubbleSort";
+		return "Bubble";
 	}
 	
 }

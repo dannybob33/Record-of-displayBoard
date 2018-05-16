@@ -92,6 +92,10 @@ public class controllerNavApp extends Application {
 	
 	public final Runnable controllerPoll = new Runnable() {
 		public void run() {
+			if(!isRunning) {
+				future.cancel(true);
+				return;
+			}
 			if(!hasFoundDevice || device0 == null) {
 				try {
 					devices = XInputDevice.getAllDevices();
@@ -127,6 +131,9 @@ public class controllerNavApp extends Application {
 	};
 	
 	private void selectApp(int index) {
+		if(!isRunning) {
+			return;
+		}
 		Application app = apps.get(index);
 		board.clear();
 		printLine("Selected app is: " + app.getName());
@@ -155,34 +162,21 @@ public class controllerNavApp extends Application {
 		// When a controller is connected while it is running
 		@Override
 		public void connected() {
-			try {
-				devices = XInputDevice.getAllDevices();
-				hasFoundDevice = true;
-				device0=devices[0];
-				device0.addListener(listener);
-			} catch (XInputNotLoadedException e1) {
-				device0=null;
-				hasFoundDevice = false;
-			}
+			//Do nothing
 		}
 
 		// When a controller is disconnect while it is running
 		@Override
 		public void disconnected() {
-			try {
-				devices = XInputDevice.getAllDevices();
-				device0=devices[0];
-				hasFoundDevice = true;
-				device0.addListener(listener);
-			} catch (XInputNotLoadedException e1) {
-				device0=null;
-				hasFoundDevice = false;
-			}
+			//Do nothing
 		}
 
 		// What to do when any Button Changes
 		@Override
 		public void buttonChanged(final XInputButton button, final boolean pressed) {
+			if(!isRunning) {
+				return;
+			}
 			if((button.equals(XInputButton.A) || button.equals(XInputButton.START)) && pressed==true) {
 				manager.changeApplication(currentIndex);
 			}
