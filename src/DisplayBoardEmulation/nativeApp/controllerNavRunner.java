@@ -2,6 +2,7 @@ package DisplayBoardEmulation.nativeApp;
 
 import DisplayBoard.weather.weatherTest;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
+import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
 import DisplayBoardEmulation.WinXP.WinXP;
 import DisplayBoardEmulation.fusionFeud.fusionFeudApp;
 import DisplayBoardEmulation.snake.SnakeApp;
@@ -20,6 +21,8 @@ public class controllerNavRunner {
 		manager.addApplication(new TronAppControllers());
 		manager.addApplication(new SnakeAppControllers());
 		manager.addApplication(new weatherTest());
+		manager.addApplication(new GalleryApp());
+		manager.addApplication(new WebCamPhotoApp());
 		//Start program
 		manager.initialize();
 	}
