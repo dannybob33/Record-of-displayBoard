@@ -56,13 +56,13 @@ public class TronAppControllers extends Application {
 		//Controller stuff
 		try {
 			devices = XInputDevice.getAllDevices();
+			device1 = devices[0];
+			device2 = devices[1];
+			device1.addListener(listener);
+			device2.addListener(listener);
 		} catch (XInputNotLoadedException e) {
 			e.printStackTrace();
 		}
-		device1 = devices[0];
-		device2 = devices[1];
-		device1.addListener(listener);
-		device2.addListener(listener);
 		
 		//Make players
 		p1 = new Player(Color.RED, new Color(192,0,0),22,9,6);
@@ -79,15 +79,15 @@ public class TronAppControllers extends Application {
 			p2.changedDir = false;
 			device1.poll();
 			device2.poll();
-			double[] p1Axes = getAxes(device1);
-			System.out.println(p1Axes[0] + " " + p1Axes[1]);
+			double[] p2Axes = getAxes(device2);
+			System.out.println(p2Axes[0] + " " + p2Axes[1]);
 			int p1Direction = getDirection(device1);
 			if(p1Direction != 0)
-				p1.setDirection(p1Direction);
+				p1.changeDirection(p1Direction);
 			
 			int p2Direction = getDirection(device2);
 			if(p2Direction != 0)
-				p2.setDirection(p2Direction);
+				p2.changeDirection(p2Direction);
 			
 			if(!gameEnd && isRunning) {
 				movePlayer(p1);
@@ -181,8 +181,8 @@ public class TronAppControllers extends Application {
 	//puts movements into array depending on left stick of given device
 		public double[] getAxes(XInputDevice device) {
 			double[] xy = new double[2];
-			xy[0] = device.getComponents().getAxes().lx;
 			xy[0] = device.getComponents().getAxes().ly;
+			xy[1] =  -1 * device.getComponents().getAxes().lx;
 			return xy;
 		}
 		
@@ -199,7 +199,7 @@ public class TronAppControllers extends Application {
 			} else {
 				if(axes[1] > 0.5) {
 					return 4;
-				} else if(axes[0] < -0.5){
+				} else if(axes[1] < -0.5){
 					return 6;
 				} else {
 					return 0;
