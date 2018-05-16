@@ -38,10 +38,11 @@ public class simpleNavApp extends Application {
 			    p2p = ImageIO.read(new File("P2P.jpg"));
 			    board.drawImage(p2p, 0, 3, 67, 44);
 			    board.repaintBoard();
-			    Thread.sleep(1000);
+			    Thread.sleep(2000);
+			    /*
 			    board.drawString(18, centering("Loading..."), Color.RED, "Loading...");
 			    board.repaintBoard();
-			    Thread.sleep(5000);
+			    Thread.sleep(5000);*/
 			    board.clear();
 			} catch (Exception e) {
 				// ignore problems

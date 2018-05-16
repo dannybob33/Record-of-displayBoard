@@ -44,6 +44,8 @@ public class InsertionSort implements SortingAlgorithm {
 		currentIndex = 0;
 		values = vals;
 		isDone = false;
+		currentMaxIndex = 1;
+		currentIndex = currentMaxIndex;
 	}
 
 	@Override
@@ -54,7 +56,9 @@ public class InsertionSort implements SortingAlgorithm {
 			if(i==currentIndex && !isDone) {
 				c = Color.WHITE;
 			}
-			board.setPixel(row, i, c);
+			if(board.getPixel(row,i).equals(c) == false) {
+				board.setPixel(row, i, c);
+			}
 		}
 	}
 	
@@ -63,6 +67,15 @@ public class InsertionSort implements SortingAlgorithm {
 		double c2 = values[i2];
 		values[i1] = c2;
 		values[i2] = c1;
+	}
+	
+	public boolean isDone() {
+		return isDone;
+	}
+	
+	@Override
+	public String getName() {
+		return "InsertionSort";
 	}
 
 }
