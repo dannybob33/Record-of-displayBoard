@@ -253,7 +253,7 @@ public class DisplayBoard extends JPanel {
 					int ElX = (int) Math.round(col + x1);
 					int ElY = (int) Math.round(row + y1);
 
-					drawPixel(ElX, ElY, c, true);
+					drawPixel(ElY, ElX, c, true);
 				}
 			} else {
 				for (int j = r; j >= 0; j--) {
@@ -265,7 +265,7 @@ public class DisplayBoard extends JPanel {
 						int ElX = (int) Math.round(col + x1);
 						int ElY = (int) Math.round(row + y1);
 
-						drawPixel(ElX, ElY, c, true);
+						drawPixel(ElY, ElX, c, true);
 					}
 				}
 			}
