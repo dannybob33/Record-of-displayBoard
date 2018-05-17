@@ -84,7 +84,7 @@ board.clear();
 	}	
 	
 	for(double t=0; t<2*Math.PI; t+=2*Math.PI/100) {
-		board.drawCircle(37, 22, 21,50, 205, 50);
+		board.drawCircle(22, 37, 21,50, 205, 50);
 		board.drawLine(22, 37, (int)(21+21*Math.sin(t)), (int)(37+21*Math.cos(t)), 50, 205, 50);
 		board.repaintBoard();
 		wait(150);
