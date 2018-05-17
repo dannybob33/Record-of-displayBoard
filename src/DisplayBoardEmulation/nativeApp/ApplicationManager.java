@@ -2,6 +2,10 @@ package DisplayBoardEmulation.nativeApp;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputButton;
@@ -22,6 +26,15 @@ public class ApplicationManager {
 	private XInputDevice[] devices;
 	private boolean justReturned = false;
 	
+	//The timer
+	private final ScheduledExecutorService scheduler = 
+			Executors.newScheduledThreadPool(1);
+	private ScheduledFuture<?> future;
+	private final int updateSpeed = 20;
+	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+	private int timeSinceChange = 0;
+	private final int changeTime = 500;
+	
 	public ApplicationManager() {
 		this(new DisplayBoard());
 	}
@@ -32,6 +45,7 @@ public class ApplicationManager {
 		try {
 			devices = XInputDevice.getAllDevices();
 			devices[0].addListener(listener);
+			future = scheduler.scheduleAtFixedRate(controllerPoll, updateSpeed, updateSpeed, timeUnit);
 		} catch (XInputNotLoadedException e1) {
 			//do nothing
 		}
@@ -65,6 +79,16 @@ public class ApplicationManager {
 								(allowDefaultReset || //if app resetting is allowed
 								!currentApplication.equals(apps.get(0)))) {   //or this isnt default app, 
 					goToDefaultApp();
+			}
+		}
+	};
+	
+	public final Runnable controllerPoll = new Runnable() {
+		public void run() {
+			devices[0].poll();
+			timeSinceChange += updateSpeed;
+			if(timeSinceChange >= changeTime) {
+				justReturned = false;
 			}
 		}
 	};
@@ -113,6 +137,7 @@ public class ApplicationManager {
 		@Override
 		public void buttonChanged(final XInputButton button, final boolean pressed) {
 			if(button.equals(XInputButton.BACK) && pressed == true && !justReturned) {
+				timeSinceChange = 0;
 				goToDefaultApp();
 				justReturned = true;
 			} else if(button.equals(XInputButton.BACK) && pressed == false && justReturned) {

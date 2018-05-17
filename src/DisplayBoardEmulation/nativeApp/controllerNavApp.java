@@ -47,6 +47,9 @@ public class controllerNavApp extends Application {
 	private ScheduledFuture<?> future;
 	private final int updateSpeed = 20;
 	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+
+	private int timeSinceChange = 0;
+	private final int changeTime = 500;
 	
 	@Override
 	public void start(DisplayBoard board) {
@@ -108,6 +111,7 @@ public class controllerNavApp extends Application {
 			}
 			device0.poll();
 			if(isRunning && apps.size() > 1 && hasFoundDevice) {
+				timeSinceChange += updateSpeed;
 				if(devices.length <= 0) {
 					hasFoundDevice = false;
 					return;
@@ -118,11 +122,15 @@ public class controllerNavApp extends Application {
 					if(currentIndex >= apps.size()) currentIndex = 1;
 					selectApp(currentIndex);
 					hasChangedApp = true;
+					timeSinceChange = 0;
 				} else if(leftX <= -0.5 && !hasChangedApp) {
 					currentIndex -= 1;
 					if(currentIndex < 1) currentIndex = apps.size()-1;
 					selectApp(currentIndex);
 					hasChangedApp = true;
+					timeSinceChange = 0;
+				} else if (timeSinceChange >= changeTime) {
+					hasChangedApp = false;
 				} else if (leftX > -0.5 && leftX < 0.5 && hasChangedApp) {
 					hasChangedApp = false;
 				}

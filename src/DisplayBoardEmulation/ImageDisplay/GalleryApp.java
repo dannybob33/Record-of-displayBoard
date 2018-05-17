@@ -74,7 +74,7 @@ public class GalleryApp extends Application {
         	this.printLine("Path Specified is not a valid directory!");
         }
 		updateImage();
-		future = scheduler.scheduleAtFixedRate(imageUpdate, galleryChangeSpeed, galleryChangeSpeed, timeUnit);
+		future = scheduler.schedule(imageUpdate, galleryChangeSpeed, timeUnit);
 		printLine("Started Gallery");
 		
 	}
@@ -94,13 +94,15 @@ public class GalleryApp extends Application {
 					currentImageIndex = 0;
 				}
 				updateImage();
-			}
+				future = scheduler.schedule(imageUpdate, galleryChangeSpeed, timeUnit);
+			};
 		}
 	};
 
 	@Override
 	public void terminate() {
 		isRunning = false;
+		future.cancel(true);
 	}
 
 	@Override
