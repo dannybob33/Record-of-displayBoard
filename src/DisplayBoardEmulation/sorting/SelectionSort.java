@@ -58,9 +58,21 @@ public class SelectionSort implements SortingAlgorithm {
 			Color c = new Color((float)values[i],1.0f-(float)values[i],1.0f-(float)values[i]);
 			if(i==currentIndex && !isDone) {
 				c = Color.WHITE;
+				board.setPixel(row, i, c);
 			}
-			board.setPixel(row, i, c);
+			if(board.getPixel(row,i).equals(c) == false) {
+				board.setPixel(row, i, c);
+			}
 		}
+	}
+	
+	public boolean isDone() {
+		return isDone;
+	}
+	
+	@Override
+	public String getName() {
+		return "Selection";
 	}
 
 }

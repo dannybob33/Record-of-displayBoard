@@ -47,7 +47,7 @@ public class DiscountPongApp extends Application {
 				return;
 			}
 			//Erase ball
-			board.colorRect(0,0,board.COLS,board.ROWS,Color.CYAN);
+			board.clear();
 			//Draw paddles
 			board.colorRect(paddle1, Color.RED); //left paddle
 			board.colorRect(paddle2, Color.GREEN); //right paddle

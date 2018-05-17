@@ -9,27 +9,30 @@ public class HeapSort implements SortingAlgorithm {
 	private double[] values;
 	private int row;
 	private DisplayBoard board;
-	private int currentIndex = 0;
-	private int currentIndex2 = 0;
-	private boolean isDone = false;
-	private boolean hasHeapified = false;
-	private boolean isSifting = false;
-	private int start;
+	private int currentIndex;
+	private int currentIndex2;
+	private boolean isDone;
+	
+	//not sifting
 	private int end;
-	private int siftingRoot;
-	private int siftingEnd;
+	private int start;
+	private boolean hasBuiltHeap;
+	private boolean isSifting;
 	
 	//sifting
-	int child;
-	int toSwap;
-	int parent;
+	private int root;
 	
 	public HeapSort(double[] vals, DisplayBoard board, int row) {
 		this.board = board;
 		this.values = vals;
 		this.row = row;
-		this.start = parent(vals.length-1);
 		this.end = vals.length-1;
+		this.start = parent(values.length-1)+1;
+		hasBuiltHeap = false;
+		isSifting = false;
+		isDone = false;
+		currentIndex = 0;
+		currentIndex2 = 0;
 	}
 	
 	@Override
@@ -37,14 +40,73 @@ public class HeapSort implements SortingAlgorithm {
 		if(isDone) {
 			return;
 		}
+		if(isSifting) {
+			sift();
+			return;
+		}
+		if(!hasBuiltHeap) {
+			start -=1;
+			if(start < 0) {
+				hasBuiltHeap = true;
+				end = values.length - 1;
+			} else {
+				root = start;
+				isSifting = true;
+				return;
+			}
+		}
+		if(end <= 0) {
+			isDone = true;
+			return;
+		}
+		currentIndex = end;
+		currentIndex2 = 0;
+		swap(end,0);
+		end -= 1;
+		root = 0;
+		isSifting = true;
+	}
+	
+	private void sift() {
+		if(leftChild(root) > end) {
+			currentIndex = root;
+			currentIndex2 = root;
+			//this means we are done sifting
+			isSifting = false;
+			return;
+		}
+		int child = leftChild(root);
+		int swap = root;
+		//if left child is greater, you will swap them
+		if(values[swap] < values[child])
+			swap = child;
+		//if right child is even greater, swap with right child instead
+		if(child+1 <= end && values[swap] < values[child+1])
+			swap = child+1;
+		if(swap == root) {
+			currentIndex = swap;
+			currentIndex2 = root;
+			//this means we are done sifting
+			isSifting = false;
+			return;
+		} else {
+			currentIndex = root;
+			currentIndex2 = swap;
+			swap(root,swap);
+			root = swap;
+		}
 	}
 
 	@Override
 	public void restart(double[] vals) {
-		currentIndex = 0;
-		values = vals;
+		this.values = vals;
+		this.end = vals.length-1;
+		this.start = parent(values.length-1)+1;
+		hasBuiltHeap = false;
+		isSifting = false;
 		isDone = false;
-		hasHeapified = false;
+		currentIndex = 0;
+		currentIndex2 = 0;
 	}
 
 	@Override
@@ -74,12 +136,15 @@ public class HeapSort implements SortingAlgorithm {
 	private int parent(int i) {
 		return (i-1)/2;
 	}
-	
-	private void heapify() {
-		
+
+	@Override
+	public boolean isDone() {
+		return isDone;
 	}
-	private void sift(int root, int end) {
-		
+	
+	@Override
+	public String getName() {
+		return "Heap";
 	}
 
 }

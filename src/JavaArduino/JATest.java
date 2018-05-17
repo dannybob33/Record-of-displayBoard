@@ -1,11 +1,17 @@
 package JavaArduino;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class JATest {
 
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(6, 73, 43);
+			c=new com(7, 73, 43);
 			c.clear();
 			c.show();
 			Thread.sleep(250);
@@ -34,19 +40,36 @@ public class JATest {
 				System.out.println("DrawLine: GOOD");
 			}
 			c.show();
+			
 			Thread.sleep(1750);
 			c.clear();
 			c.show();
-			if(c.drawString("Hello Worldz!".length(), 10, 10, 192, 128, 255, "Hello Worldz!")) {
+			if(c.drawString(10, 0, 192, 128, 255, "Hello Worldz!".length(), "Hello Worldz!")) {
 				System.out.println("DrawString: GOOD");
 			}
 			c.show();
 			Thread.sleep(1750);
 			c.clear();
+			
+			
+			/*BufferedImage img = null;
+			try {
+			    img = ImageIO.read(new File("gallery/flag.png"));
+			} catch (IOException e) {
+			}
+			
+			if(c.drawImage(0, 3, img)) {
+				System.out.println("DrawImage: GOOD");
+			}
+			c.drawString(10, 0, 255, 255, 255, "Good Luck!".length(), "Good Luck!");
 			c.show();
-			Thread.sleep(1000);
+			*/Thread.sleep(4750); 
+			c.clear();
+
 			System.out.println("End!");
 			c.close();
+			
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

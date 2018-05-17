@@ -1,5 +1,7 @@
 package JavaArduino;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.IOException;
 
 import arduino.Arduino;
@@ -22,7 +24,7 @@ public class com {
 	}
 	
 	public boolean drawString(int n, int col, int row, int r, int g, int b, char[] c) {
-		send("S "+n+" "+col+" "+row+" "+r+" "+g+" "+b+" "+new String(c));
+		send("S"+(char)row+(char)col+(char)+r+(char)g+(char)b+(char)n+new String(c));
 		/*
 		String s="";
 		while(s.equals("")) {
@@ -33,8 +35,8 @@ public class com {
 		return true;
 	}
 	
-	public boolean drawString(int n, int col, int row, int r, int g, int b, String c) {
-		send("S "+n+" "+col+" "+row+" "+r+" "+g+" "+b+" "+c);
+	public boolean drawString(int row, int col, int r, int g, int b, int n, String c) {
+		send("S"+(char)row+(char)col+(char)r+(char)g+(char)b+(char)n+c);
 		/*
 		String s="";
 		while(s.equals("")) {
@@ -46,7 +48,7 @@ public class com {
 	}
 	
 	public boolean drawLine(int row1, int col1, int row2, int col2, int r, int g, int b) {
-		send("L "+row1+" "+col1+" "+row2+" "+col2+" "+r+" "+g+" "+b);
+		send("L"+(char)row1+(char)col1+(char)row2+(char)col2+(char)r+(char)g+(char)b);
 		return true;
 	}
 	
@@ -62,7 +64,7 @@ public class com {
 	//C 10 10 4 192 64 128 0
 	public boolean drawCircle(int row, int col, int radius, int r, int g, int b, boolean isFull) {
 		int i=isFull?1:0;
-		send("C "+row+" "+col+" "+radius+" "+r+" "+g+" "+b+" "+i);
+		send("C"+(char)row+(char)col+(char)radius+(char)r+(char)g+(char)b+(char)i);
 		return true;
 		
 	}
@@ -71,13 +73,13 @@ public class com {
 	//R 10 20 5 10 128 255 0 0
 	public boolean drawRect(int row, int col, int w, int h, int r, int g, int b, boolean isFull) {
 		int i=isFull?1:0;
-		send("R "+row+" "+col+" "+w+" "+h+" "+r+" "+g+" "+b+" "+i);
+		send("R"+(char)row+(char)col+(char)w+(char)h+(char)r+(char)g+(char)b+(char)i);
 		return true;
 	}
 
 	//P 20 16 0 128 255
 	public boolean setPixel(int row, int col, int r, int g, int b) {
-		send("P "+row+" "+col+" "+r+" "+g+" "+b);
+		send("P"+(char)row+(char)col+(char)r+(char)g+(char)b);
 		return true;
 	}
 	
@@ -91,9 +93,12 @@ public class com {
 		return;
 	}
 	
-	public boolean drawImage (int row, int col, int width, int height, String data) {
+	public boolean drawImage (int rowP, int colP, BufferedImage image) {
 		// data is a sequence of r g b values 
-		send ("X "+row+" "+col+" "+width+" "+height+" "+data);
+		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+	    final int width = image.getWidth();
+	    final int height = image.getHeight();		
+	    send("X"+(char)rowP+(char)colP+(char)width+(char)height+new String(pixels));
 		return true;
 	}
 	private void send(String s) {

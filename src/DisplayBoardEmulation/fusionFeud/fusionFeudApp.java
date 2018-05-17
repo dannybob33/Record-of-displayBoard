@@ -18,7 +18,7 @@ import com.ivan.xinput.listener.XInputDeviceListener;
 import DisplayBoardEmulation.emulator.DisplayBoard;
 import DisplayBoardEmulation.nativeApp.Application;
 
-public class fusionFeudApp extends Application{
+public class fusionFeudApp extends Application {
 	// ------Board Setup---------
 	private DisplayBoard board;
 	private int timeSpeed = 25;

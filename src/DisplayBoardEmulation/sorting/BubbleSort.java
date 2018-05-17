@@ -57,8 +57,19 @@ public class BubbleSort implements SortingAlgorithm {
 			if(i==currentIndex && !isDone) {
 				c = Color.WHITE;
 			}
-			board.setPixel(row, i, c);
+			if(board.getPixel(row,i).equals(c) == false) {
+				board.setPixel(row, i, c);
+			}
 		}
+	}
+	
+	public boolean isDone() {
+		return isDone;
+	}
+
+	@Override
+	public String getName() {
+		return "Bubble";
 	}
 	
 }

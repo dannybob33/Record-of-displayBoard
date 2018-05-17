@@ -43,6 +43,20 @@ public class Player {
 		}
 	}
 	
+	public void changeDirection(int newDirection) {
+		if(newDirection == 2 && direction == 8) {
+			return;
+		} else if (newDirection == 6 && direction == 4) {
+			return;
+		} else if (newDirection == 8 && direction == 2) {
+			return;
+		} else if (newDirection == 4 && direction == 6) {
+			return;
+		}
+		direction = newDirection;
+		changedDir = true;
+	}
+	
 	
 	public int getRow() {
 		return row;
