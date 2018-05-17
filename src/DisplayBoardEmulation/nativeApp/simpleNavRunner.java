@@ -3,6 +3,7 @@ package DisplayBoardEmulation.nativeApp;
 import DisplayBoard.weather.weatherTest;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
 import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
+import DisplayBoardEmulation.NiceVisuals.SquadTeamActualAesthetic;
 import DisplayBoardEmulation.WinXP.WinXP;
 import DisplayBoardEmulation.WinXP.uApps.*;
 import DisplayBoardEmulation.discountPongExample.DiscountPongApp;
@@ -30,6 +31,7 @@ public class simpleNavRunner {
 		// manager.addApplication(new fusionFeudApp());
 		manager.addApplication(new weatherTest());
 		// manager.addApplication(new WinXP());
+		manager.addApplication(new SquadTeamActualAesthetic());
 		// Start program
 		manager.initialize();
 	}
