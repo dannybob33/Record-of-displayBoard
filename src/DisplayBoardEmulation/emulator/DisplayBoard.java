@@ -35,7 +35,7 @@ public class DisplayBoard extends JPanel {
 	// use these to determine default behavior for DisplayBoard
 
 	private final static boolean DEF_EMULATOR = true;
-	private final static boolean DEF_ARDUINO = false;
+	private final static boolean DEF_ARDUINO = true;
 	private final static int ARDUINO_PORT = 7;
 
 	private final static int PIXEL_WIDTH = 10;
@@ -295,7 +295,7 @@ public class DisplayBoard extends JPanel {
 		drawCircle(row, col, r, c, false);
 	}
 
-	public void drawCircle(int x, int y, int r, int red, int green, int blue, boolean fill) {
+	public void drawCircle(int y, int x, int r, int red, int green, int blue, boolean fill) {
 		drawCircle(x, y, r, new Color(red, green, blue), fill);
 	}
 
