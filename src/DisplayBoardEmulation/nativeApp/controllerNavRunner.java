@@ -11,21 +11,23 @@ import DisplayBoardEmulation.sorting.SortingApp;
 import DisplayBoardEmulation.tron.TronApp;
 import DisplayBoardEmulation.tron.TronAppControllers;
 import DisplayBoardEmulation.webcam.WebCamPhotoApp;
+import GifThing.Jedi;
 
 public class controllerNavRunner {
 	public static void main(String[] args) {
-		//Make Manager
+		// Make Manager
 		ApplicationManager manager = new ApplicationManager();
-		//Add navigator
+		// Add navigator
 		manager.addNavigatingApplication(new controllerNavApp());
-		//Add other apps
+		// Add other apps
 		manager.addApplication(new TronAppControllers());
 		manager.addApplication(new SnakeAppControllers());
 		manager.addApplication(new SortingApp());
 		manager.addApplication(new weatherTest());
 		manager.addApplication(new GalleryApp());
 		manager.addApplication(new WebCamPhotoApp());
-		//Start program
+		manager.addApplication(new Jedi());
+		// Start program
 		manager.initialize();
 	}
 }

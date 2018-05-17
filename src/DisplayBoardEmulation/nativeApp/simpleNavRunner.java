@@ -15,22 +15,22 @@ import GifThing.Jedi;
 
 public class simpleNavRunner {
 	public static void main(String[] args) {
-		//Make Manager
+		// Make Manager
 		ApplicationManager manager = new ApplicationManager();
-		//Add navigator
+		// Add navigator
 		manager.addNavigatingApplication(new simpleNavApp());
-		//Add other apps
+		// Add other apps
 		manager.addApplication(new TronApp());
-		//manager.addApplication(new DiscountPongApp());
+		// manager.addApplication(new DiscountPongApp());
 		manager.addApplication(new GalleryApp());
 		manager.addApplication(new SortingApp());
 		manager.addApplication(new WebCamPhotoApp());
 		manager.addApplication(new SnakeApp());
-		//manager.addApplication(new Jedi());
-		//manager.addApplication(new fusionFeudApp());
+		manager.addApplication(new Jedi());
+		// manager.addApplication(new fusionFeudApp());
 		manager.addApplication(new weatherTest());
-		//manager.addApplication(new WinXP());
-		//Start program
+		// manager.addApplication(new WinXP());
+		// Start program
 		manager.initialize();
 	}
 }
