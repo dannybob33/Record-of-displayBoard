@@ -174,7 +174,7 @@ System.out.println("Clear Paddles Start");
 				board.colorRect(p2Location, p2Color);
 				System.out.println("Recolor paddles end");
 				// repaint the whole board
-				board.repaint();
+				board.repaintBoard();
 				// poll the controller again
 				System.out.println("Poll Start");
 				device.poll();
