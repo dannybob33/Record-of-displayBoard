@@ -78,6 +78,11 @@ public class WebCamPhotoApp extends Application {
 		}
 	};
 	
+	public void arrow () {
+		board.drawLine(0, 36, 8, 36, Color.CYAN);
+		board.drawLine(1, 36, 4, 33, Color.CYAN);
+		board.drawLine(1, 36, 4, 39, Color.CYAN);
+	}
 	public void snap() {
 		if(!isRunning) {
 			return;
@@ -85,11 +90,15 @@ public class WebCamPhotoApp extends Application {
 		for (int i=3; i>0; i--) {
 			board.clear();
 			board.drawString(18, 33, Color.CYAN, ""+i);
+			arrow();
 			board.repaintBoard();
 			wait(1000);
 		}
 		board.clear();
+		//board.drawRect(0, 1, 74, 44, Color.WHITE);
 		board.drawString(18, 37-board.StringWidth("Smile!")/2, Color.CYAN, "Smile!");
+		arrow();
+
 		board.repaintBoard();
 		BufferedImage takenImage = webcam.getImage();
 		
