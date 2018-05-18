@@ -42,7 +42,7 @@ public class GalleryApp extends Application {
     };
 	
 	//Time stuff
-	private final int galleryChangeSpeed = 10000;
+	private final int galleryChangeSpeed = 6000;
 	private final TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	private DisplayBoard board;
 	
