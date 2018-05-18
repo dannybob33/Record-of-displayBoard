@@ -35,6 +35,7 @@ public class SquadTeamActualAesthetic extends Application {
 	public final Runnable update = new Runnable() {
 		
 		public void run() {
+			if(isRunning) {
 	Color[] arr= {Color.CYAN, Color.PINK, Color.RED, Color.YELLOW};
 	// TODO Auto-generated method stub
 			for(int i2=0; i2<arr.length; i2++) {
@@ -99,6 +100,7 @@ board.clear();
 		wait(50);
 		board.clear();
 	}
+			}
 			}
 	}
 		public void wait(int m) {
