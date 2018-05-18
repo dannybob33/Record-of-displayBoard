@@ -3,6 +3,7 @@ package DisplayBoardEmulation.nativeApp;
 import DisplayBoard.weather.weatherTest;
 import DisplayBoardEmulation.ImageDisplay.GalleryApp;
 import DisplayBoardEmulation.ImageDisplay.ImageDisplayApp;
+import DisplayBoardEmulation.NiceVisuals.SquadTeamActualAesthetic;
 import DisplayBoardEmulation.WinXP.WinXP;
 import DisplayBoardEmulation.fusionFeud.fusionFeudApp;
 import DisplayBoardEmulation.snake.SnakeApp;
@@ -27,6 +28,7 @@ public class controllerNavRunner {
 		manager.addApplication(new GalleryApp());
 		manager.addApplication(new WebCamPhotoApp());
 		manager.addApplication(new Jedi());
+		manager.addApplication(new SquadTeamActualAesthetic());
 		// Start program
 		manager.initialize();
 	}
