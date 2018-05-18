@@ -25,7 +25,7 @@ public class WebCamPhotoApp extends Application {
 	private Webcam webcam;
 	private final int MIDDLE_TEXT = (DisplayBoard.ROWS/2)-4;
 	
-	//The timer
+	//The timer 
 	private final ScheduledExecutorService scheduler = 
 			Executors.newScheduledThreadPool(1);
 	private ScheduledFuture<?> future;
@@ -82,7 +82,17 @@ public class WebCamPhotoApp extends Application {
 		if(!isRunning) {
 			return;
 		}
+		for (int i=3; i>0; i--) {
+			board.clear();
+			board.drawString(18, 33, Color.CYAN, ""+i);
+			board.repaintBoard();
+			wait(1000);
+		}
+		board.clear();
+		board.drawString(18, 37-board.StringWidth("Smile!")/2, Color.CYAN, "Smile!");
+		board.repaintBoard();
 		BufferedImage takenImage = webcam.getImage();
+		
 		board.drawImage(takenImage,0,0,board.COLS,board.ROWS);
 		board.repaintBoard();
 	}
@@ -139,4 +149,9 @@ public class WebCamPhotoApp extends Application {
 		}
 	};
 
+	private void wait (int millis) {
+		long now = System.currentTimeMillis();
+		while (System.currentTimeMillis() < now+millis);
+		return;
+	}
 }

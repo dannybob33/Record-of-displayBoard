@@ -494,7 +494,6 @@ public class DisplayBoard extends JPanel {
 		if (em) {
 			for (int r = 0; r < newImage.getHeight(); r++) {
 				for (int c = 0; c < newImage.getWidth(); c++) {
-					if (r==30 && c==30) System.out.println(overlayAlphaColor(new Color(newImage.getRGB(c, r)), this.getPixel(r, c)));
 					drawPixel(r + row, c + col,
 							overlayAlphaColor(new Color(newImage.getRGB(c, r)), this.getPixel(r, c)), true);
 				}

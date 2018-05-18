@@ -19,7 +19,7 @@ import org.w3c.dom.*;
 public class weatherTest extends Application {
 	private DisplayBoard board;
 		public void start(DisplayBoard board) {
-			this.board = board;
+			this.board = board; 
 		try {
 			URL weatherURL = new URL("http://api.wunderground.com/api/bddabec27c1b4548/conditions/q/CO/Lafayette.xml");
 			
@@ -42,7 +42,7 @@ public class weatherTest extends Application {
 					NodeList textFCList = fullCityElement.getChildNodes();
 					output = "" + ((Node) textFCList.item(0)).getNodeValue().trim();
 					board.drawString(0, 0, 200, 200, 200, output);
-					board.drawString(0, 52, 200, 200, 200, ", CO");
+					board.drawString(0, 53, 200, 200, 200, ", CO");
 					output = "";
 					// ------
 					NodeList tempList = firstDataElement.getElementsByTagName("temp_f");
@@ -60,6 +60,7 @@ public class weatherTest extends Application {
 					
 					if(output.length() > 6) {   //checks the length of the name and enters a new line if there are two words
 						int atSpace = output.indexOf(" ");
+						if (atSpace == -1) atSpace = output.length();
 						output1 = output.substring(0,atSpace);
 						output2 = output.substring(atSpace+1);
 					}
