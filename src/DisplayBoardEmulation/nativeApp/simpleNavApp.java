@@ -35,9 +35,9 @@ public class simpleNavApp extends Application {
 		if(apps.size() > 1) {
 			BufferedImage p2p;
 			try {
-			    p2p = ImageIO.read(new File("P2P.jpg"));
-			    board.drawImage(p2p, 0, 3, 67, 44);
-			    board.repaintBoard();
+//			    p2p = ImageIO.read(new File("P2P.jpg"));
+//			    board.drawImage(p2p, 0, 3, 67, 44);
+//			    board.repaintBoard();
 			    Thread.sleep(2000);
 			    /*
 			    board.drawString(18, centering("Loading..."), Color.RED, "Loading...");
