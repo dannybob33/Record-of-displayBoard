@@ -64,19 +64,17 @@ public class controllerNavApp extends Application {
 			//do nothing
 		}
 		if(apps.size() > 1) {
-			/*BufferedImage p2p;
+			BufferedImage p2p;
+			board.clear();
 			try {
 			    p2p = ImageIO.read(new File("P2P.jpg"));
 			    board.drawImage(p2p, 0, 3, 67, 44);
 			    board.repaintBoard();
-			    Thread.sleep(1000);
-			    board.drawString(18, centering("Loading..."), Color.RED, "Loading...");
-			    board.repaintBoard();
-			    Thread.sleep(5000);
+			    Thread.sleep(3000);
 			    board.clear();
 			} catch (Exception e) {
 				// ignore problems
-			}*/
+			}
 			board.drawString(0, centering("Select App"), Color.RED, "Select App");
 			board.drawString(8, centering("With Left"), Color.RED, "With Left");
 			board.drawString(16, centering("Stick"), Color.RED, "Stick");

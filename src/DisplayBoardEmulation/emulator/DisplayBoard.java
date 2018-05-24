@@ -5,6 +5,12 @@ package DisplayBoardEmulation.emulator;
 // if displayboard only, doesn't read keyboard?
 // webcam - displayboard can't access data buffer - hangs
 
+
+//BEWARE - you MUST set the encoding to ISO-8859-1 to ensure that full (and only) 8-bits are set per character
+//This must be set in Eclipse in the Run configuration for the project:
+//Run > Run Configurations... > classname    
+//Go to the "Common" tab, and set The encoding to Other... > ISO-8859-1
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -18,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
@@ -169,7 +176,8 @@ public class DisplayBoard extends JPanel {
 			pixelArr[row][col].setPixelColor(c);
 		}
 		if (!emOnly && ard) {
-			commandBuffer.add("P" + (char) row + (char) col + (char) c.getRed() + (char) c.getGreen() + (char) c.getBlue());
+			byte[] b= {(byte) row, (byte)col, (byte) (c.getRed()&255),(byte)(c.getGreen()&255),(byte)(c.getBlue()&255)};
+			commandBuffer.add("P" + new String(b));
 		}
 	}
 
@@ -519,22 +527,19 @@ public class DisplayBoard extends JPanel {
 
 			// ALTERNATE (SLOWER) METHOD - GET RGB PIXEL BY PIXEL
 
-			String pixels = "";
+			byte[] buf = new byte[3*height*width];
+			int i=0;
 			for (int r = 0; r < height; r++) {
 				for (int c = 0; c < width; c++) {
 					int pix = newImage.getRGB(c, r);
-					int red = (pix >> 16) & 0xFF;
-					int green = (pix >> 8) & 0xFF;
-					int blue = pix & 0xFF;
-//					pixels += (char) ((pix >> 16) & 0xFF);//r
-//					pixels += (char) ((pix >> 8) & 0xFF);//g
-//					pixels += (char) (pix & 0xFF);//b
-					pixels += red + " ";
-					pixels += green + " ";
-					pixels += blue + " ";
+					buf[i++] = (byte) ((pix >> 16) & 0xFF);//r
+					buf[i++] = (byte) ((pix >> 8) & 0xFF);//g
+					buf[i++] = (byte) (pix & 0xFF);//b
 				}
 			}
+			
 			this.repaintBoard(); // flush buffer
+			String pixels = new String(buf);
 			a.serialWrite("X" + (char) row + (char) col + (char) width + (char) height + pixels);
 		}
 	}

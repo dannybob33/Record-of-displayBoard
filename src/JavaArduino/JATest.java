@@ -1,5 +1,10 @@
 package JavaArduino;
 
+//BEWARE - you MUST set the encoding to ISO-8859-1 to ensure that full (and only) 8-bits are set per character
+//This must be set in Eclipse in the Run configuration for the project:
+//Run > Run Configurations... > classname    
+//Go to the "Common" tab, and set The encoding to Other... > ISO-8859-1
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,65 +16,67 @@ public class JATest {
 	public static void main(String[] args) {
 		com c;
 		try {
-			c=new com(7, 73, 43);
+			c=new com(4, 73, 43);
 			c.clear();
-			c.show();
-			Thread.sleep(250);
-			if(c.setPixel(10, 20, 192, 128, 255)) {
-				System.out.println("SetPixel: GOOD");
+//			c.show();
+//			Thread.sleep(250);
+			for (int i=120; i<=255; i++) {
+			   c.clear();
+			   c.setPixel(0, 0, i, 0, 64);
+			   c.show();
 			}
 			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawCircle(10, 20, 4, 192, 128, 255, true)) {
-				System.out.println("DrawCircle: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawRect(10, 20, 8, 16, 192, 128, 255, true)) {
-				System.out.println("DrawRect: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawLine(0, 0, 74, 44, 192, 128, 255)) {
-				System.out.println("DrawLine: GOOD");
-			}
-			c.show();
-			
-			Thread.sleep(1750);
-			c.clear();
-			c.show();
-			if(c.drawString(10, 0, 192, 128, 255, "Hello Worldz!".length(), "Hello Worldz!")) {
-				System.out.println("DrawString: GOOD");
-			}
-			c.show();
-			Thread.sleep(1750);
-			c.clear();
-			
-			
-			/*BufferedImage img = null;
-			try {
-			    img = ImageIO.read(new File("gallery/flag.png"));
-			} catch (IOException e) {
-			}
-			
-			if(c.drawImage(0, 3, img)) {
-				System.out.println("DrawImage: GOOD");
-			}
-			c.drawString(10, 0, 255, 255, 255, "Good Luck!".length(), "Good Luck!");
-			c.show();
-			*/Thread.sleep(4750); 
-			c.clear();
-
-			System.out.println("End!");
-			c.close();
-			
-			
+//			Thread.sleep(1750);
+//			c.clear();
+//			c.show();
+//			if(c.drawCircle(10, 20, 4, 192, 128, 255, true)) {
+//				System.out.println("DrawCircle: GOOD");
+//			}
+//			c.show();
+//			Thread.sleep(1750);
+//			c.clear();
+//			c.show();
+//			if(c.drawRect(10, 20, 8, 16, 192, 128, 255, true)) {
+//				System.out.println("DrawRect: GOOD");
+//			}
+//			c.show();
+//			Thread.sleep(1750);
+//			c.clear();
+//			c.show();
+//			if(c.drawLine(0, 0, 74, 44, 192, 128, 255)) {
+//				System.out.println("DrawLine: GOOD");
+//			}
+//			c.show();
+//			
+//			Thread.sleep(1750);
+//			c.clear();
+//			c.show();
+//			if(c.drawString(10, 0, 192, 128, 255, "Hello Worldz!".length(), "Hello Worldz!")) {
+//				System.out.println("DrawString: GOOD");
+//			}
+//			c.show();
+//			Thread.sleep(1750);
+//			c.clear();
+//			
+//			
+//			/*BufferedImage img = null;
+//			try {
+//			    img = ImageIO.read(new File("gallery/flag.png"));
+//			} catch (IOException e) {
+//			}
+//			
+//			if(c.drawImage(0, 3, img)) {
+//				System.out.println("DrawImage: GOOD");
+//			}
+//			c.drawString(10, 0, 255, 255, 255, "Good Luck!".length(), "Good Luck!");
+//			c.show();
+//			*/Thread.sleep(4750); 
+//			c.clear();
+//
+//			System.out.println("End!");
+//			c.close();
+//			
+//			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

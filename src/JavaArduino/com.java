@@ -1,8 +1,10 @@
 package JavaArduino;
 
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import arduino.Arduino;
 
@@ -15,7 +17,7 @@ public class com {
 		a=new Arduino("COM"+port, 250000); // Supported baud rates are 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, and 115200.
 		a.openConnection();
 		try {
-			Thread.sleep(2500);
+			Thread.sleep(3500);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
@@ -79,7 +81,7 @@ public class com {
 
 	//P 20 16 0 128 255
 	public boolean setPixel(int row, int col, int r, int g, int b) {
-		send("P"+(char)row+(char)col+(char)r+(char)g+(char)b);
+		a.serialWrite("P"+(char)row+(char)col+(char)r+(char)g+(char)b);
 		return true;
 	}
 	
